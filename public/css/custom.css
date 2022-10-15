@@ -1,0 +1,576 @@
+/* TAMBAHAN */
+/* SCROLLBAR */
+/* width */
+::-webkit-scrollbar {
+     width: 11px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+     background-color: #f0f0f0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+     background: grey;
+     border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+     background: #3c4b64;
+}
+
+.logo {
+     width: 90px;
+}
+
+.widget {
+     overflow: hidden;
+}
+
+.selanjutnya {
+     background-color: #e2d7e1;
+     color: #55415c;
+     padding: 10px 15px 10px 15px;
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     border-bottom-left-radius: 5px;
+     border-bottom-right-radius: 5px;
+}
+.selanjutnya:hover {
+     color: gray;
+}
+
+.tombol:hover {
+     opacity: 0.9;
+}
+
+.tombol:active {
+     opacity: 0.8;
+}
+
+.ikon-sel {
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     cursor: pointer;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+}
+
+.sel {
+     position: relative;
+}
+
+.sel:hover {
+     background-color: #f2f2f2;
+}
+
+.sel-disabled {
+     background-color: #f2f2f2;
+}
+
+.sel-menu {
+     background-color: #edf4ff;
+}
+
+.kepala-tabel {
+     background-color: #3c4b64;
+     color: white;
+     font-size: 15px;
+}
+
+.sembunyi {
+     display: none;
+}
+
+/* pager */
+.Pager2 .pagination .page-item .page-link:hover {
+     -webkit-transition: all 0.3s linear;
+     transition: all 0.3s linear;
+     border-radius: 0.125rem;
+     background-color: #eee;
+}
+.Pager2 .pagination.pg-blue .page-item.active .page-link:hover {
+     background-color: #3c4b64;
+}
+.Pager2 .pagination .page-item.active .page-link {
+     -webkit-transition: all 0.2s linear;
+     transition: all 0.2s linear;
+     border-radius: 0.125rem;
+     background-color: #3c4b64;
+     color: #fff;
+}
+.Pager2 .pagination .page-item .page-link {
+     -webkit-transition: all 0.3s linear;
+     transition: all 0.3s linear;
+     outline: 0;
+     border: 0;
+     background-color: transparent;
+     font-size: 0.9rem;
+     color: black;
+}
+
+.Pager2 .page-link {
+     border: none !important;
+}
+.Pager2 .page-link:focus {
+     z-index: 2;
+     outline: 0;
+     box-shadow: 0;
+}
+
+.roles {
+     border-bottom: 1px solid rgb(236, 236, 236);
+}
+.aktif {
+     background-color: #3c4b64;
+     color: white;
+}
+.pilih-level {
+     margin-right: 10px;
+}
+
+.pilih-level .checkbox-level {
+     border: 2px solid #3c4b64;
+     font-weight: normal !important;
+     font-size: 14px;
+     background-color: #3c4b64;
+     color: white;
+     border-radius: 4px;
+     padding: 4px 10px 4px 10px;
+     cursor: pointer;
+}
+
+.pilih-level .active {
+     color: #757575;
+     background-color: #ebebeb;
+     border: 2px solid #c4c4c4;
+}
+
+.checkbox-level:hover {
+     opacity: 0.9;
+}
+.checkbox-level i {
+     margin-right: 7px;
+}
+
+.delete-kegiatan {
+     z-index: 10;
+     border-radius: 4px;
+     padding: 15px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     position: absolute;
+     top: -7px;
+     right: -7px;
+     width: 20px;
+     height: 20px;
+     color: #db9a9a;
+     border: 2px solid #db9a9a;
+     background-color: #ffdbdb;
+}
+
+.delete-kegiatan:hover {
+     color: #ba7272;
+     border: 2px solid #ba7272;
+}
+
+.kegiatan {
+     background-color: #fcffe0;
+     border: 2px solid #e8e2ac;
+}
+
+.kegiatan-baru {
+     background-color: #eaffe0;
+     border: 2px solid #bbdeab;
+}
+
+.baris-kegiatan {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     gap: 10px;
+}
+
+.file-list {
+     margin-bottom: 10px;
+     padding: 5px 10px 5px 10px;
+     display: flex;
+     flex-direction: row;
+     justify-content: space-between;
+     align-items: center;
+     color: #80772d;
+     background-color: #f5eda9;
+     border-radius: 5px;
+}
+
+.tempat-file {
+     position: relative;
+     border: 2px solid gray;
+     border-style: dashed;
+     cursor: pointer;
+}
+
+.pilih-file {
+     position: absolute;
+     top: 30%;
+     left: 30%;
+}
+
+.btn-silang {
+     background: none;
+     border: none;
+}
+
+/* list kegiatan */
+.card-laporan {
+     background-color: #f5edf4;
+     border: 2px solid #f0e1ee;
+     color: #694063;
+     max-width: 320px;
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+}
+
+.card-bukti-laporan {
+     display: flex;
+     flex-direction: column;
+     background-color: #f5edf4;
+     border: 2px solid #f0e1ee;
+     color: #694063;
+     max-width: 320px;
+}
+
+.card-bukti-laporan a {
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+}
+
+.file-tip {
+     max-width: 200px;
+     border-radius: 3px;
+     padding: 5px 10px 5px 10px;
+     font-size: 12px;
+     background-color: #fff;
+     z-index: 15;
+     position: absolute;
+     top: 50px;
+     white-space: wrap;
+     -webkit-box-shadow: 0px 7px 6px 1px rgba(0, 0, 0, 0.33);
+     -moz-box-shadow: 0px 7px 6px 1px rgba(0, 0, 0, 0.33);
+     box-shadow: 0px 7px 6px 1px rgba(0, 0, 0, 0.33);
+}
+
+.file-tip:after {
+     content: ' ';
+     position: absolute;
+     left: 10px;
+     top: -10px;
+     border-top: none;
+     border-right: 10px solid transparent;
+     border-left: 10px solid transparent;
+     border-bottom: 10px solid #fff;
+}
+.file-tip2 {
+     max-width: 200px;
+     border-radius: 3px;
+     padding: 15px 10px 15px 10px;
+     font-size: 14px;
+     background-color: #fff;
+     z-index: 15;
+     position: absolute;
+     bottom: 100px;
+     white-space: wrap;
+     -webkit-box-shadow: 0px 7px 6px 1px rgba(0, 0, 0, 0.33);
+     -moz-box-shadow: 0px 7px 6px 1px rgba(0, 0, 0, 0.33);
+     box-shadow: 0px 7px 6px 1px rgba(0, 0, 0, 0.33);
+}
+
+.file-tip2:after {
+     content: ' ';
+     position: absolute;
+     left: 10px;
+     bottom: -10px;
+     border-top: 10px solid #fff;
+     border-right: 10px solid transparent;
+     border-left: 10px solid transparent;
+     border-bottom: none;
+}
+
+.option-kegiatan-wrapper {
+     z-index: 100;
+     max-height: 200px;
+     overflow-y: auto;
+}
+
+.option-kegiatan {
+     z-index: 100;
+     padding: 5px 10px 5px 10px;
+     cursor: pointer;
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+}
+
+.option-kegiatan:hover {
+     background-color: #e8e8e8;
+}
+
+/* .dataTables_wrapper .dataTables_filter {
+  float: right;
+  text-align: right;
+  visibility: hidden;
+} */
+
+/* profile */
+
+.password {
+     position: relative;
+}
+
+.pw-eye {
+     position: absolute;
+     top: 30%;
+     right: 10px;
+     cursor: pointer;
+}
+
+.pw-eye:hover {
+     color: gray;
+}
+input[type='file'] {
+     cursor: pointer;
+}
+
+.fc-daygrid-day:hover {
+     background-color: #ebebeb;
+}
+
+.card-catatan {
+     background-color: white;
+     width: 350px;
+     z-index: 10000;
+     animation: fadeIn 0.5s, slideIn 0.6s linear;
+}
+
+.iconKalender {
+     z-index: 1000;
+     transition: 0.3s;
+}
+.iconKalender:hover {
+     opacity: 0.7;
+}
+
+.notesa {
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     z-index: 100;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+}
+
+.drop {
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     z-index: 95;
+     background-color: rgba(1, 1, 1, 0.43);
+     animation: fadeIn 0.2s linear;
+}
+
+.drop-tutup {
+     animation: slideOut 0.6s, fadeOut 0.6s linear;
+}
+
+.open-note {
+     position: absolute;
+     bottom: 5px;
+     right: 5px;
+     color: gray;
+     cursor: pointer;
+     color: rgb(87, 111, 114);
+     color: linear-gradient(163deg, rgba(87, 111, 114, 1) 0%, rgba(125, 157, 156, 1) 100%);
+}
+@media only screen and (max-width: 560px) {
+     .open-note {
+          top: 5px;
+          left: 5px;
+     }
+}
+.opacity-0 {
+     opacity: 0;
+}
+/* .ada-note {
+     border-bottom: 4px solid #8cc0de;
+} */
+select {
+     cursor: pointer;
+}
+
+.unnoteds {
+     color: #adadad;
+}
+.noteds {
+     color: #4290bd;
+}
+
+.card-catatan-now {
+     background: rgb(210, 129, 62);
+     background: linear-gradient(163deg, rgba(210, 129, 62, 1) 0%, rgba(240, 195, 106, 1) 100%);
+}
+.card-catatan-upcoming {
+     background: rgb(118, 150, 226);
+     background: linear-gradient(163deg, rgba(118, 150, 226, 1) 0%, rgba(125, 184, 221, 1) 100%);
+}
+.card-catatan-sent {
+     background: rgb(19, 167, 18);
+     background: linear-gradient(163deg, rgba(19, 167, 18, 1) 0%, rgba(106, 240, 173, 1) 100%);
+}
+.card-catatan-prev {
+     background: rgb(210, 62, 62);
+     background: linear-gradient(163deg, rgba(210, 62, 62, 1) 0%, rgba(240, 106, 106, 1) 100%);
+}
+.btn-hapus-catatan {
+     cursor: pointer;
+}
+.catatan-container-hari-ini,
+.catatan-container-akan-datang,
+.catatan-container-sebelumnya,
+.catatan-container-terkirim,
+.catatan-container-diterima {
+     max-height: 306px;
+     overflow-y: auto;
+}
+
+@keyframes slideIn {
+     0% {
+          transform: translateY(400px);
+          animation-timing-function: ease-out;
+     }
+     60% {
+          transform: translateY(-30px);
+          animation-timing-function: ease-in;
+     }
+     80% {
+          transform: translateY(10px);
+          animation-timing-function: ease-out;
+     }
+     100% {
+          transform: translateY(0px);
+          animation-timing-function: ease-in;
+     }
+}
+@keyframes slideOut {
+     0% {
+          transform: translateY(0px);
+          animation-timing-function: ease-in;
+     }
+     20% {
+          transform: translateY(10px);
+          animation-timing-function: ease-out;
+     }
+     40% {
+          transform: translateY(-30px);
+          animation-timing-function: ease-in;
+     }
+     100% {
+          transform: translateY(400px);
+          animation-timing-function: ease-out;
+     }
+}
+
+@keyframes fadeIn {
+     0% {
+          opacity: 0;
+     }
+     100% {
+          opacity: 1;
+     }
+}
+@keyframes fadeOut {
+     0% {
+          opacity: 1;
+     }
+     100% {
+          opacity: 0;
+     }
+}
+
+.tips-kalender {
+     cursor: pointer;
+     font-size: 19px;
+}
+.tips-kalender:hover {
+     opacity: 0.6;
+     cursor: pointer;
+}
+
+.close-catatan {
+     position: absolute;
+     top: -10%;
+     right: -10%;
+     cursor: pointer;
+     color: white;
+}
+.close-catatan:hover {
+     color: #e6e6e6;
+}
+
+input[type='radio'],
+label {
+     cursor: pointer;
+}
+
+.pulse {
+     position: absolute;
+     top: -5px;
+     right: -5px;
+     display: block;
+     width: 12px;
+     height: 12px;
+     border-radius: 50%;
+     background: #ff3526;
+     cursor: pointer;
+     box-shadow: 0 0 0 rgba(255, 53, 38, 0.4);
+     animation: pulse 2s infinite;
+}
+.pulse:hover {
+     animation: none;
+}
+
+@-webkit-keyframes pulse {
+     0% {
+          -webkit-box-shadow: 0 0 0 0 rgba(255, 53, 38, 0.4);
+     }
+     70% {
+          -webkit-box-shadow: 0 0 0 10px rgba(255, 53, 38, 0);
+     }
+     100% {
+          -webkit-box-shadow: 0 0 0 0 rgba(255, 53, 38, 0);
+     }
+}
+@keyframes pulse {
+     0% {
+          -moz-box-shadow: 0 0 0 0 rgba(255, 53, 38, 0.4);
+          box-shadow: 0 0 0 0 rgba(255, 53, 38, 0.4);
+     }
+     70% {
+          -moz-box-shadow: 0 0 0 10px rgba(255, 53, 38, 0);
+          box-shadow: 0 0 0 10px rgba(255, 53, 38, 0);
+     }
+     100% {
+          -moz-box-shadow: 0 0 0 0 rgba(255, 53, 38, 0);
+          box-shadow: 0 0 0 0 rgba(255, 53, 38, 0);
+     }
+}

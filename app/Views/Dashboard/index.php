@@ -200,71 +200,70 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-7">
-            <?php if (session('level_id') == 1 || session('level_id') == 8 || session('level_id') == 9 || session('level_id') == 5) : ?>
-              <div class="row <?= $div_card; ?>">
-                <div class="col-md-12">
-                  <div class="card p-3">
-                    <div class="row">
-                      <div class="col-12">
-                        <small>Menampilkan Kegiatan Milik</small>
+            <div class="row <?= $div_card; ?>">
+              <div class="col-md-12">
+                <div class="card p-3">
+                  <div class="row">
+                    <div class="col-12">
+                      <small>Menampilkan Kegiatan Milik</small>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <?php if ($user_dipilih != null) : ?>
+                      <div class="col-2 text-center">
+                        <img style="width: 100%; max-width: 100px;" class="mr-3" src="<?= base_url('/images/profil/' . $user_dipilih['image']) ?>" alt="">
                       </div>
-                    </div>
-                    <div class="row">
-                      <?php if ($user_dipilih != null) : ?>
-                        <div class="col-2 text-center">
-                          <img style="width: 100%; max-width: 100px;" class="mr-3" src="<?= base_url('/images/profil/' . $user_dipilih['image']) ?>" alt="">
+                      <div class="col-6 d-flex flex-column">
+                        <strong class=" mt-2"><?= $user_dipilih['nama_pegawai']; ?></strong>
+                        <small><?= $user_dipilih['nip_baru'] ?></small>
+                        <small><?= $user_dipilih['email'] ?></small>
+                        <div class="d-flex">
+                          <?php if ($list_golongan != null) : ?>
+                            <?php foreach ($list_golongan as $golongan) : ?>
+                              <?php if ($golongan['id'] == $user_dipilih['gol_kd']) : ?>
+                                <span class="badge badge-secondary py-1"><?= $golongan['golongan'] ?></span>
+                              <?php endif; ?>
+                            <?php endforeach; ?>
+                          <?php endif; ?>
+                          <?php if ($list_fungsional != null) : ?>
+                            <?php foreach ($list_fungsional as $fungsional) : ?>
+                              <?php if ($fungsional['id'] == $user_dipilih['fungsional_kd']) : ?>
+                                <span class="ml-2 badge badge-secondary py-1"><?= $fungsional['jabatan_fungsional'] ?></span>
+                              <?php endif; ?>
+                            <?php endforeach; ?>
+                          <?php endif; ?>
                         </div>
-                        <div class="col-6 d-flex flex-column">
-                          <strong class=" mt-2"><?= $user_dipilih['nama_pegawai']; ?></strong>
-                          <small><?= $user_dipilih['nip_baru'] ?></small>
-                          <small><?= $user_dipilih['email'] ?></small>
-                          <div class="d-flex">
-                            <?php if ($list_golongan != null) : ?>
-                              <?php foreach ($list_golongan as $golongan) : ?>
-                                <?php if ($golongan['id'] == $user_dipilih['gol_kd']) : ?>
-                                  <span class="badge badge-secondary py-1"><?= $golongan['golongan'] ?></span>
-                                <?php endif; ?>
-                              <?php endforeach; ?>
-                            <?php endif; ?>
-                            <?php if ($list_fungsional != null) : ?>
-                              <?php foreach ($list_fungsional as $fungsional) : ?>
-                                <?php if ($fungsional['id'] == $user_dipilih['fungsional_kd']) : ?>
-                                  <span class="ml-2 badge badge-secondary py-1"><?= $fungsional['jabatan_fungsional'] ?></span>
-                                <?php endif; ?>
-                              <?php endforeach; ?>
-                            <?php endif; ?>
-                          </div>
-                        </div>
+                      </div>
 
-                      <?php endif; ?>
-
-                    </div>
-                    <?php if ($user_dipilih == null) : ?>
-                      <strong>Pegawai Belum Memiliki Akun</strong>
                     <?php endif; ?>
 
                   </div>
+                  <?php if ($user_dipilih == null) : ?>
+                    <strong>Pegawai Belum Memiliki Akun</strong>
+                  <?php endif; ?>
+
                 </div>
               </div>
-              <?php if ($user_dipilih == null) : ?>
-                <div class="row">
-                  <div class="col-12 ">
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert" style="background-color: #ffe8a8; color: #664b00;">
-                      <i style="color: #8f6c0d;" class="fas fa-info-circle mr-3"></i> Silahkan pilih pegawai untuk menampilkan kegiatan
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
+            </div>
+            <?php if ($user_dipilih == null) : ?>
+              <div class="row">
+                <div class="col-12 ">
+                  <div class="alert alert-success alert-dismissible fade show" role="alert" style="background-color: #eaffe0; color: #0e4d2d;">
+                    <i style="color: #0e4d2d;" class="fas fa-check-circle mr-3"></i> Menampilkan data kegiatan pribadi pada kalender
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
                   </div>
                 </div>
-              <?php endif; ?>
-              <?php if ($user_dipilih != null) : ?>
-                <div class="row mb-3">
-                  <div class="col-12 ">
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#modal-cetak">Download Rekap <?= $user_dipilih['nama_pegawai']; ?></button>
-                  </div>
+              </div>
+            <?php endif; ?>
+            <?php if ($user_dipilih != null) : ?>
+              <div class="row mb-3">
+                <div class="col-12 ">
+                  <button class="btn btn-primary" data-toggle="modal" data-target="#modal-cetak">Download Rekap <?= $user_dipilih['nama_pegawai']; ?></button>
                 </div>
-              <?php endif; ?>
+              </div>
             <?php endif; ?>
 
             <div class="row">
@@ -283,128 +282,132 @@
             </div>
           </div>
           <!-- DIUBAH MENGGUNAKAN HELPERRRRRR -->
-          <?php if (session('level_id') == 8 || session('level_id') == 1 || session('level_id') == 9 || session('level_id') == 5) : ?>
-            <div class="col-md-5">
-              <div class="row mb-3">
-                <div class="col-md-6">
-                  <h4>Daftar Pegawai</h4>
-                </div>
-                <form class="col-md-6">
-                  <div class="input-group">
-                    <!-- <select class="form-control filter mr-2" style="border-radius: 5px;">
-                      <option selected value="">- Status Akun -</option>
-                      <option value="active">Active</option>
-                      <option value="non-active">Non-active</option>
-                    </select> -->
-                  </div>
-                </form>
-              </div>
-              <div class="card">
+          <?php  ?>
+          <div class="col-md-5">
+            <div class="row mb-3">
 
-                <div class="row">
-                  <div class="col-6">
-                    <div class="input-group input-group-md pt-3 px-4" style="width: 250px">
-                      <input type="search" id="pencarian4" name="table_search" class="form-control float-right" placeholder="Search ..." />
+              <?php if (allowChart(session('level_id'), 1)) : ?>
+
+                <div class="col-12 ">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-body">
+                          <h5 class="mb-3"><strong>Catatan Saya</strong></h5>
+                          <button class="btn btn-sm btn-primary shadow hari-ini">Hari ini</button>
+                          <button class="btn btn-sm ml-3 akan-datang">Akan Datang</button>
+                          <button class="btn btn-sm ml-3 sebelumnya">Sebelumnya</button>
+
+                          <div class="mt-3 w-100 catatan-container-hari-ini px-1 d-flex flex-column align-items-center">
+                          </div>
+                          <div class="mt-3 w-100 catatan-container-akan-datang  px-1 d-none flex-column align-items-center ">
+                          </div>
+                          <div class="mt-3 w-100 catatan-container-sebelumnya d-none px-1 flex-column align-items-center">
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div class="col-6">
-                    <button class="btn btn-primary float-right mt-3 mx-4" data-toggle="modal" data-target="#modal-cetak-bidang">Download Rekap</button>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-8">
+                              <h5 class="mb-3"><strong>Catatan diterima dan terkirim</strong></h5>
+                            </div>
+                            <div class="col-4">
+                              <a class="float-right" href="<?= base_url('detailCatatan') ?>">Detail</a>
+                            </div>
+                          </div>
+                          <button class="position-relative btn btn-sm btn-primary diterima shadow">
+                            Diterima
+                            <span class="pulse"></span>
+                          </button>
+                          <button class="btn btn-sm terkirim ml-3">Terkirim</button>
+
+                          <div class="mt-3 w-100 catatan-container-diterima px-1 d-flex flex-column align-items-center">
+                          </div>
+                          <div class="mt-3 w-100 catatan-container-terkirim  px-1 d-none flex-column align-items-center ">
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+              <?php endif; ?>
+            </div>
+            <?php if ($user_dipilih == null) : ?>
+              <div class="row">
+                <div class="col-12 ">
+                  <div class="alert alert-warning alert-dismissible fade show" role="alert" style="background-color: #ffe8a8; color: #664b00;">
+                    <i style="color: #8f6c0d;" class="fas fa-info-circle mr-3"></i> Silahkan pilih untuk menampilkan kegiatan pegawai lain pada kalender
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
                   </div>
                 </div>
-
-                <!-- /.card-header -->
-                <form action="<?= base_url('/showDataUser') ?>" method="POST" class="card-body table-responsive pb-0 px-0">
-                  <table class="table table-hover text-nowrap" id="tabelData4">
-                    <thead>
-                      <tr>
-                        <th class="text-center">NO.</th>
-                        <th>NAMA</th>
-                        <th>BULAN INI</th>
-                        <th>MINGGU INI</th>
-                        <th>AKSI</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php $no_ke = 1; ?>
-                      <?php if ($list_pegawai != null) : ?>
-                        <?php foreach ($list_pegawai as $pegawai) : ?>
-                          <tr>
-                            <td class="text-center"><?= $no_ke; ?></td>
-                            <td><?= $pegawai['nama_pegawai']; ?></td>
-                            <td class="text-center">
-                              <?= $jml_perbulan_pegawai[($no_ke - 1)]; ?>
-                            </td>
-
-                            <td class="text-center"> <?= $jml_perminggu_pegawai[($no_ke - 1)]; ?></td>
-                            <?php $no_ke++ ?>
-                            <td>
-
-                              <a href="<?= base_url('/showKegiatanPegawai/' . $pegawai['nip_lama']); ?>" class="btn btn-info btn-xs tombol" style="background-color: #2D95C9; border:none;"><i class="fas fa-search-plus"></i></a>
-                            </td>
-                          </tr>
-                        <?php endforeach; ?>
-                      <?php endif; ?>
-                    </tbody>
-                  </table>
-                </form>
               </div>
+            <?php endif; ?>
+            <div class="card">
+              <div class="row">
+                <div class="col-8 pt-3 pl-4">
+                  <h5 class="mb-3"><strong>Daftar Pegawai</strong></h5>
+                </div>
+                <div class="col-6">
+                  <div class="input-group input-group-md pt-3 px-4" style="width: 250px">
+                    <input type="search" id="pencarian4" name="table_search" class="form-control float-right" placeholder="Search ..." />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <button class="btn btn-primary float-right mt-3 mx-4" data-toggle="modal" data-target="#modal-cetak-bidang">Download Rekap</button>
+                </div>
+              </div>
+
+              <!-- /.card-header -->
+              <form action="<?= base_url('/showDataUser') ?>" method="POST" class="card-body table-responsive pb-0 px-0">
+                <table class="table table-hover text-nowrap" id="tabelData4">
+                  <thead>
+                    <tr>
+                      <th class="text-center">NO.</th>
+                      <th>NAMA</th>
+                      <th>BULAN INI</th>
+                      <th>MINGGU INI</th>
+                      <th>AKSI</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php $no_ke = 1; ?>
+                    <?php if ($list_pegawai != null) : ?>
+                      <?php foreach ($list_pegawai as $pegawai) : ?>
+                        <tr>
+                          <td class="text-center"><?= $no_ke; ?></td>
+                          <td><?= $pegawai['nama_pegawai']; ?></td>
+                          <td class="text-center">
+                            <?= $jml_perbulan_pegawai[($no_ke - 1)]; ?>
+                          </td>
+
+                          <td class="text-center"> <?= $jml_perminggu_pegawai[($no_ke - 1)]; ?></td>
+                          <?php $no_ke++ ?>
+                          <td>
+
+                            <a href="<?= base_url('/showKegiatanPegawai/' . $pegawai['nip_lama']); ?>" class="btn btn-info btn-xs tombol" style="background-color: #2D95C9; border:none;"><i class="fas fa-search-plus"></i></a>
+                          </td>
+                        </tr>
+                      <?php endforeach; ?>
+                    <?php endif; ?>
+                  </tbody>
+                </table>
+              </form>
             </div>
-          <?php endif; ?>
+          </div>
+          <?php  ?>
           <!-- CHART -->
 
-          <?php if (allowChart(session('level_id'), 1)) : ?>
 
-            <div class="col-md-5 ">
-              <div class="row">
-                <div class="col-12">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="mb-3"><strong>Catatan Saya</strong></h5>
-                      <button class="btn btn-sm btn-primary shadow hari-ini">Hari ini</button>
-                      <button class="btn btn-sm ml-3 akan-datang">Akan Datang</button>
-                      <button class="btn btn-sm ml-3 sebelumnya">Sebelumnya</button>
-
-                      <div class="mt-3 w-100 catatan-container-hari-ini px-1 d-flex flex-column align-items-center">
-                      </div>
-                      <div class="mt-3 w-100 catatan-container-akan-datang  px-1 d-none flex-column align-items-center ">
-                      </div>
-                      <div class="mt-3 w-100 catatan-container-sebelumnya d-none px-1 flex-column align-items-center">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-8">
-                          <h5 class="mb-3"><strong>Catatan diterima dan terkirim</strong></h5>
-                        </div>
-                        <div class="col-4">
-                          <a class="float-right" href="<?= base_url('detailCatatan') ?>">Detail</a>
-                        </div>
-                      </div>
-                      <button class="position-relative btn btn-sm btn-primary diterima shadow">
-                        Diterima
-                        <span class="pulse"></span>
-                      </button>
-                      <button class="btn btn-sm terkirim ml-3">Terkirim</button>
-
-                      <div class="mt-3 w-100 catatan-container-diterima px-1 d-flex flex-column align-items-center">
-                      </div>
-                      <div class="mt-3 w-100 catatan-container-terkirim  px-1 d-none flex-column align-items-center ">
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-            </div>
-          <?php endif; ?>
         </div>
         <?php if (allowChart(session('level_id'), 1)) : ?>
           <div class="row">
@@ -442,96 +445,125 @@
   </div>
 
 
-  <?php if (session('level_id') == 1 || session('level_id') == 8 || session('level_id') == 9 || session('level_id') == 5) : ?>
-    <!-- MODAL CETAK -->
-    <div class="modal fade" id="modal-cetak" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <form action="<?= base_url('/cetakLaporanByPimpinan'); ?>" method="POST" class="modal-content">
-          <div class="modal-header border-0">
-            <h5 class="modal-title" id="exampleModalLabel">Cetak Kegiatan</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="row mb-4">
-              <div class="col-12 text-center">
-                <h5><strong>Tentukan batas mencetak</strong></h5>
-              </div>
+  <!-- MODAL CETAK -->
+  <div class="modal fade" id="modal-cetak" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <form action="<?= base_url('/cetakLaporanByPimpinan'); ?>" method="POST" class="modal-content">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" id="exampleModalLabel">Cetak Kegiatan</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row mb-4">
+            <div class="col-12 text-center">
+              <h5><strong>Tentukan batas mencetak</strong></h5>
             </div>
-            <?php if ($user_dipilih != null) : ?>
-              <input type="hidden" name="nip_lama_dipilih" value="<?= $user_dipilih['nip_lama']; ?>">
-            <?php endif; ?>
-            <div class="row">
-              <div class="form-group text-center col-6">
-                <label>Awal</label>
-                <div class="password">
-                  <input type="date" id='tgl_cetak_awal' name="tgl_awal" class="form-control" required>
-                </div>
-
+          </div>
+          <?php if ($user_dipilih != null) : ?>
+            <input type="hidden" name="nip_lama_dipilih" value="<?= $user_dipilih['nip_lama']; ?>">
+          <?php endif; ?>
+          <div class="row">
+            <div class="form-group text-center col-6">
+              <label>Awal</label>
+              <div class="password">
+                <input type="date" id='tgl_cetak_awal' name="tgl_awal" class="form-control" required>
               </div>
 
-              <div class="form-group text-center col-6">
-                <label>Akhir</label>
-                <div class="password">
-                  <input type="date" id='tgl_cetak_akhir' name="tgl_akhir" class="form-control">
-                </div>
-              </div>
             </div>
 
+            <div class="form-group text-center col-6">
+              <label>Akhir</label>
+              <div class="password">
+                <input type="date" id='tgl_cetak_akhir' name="tgl_akhir" class="form-control">
+              </div>
+            </div>
           </div>
-          <div class="modal-footer border-0">
-            <button type="button" class="btn btn-secondary" style="border:none;" data-dismiss="modal">Batal</button>
-            <button type="submit" class="btn btn-primary tombol" style="background-color: #3c4b64; border:none;"><i class="fas fa-print mr-2"></i>Cetak</button>
-          </div>
-        </form>
-      </div>
+
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary" style="border:none;" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary tombol" style="background-color: #3c4b64; border:none;"><i class="fas fa-print mr-2"></i>Cetak</button>
+        </div>
+      </form>
     </div>
+  </div>
 
 
-
-    <!-- MODAL CETAK BIDANG-->
-    <div class="modal fade" id="modal-cetak-bidang" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <form action="<?= base_url('/cetakLaporanByBidang'); ?>" method="POST" class="modal-content">
-          <div class="modal-header border-0">
-            <h5 class="modal-title" id="exampleModalLabel">Cetak Kegiatan Per Bidang</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+  <!-- MODAL CETAK BIDANG-->
+  <div class="modal fade" id="modal-cetak-bidang" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <form action="<?= base_url('/cetakLaporanByBidang'); ?>" method="POST" class="modal-content">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" id="exampleModalLabel">Cetak Kegiatan Per Bidang</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row mb-4">
+            <div class="col-12 text-center">
+              <h5><strong>Tentukan batas mencetak</strong></h5>
+            </div>
           </div>
-          <div class="modal-body">
-            <div class="row mb-4">
-              <div class="col-12 text-center">
-                <h5><strong>Tentukan batas mencetak</strong></h5>
+
+          <div class="row mb-3">
+            <div class="col-3">
+              <div class="custom-control custom-radio">
+                <input class="custom-control-input" type="radio" id="perbidang" name="jenis_cetak" value="perbidang" checked />
+                <label for="perbidang" class="custom-control-label">Perbidang</label>
+              </div>
+
+            </div>
+            <div class="col-4">
+              <div class="custom-control custom-radio">
+                <input class="custom-control-input" type="radio" id="persatker" name="jenis_cetak" value="persatker" />
+                <label for="persatker" class="custom-control-label">Persatker</label>
               </div>
             </div>
-            <div class="row">
-              <div class="form-group text-center col-6">
-                <label>Awal</label>
-                <div class="password">
-                  <input type="date" id='tgl_cetak_awal' name="tgl_awal" class="form-control" required>
-                </div>
+          </div>
 
+          <div class="row mb-3">
+            <div class="col-12">
+              <div class="input-group bidangs w-100">
+                <select class=" form-control  w-100" name="bidang">
+                  <option value="test">bidang</option>
+                  <option value="test2">test2</option>
+                </select>
               </div>
-
-              <div class="form-group text-center col-6">
-                <label>Akhir</label>
-                <div class="password">
-                  <input type="date" id='tgl_cetak_akhir' name="tgl_akhir" class="form-control">
-                </div>
+              <div class="input-group satkers d-none w-100">
+                <select class=" form-control  w-100" name="satker">
+                  <option value="test">satker</option>
+                  <option value="test2">test2</option>
+                </select>
               </div>
             </div>
+          </div>
+          <div class="row">
+            <div class="form-group text-center col-6">
+              <label>Awal</label>
+              <div class="password">
+                <input type="date" id='tgl_cetak_awal' name="tgl_awal" class="form-control" required>
+              </div>
+            </div>
+            <div class="form-group text-center col-6">
+              <label>Akhir</label>
+              <div class="password">
+                <input type="date" id='tgl_cetak_akhir' name="tgl_akhir" class="form-control">
+              </div>
+            </div>
+          </div>
 
-          </div>
-          <div class="modal-footer border-0">
-            <button type="button" class="btn btn-secondary" style="border:none;" data-dismiss="modal">Batal</button>
-            <button type="submit" class="btn btn-primary tombol" style="background-color: #3c4b64; border:none;"><i class="fas fa-print mr-2"></i>Cetak</button>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary" style="border:none;" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary tombol" style="background-color: #3c4b64; border:none;"><i class="fas fa-print mr-2"></i>Cetak</button>
+        </div>
+      </form>
     </div>
-  <?php endif; ?>
+  </div>
+
 
   <?php if (session('level_id') == 7) : ?>
     <!-- MODAL KEGIATAN -->
@@ -648,7 +680,7 @@
   <?php endif; ?>
 
   <!-- MODAL TAMBAH KEGIATAN -->
-  <?php if (session('level_id') == 7) : ?>
+  <?php if (session('level_id') == 7 && $akses_tambah == 'active') : ?>
     <div class="modal fade" id="modal-tambah">
       <div class="modal-dialog modal-xl ">
         <form action="<?= base_url('/saveLaporanHarian'); ?>" method="post" class="modal-content form-tambah" enctype="multipart/form-data">
@@ -800,7 +832,7 @@
               <span aria-hidden="true">&times;</span>
             </a>
           <?php endif; ?>
-          <?php if (session('level_id') != "7") :  ?>
+          <?php if (session('level_id') != "7" && $akses_tambah == 'non-active') :  ?>
             <a href="<?= base_url('/showKegiatanPegawai/' . $nip_lama_pegawai_terpilih); ?>" type="button" class="close" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </a>
@@ -974,7 +1006,7 @@
     $(document).ready(function() {
       appendIconKalender();
       appendIconKalenderUncheck();
-      <?php if (session('level_id') == 7) : ?>
+      <?php if (session('level_id') == 7 && $akses_tambah == 'active') : ?>
         catatan();
         tips();
       <?php endif; ?>
@@ -983,7 +1015,7 @@
         hapusAppend();
         appendIconKalender();
         appendIconKalenderUncheck();
-        <?php if (session('level_id') == 7) : ?>
+        <?php if (session('level_id') == 7 && $akses_tambah == 'active') : ?>
           catatan();
         <?php endif; ?>
       });
@@ -991,7 +1023,7 @@
         hapusAppend();
         appendIconKalender();
         appendIconKalenderUncheck();
-        <?php if (session('level_id') == 7) : ?>
+        <?php if (session('level_id') == 7 && $akses_tambah == 'active') : ?>
           catatan();
         <?php endif; ?>
       });
@@ -999,10 +1031,22 @@
         hapusAppend();
         appendIconKalender();
         appendIconKalenderUncheck();
-        <?php if (session('level_id') == 7) : ?>
+        <?php if (session('level_id') == 7 && $akses_tambah == 'active') : ?>
           catatan();
         <?php endif; ?>
       });
+    });
+  </script>
+
+  <script>
+    $('input[type=radio][name=jenis_cetak]').change(function() {
+      if ($(this).val() == 'perbidang') {
+        $('.bidangs').removeClass('d-none');
+        $('.satkers').addClass('d-none');
+      } else if ($(this).val() == 'persatker') {
+        $('.bidangs').addClass('d-none');
+        $('.satkers').removeClass('d-none');
+      }
     });
   </script>
 

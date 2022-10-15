@@ -503,7 +503,8 @@ class masterDashboard extends BaseController
             'jumlah_user_aktif' => count($this->masterUserModel->getAllUserAktif()),
             'jumlah_user_tidak_aktif' => count($this->masterUserModel->getAllUserTidakAktif()),
             'nip_lama_pegawai_terpilih' => null,
-            'today' => $today
+            'today' => $today,
+            'akses_tambah' => 'active'
 
         ];
         // dd($data);
@@ -1024,7 +1025,8 @@ class masterDashboard extends BaseController
             'jumlah_laporan' => count($this->masterLaporanHarianModel->getAllLaporan()),
             'jumlah_user_aktif' => count($this->masterUserModel->getAllUserAktif()),
             'jumlah_user_tidak_aktif' => count($this->masterUserModel->getAllUserTidakAktif()),
-            'nip_lama_pegawai_terpilih' => $nip_lama['nip_lama_user']
+            'nip_lama_pegawai_terpilih' => $nip_lama['nip_lama_user'],
+            'akses_tambah' => 'non-active'
 
         ];
 
@@ -1802,7 +1804,8 @@ class masterDashboard extends BaseController
             'jumlah_laporan' => count($this->masterLaporanHarianModel->getAllLaporan()),
             'jumlah_user_aktif' => count($this->masterUserModel->getAllUserAktif()),
             'jumlah_user_tidak_aktif' => count($this->masterUserModel->getAllUserTidakAktif()),
-            'nip_lama_pegawai_terpilih' => $nip_lama
+            'nip_lama_pegawai_terpilih' => $nip_lama,
+            'akses_tambah' => 'non-active'
 
         ];
 

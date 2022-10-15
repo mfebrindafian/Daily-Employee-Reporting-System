@@ -6,7 +6,7 @@ $('#tabelData4').DataTable({
      ordering: false,
      info: true,
      autoWidth: false,
-     pageLength: 15,
+     pageLength: 10,
 });
 
 $(document).ready(function () {

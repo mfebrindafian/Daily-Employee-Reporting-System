@@ -57,16 +57,35 @@
 
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Menggali Lubang</td>
-                                                <td>Terkubur</td>
-                                                <td>Sukses</td>
-                                                <td>
-                                                    <a href="#" class="btn btn-sm btn-warning">Detail</a>
-                                                    <a href="#" class="btn btn-sm btn-success">Selesai</a>
-                                                </td>
-                                            </tr>
+                                            <?php if ($list_kegiatan != null) : ?>
+                                                <?php $ke = 1; ?>
+                                                <?php foreach ($list_kegiatan as $list) : ?>
+                                                    <?php if ($list['tipe_kegiatan'] == 'U') : ?>
+                                                        <tr>
+                                                            <td><?= $ke++; ?></td>
+                                                            <td><?= $list['rincian_kegiatan']; ?></td>
+                                                            <td><?php if ($list['status_rincian'] == 'B') {
+                                                                    echo 'Belum ditindaklanjuti';
+                                                                } elseif ($list['status_rincian'] == 'T') {
+                                                                    echo 'Sedang ditindaklanjuti';
+                                                                } else {
+                                                                    echo 'Selesai ditindaklanjuti';
+                                                                } ?></td>
+                                                            <td><?php if ($list['status_verifikasi'] == 'B') {
+                                                                    echo 'Belum diverifikasi';
+                                                                } else {
+                                                                    echo 'sudah diverifikasi';
+                                                                } ?></td>
+                                                            <td>
+                                                            <td>
+                                                                <a href="#" class="btn btn-sm btn-warning">Detail</a>
+                                                                <a href="<?= base_url('/hapusStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-danger">Hapus</a>
+                                                                <a href="<?= base_url('/updateStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-success">Selesai</a>
+                                                            </td>
+                                                        </tr>
+                                                    <?php endif ?>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -90,16 +109,34 @@
 
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Menggali Lubang</td>
-                                                <td>Terkubur</td>
-                                                <td>Sukses</td>
-                                                <td>
-                                                    <a href="#" class="btn btn-sm btn-warning">Detail</a>
-                                                    <a href="#" class="btn btn-sm btn-success">Selesai</a>
-                                                </td>
-                                            </tr>
+                                            <?php if ($list_kegiatan != null) : ?>
+                                                <?php $ke = 1; ?>
+                                                <?php foreach ($list_kegiatan as $list) : ?>
+                                                    <?php if ($list['tipe_kegiatan'] == 'T') : ?>
+                                                        <tr>
+                                                            <td><?= $ke++; ?></td>
+                                                            <td><?= $list['rincian_kegiatan']; ?></td>
+                                                            <td><?php if ($list['status_rincian'] == 'B') {
+                                                                    echo 'Belum ditindaklanjuti';
+                                                                } elseif ($list['status_rincian'] == 'T') {
+                                                                    echo 'Sedang ditindaklanjuti';
+                                                                } else {
+                                                                    echo 'Selesai ditindaklanjuti';
+                                                                } ?></td>
+                                                            <td><?php if ($list['status_verifikasi'] == 'B') {
+                                                                    echo 'Belum diverifikasi';
+                                                                } else {
+                                                                    echo 'sudah diverifikasi';
+                                                                } ?></td>
+                                                            <td>
+                                                                <a href="#" class="btn btn-sm btn-warning">Detail</a>
+                                                                <a href="<?= base_url('/hapusStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-danger">Hapus</a>
+                                                                <a href="<?= base_url('/updateStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-success">Selesai</a>
+                                                            </td>
+                                                        </tr>
+                                                    <?php endif ?>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -118,7 +155,7 @@
 <!-- MODAL TAMBAH KEGIATAN -->
 <div class="modal fade" id="modal-tambah">
     <div class="modal-dialog  modal-xl ">
-        <form id="form-tambah" action="" method="post" class="modal-content form-tambah" enctype="multipart/form-data">
+        <form id="form-tambah" action="<?= base_url('/tambahRencanaKegiatan'); ?>" method="post" class="modal-content form-tambah" enctype="multipart/form-data">
             <input type="text" id="id_kegiatan" name="id_kegiatan" class="d-none">
             <div class="modal-header">
                 <h4 class="modal-title">Rencana Kegiatan Tahun</h4>
@@ -130,7 +167,7 @@
                 <div class="row">
                     <div class="col-12 p-0">
                         <div class="form-group">
-                            <p>tanggal Kegiatan
+                            <p>Tanggal Kegiatan
                             </p>
                             <h2 class="mb-3" id="tanggal-tambah"></h2>
                             <input type="date" class="form-control d-none" name="tanggal" id="hari-ini" class="form-control">
@@ -150,8 +187,8 @@
                             <div class="row px-1  w-100">
                                 <div class="input-group  w-100">
                                     <select class=" form-control  w-100" name="field_tipe[]" required>
-                                        <option value="utama">Utama</option>
-                                        <option value="tambahan">Tambahan</option>
+                                        <option value="U">Utama</option>
+                                        <option value="T">Tambahan</option>
                                     </select>
                                 </div>
                             </div>
@@ -159,11 +196,9 @@
                         <div class="col-xl-8 baris-kegiatan">
                             <div class="row"><strong>Uraian Kegiatan</strong></div>
                             <div class="row px-1  w-100">
-
                                 <div class="form-group w-100 position-relative">
                                     <textarea id="kegiatan-input" class="form-control  w-100" name="field_uraian[]" rows="1" placeholder="Masukkan Uraian Kegiatan ..." required></textarea>
                                     <div class="option-kegiatan-wrapper w-100 mt-2 bg-white py-2 rounded shadow-lg position-absolute d-none">
-
                                     </div>
                                 </div>
                             </div>
@@ -208,8 +243,8 @@
                             <div class="row px-1  w-100">
                                 <div class="input-group  w-100">
                                     <select class=" form-control  w-100" name="field_tipe[]" required>
-                                        <option value="utama">Utama</option>
-                                        <option value="tambahan">Tambahan</option>
+                                        <option value="U">Utama</option>
+                                        <option value="T">Tambahan</option>
                                     </select>
                                 </div>
                             </div>

@@ -49,6 +49,9 @@ $routes->get('/dashboard', 'masterDashboard::index');
 
 //Routes Ke views dan controller Dashboard
 $routes->get('/rincianKegiatanPegawai', 'masterRencanaKegiatan::rencanaKegiatan');
+$routes->post('/tambahRencanaKegiatan', 'masterRencanaKegiatan::tambahRencanaKegiatan');
+$routes->get('/updateStatusRincian/(:segment)', 'masterRencanaKegiatan::updateStatusRincian/$1');
+$routes->get('/hapusStatusRincian/(:segment)', 'masterRencanaKegiatan::hapusStatusRincian/$1');
 
 //Routes Ke method Catatan
 $routes->post('/tambahCatatan', 'masterDashboard::tambahCatatan');

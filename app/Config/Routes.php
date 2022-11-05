@@ -46,6 +46,10 @@ $routes->post('/gantiPasswordDefault', 'masterAkses::gantiPasswordDefault');
 $routes->get('/logout', 'masterAkses::logout');
 //Routes Ke views dan controller Dashboard
 $routes->get('/dashboard', 'masterDashboard::index');
+
+//Routes Ke views dan controller Dashboard
+$routes->get('/rincianKegiatanPegawai', 'masterRencanaKegiatan::rencanaKegiatan');
+
 //Routes Ke method Catatan
 $routes->post('/tambahCatatan', 'masterDashboard::tambahCatatan');
 $routes->post('/updateCatatan', 'masterDashboard::updateCatatan');

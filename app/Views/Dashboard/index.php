@@ -3,6 +3,32 @@
 <?php if (allowHalaman(session('level_id'), 1)) : ?>
 
   <?= $this->section('content'); ?>
+  <?php if (date('m') == "01") {
+    $namaBulan = 'Januari';
+  } elseif (date('m') == "02") {
+    $namaBulan = 'Maret';
+  } elseif (date('m') == "03") {
+    $namaBulan = 'Maret';
+  } elseif (date('m') == "04") {
+    $namaBulan = 'April';
+  } elseif (date('m') == "05") {
+    $namaBulan = 'Mei';
+  } elseif (date('m') == "06") {
+    $namaBulan = 'Juni';
+  } elseif (date('m') == "07") {
+    $namaBulan = 'Juli';
+  } elseif (date('m') == "08") {
+    $namaBulan = 'Agustus';
+  } elseif (date('m') == "09") {
+    $namaBulan = 'September';
+  } elseif (date('m') == "10") {
+    $namaBulan = 'Oktober';
+  } elseif (date('m') == "11") {
+    $namaBulan = 'November';
+  } else {
+    $namaBulan = 'Desember';
+  }
+  ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -22,178 +48,64 @@
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
+    <?php if ($pop_up == 'off') : ?>
+      <?php if (session('level_id') == 2 || session('level_id') == 3) : ?>
+        <section class="content">
+          <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+              <div class="col-lg-6 col-6 widget" style="cursor: pointer;">
+                <!-- small box -->
+                <div class="small-box  bg-white" style="border: 1px solid gray; padding: 0;">
+                  <div class="inner" style="color: #55415C; padding-left: 15px;">
+                    <h3 style="font-size: 70px;"><?= $total_laporan; ?></h3>
+                    <?php if (session('level_id') == 2 || session('level_id') == 3) : ?>
+                      <p style="font-weight: bold;">Jumlah Seluruh Laporan</p>
+                    <?php endif; ?>
 
-    <?php if (session('level_id') == 2 || session('level_id') == 3) : ?>
-      <section class="content">
-        <div class="container-fluid">
-          <!-- Small boxes (Stat box) -->
-          <div class="row">
-            <div class="col-lg-6 col-6 widget" style="cursor: pointer;">
-              <!-- small box -->
-              <div class="small-box  bg-white" style="border: 1px solid gray; padding: 0;">
-                <div class="inner" style="color: #55415C; padding-left: 15px;">
-                  <h3 style="font-size: 70px;"><?= $total_laporan; ?></h3>
+                  </div>
                   <?php if (session('level_id') == 2 || session('level_id') == 3) : ?>
-                    <p style="font-weight: bold;">Jumlah Seluruh Laporan</p>
+                    <a href="<?= base_url('/listLaporan'); ?>" class="selanjutnya">
+                      <p style="margin:0;">More info</p> <i class="fas fa-arrow-circle-down"></i>
+                    </a>
+                  <?php else : ?>
+                    <a href="" class="selanjutnya">
+                      <p style="margin:0;">&nbsp;</p>
+                    </a>
                   <?php endif; ?>
-
                 </div>
-                <?php if (session('level_id') == 2 || session('level_id') == 3) : ?>
-                  <a href="<?= base_url('/listLaporan'); ?>" class="selanjutnya">
-                    <p style="margin:0;">More info</p> <i class="fas fa-arrow-circle-down"></i>
-                  </a>
-                <?php else : ?>
-                  <a href="" class="selanjutnya">
-                    <p style="margin:0;">&nbsp;</p>
-                  </a>
-                <?php endif; ?>
               </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-6 col-6 widget" style="cursor: pointer;">
-              <!-- small box -->
-              <div class="small-box bg-white" style="border: 1px solid gray; padding: 0;">
-                <div class="inner" style="color: #55415C; padding-left: 15px;">
+              <!-- ./col -->
+              <div class="col-lg-6 col-6 widget" style="cursor: pointer;">
+                <!-- small box -->
+                <div class="small-box bg-white" style="border: 1px solid gray; padding: 0;">
+                  <div class="inner" style="color: #55415C; padding-left: 15px;">
 
-                  <h3 style="font-size: 70px;"><?php if ($pop_up == 'off') {
-                                                  echo $total_kegiatan_bulan_ini;
-                                                } ?></h3>
-                  <?php if (date('m') == "01") {
-                    $namaBulan = 'Januari';
-                  } elseif (date('m') == "02") {
-                    $namaBulan = 'Maret';
-                  } elseif (date('m') == "03") {
-                    $namaBulan = 'Maret';
-                  } elseif (date('m') == "04") {
-                    $namaBulan = 'April';
-                  } elseif (date('m') == "05") {
-                    $namaBulan = 'Mei';
-                  } elseif (date('m') == "06") {
-                    $namaBulan = 'Juni';
-                  } elseif (date('m') == "07") {
-                    $namaBulan = 'Juli';
-                  } elseif (date('m') == "08") {
-                    $namaBulan = 'Agustus';
-                  } elseif (date('m') == "09") {
-                    $namaBulan = 'September';
-                  } elseif (date('m') == "10") {
-                    $namaBulan = 'Oktober';
-                  } elseif (date('m') == "11") {
-                    $namaBulan = 'November';
-                  } else {
-                    $namaBulan = 'Desember';
-                  }
-                  ?>
-                  <p style="font-weight: bold;">Jumlah Kegiatan Bulan <?= $namaBulan; ?></p>
-                </div>
-                <?php if ($pop_up == 'off') : ?>
-                  <?php if ($total_kegiatan_bulan_ini != null && session('level_id') == 2 || $total_kegiatan_bulan_ini != null &&  session('level_id') == 3) {
-                    echo '<a href="#" data-toggle="modal" data-target="#modal-list-laporan" class="selanjutnya">
+                    <h3 style="font-size: 70px;">
+                      <?= $total_kegiatan_bulan_ini; ?>
+                    </h3>
+                    <p style="font-weight: bold;">Jumlah Kegiatan Bulan <?= $namaBulan; ?></p>
+                  </div>
+                  <?php if ($pop_up == 'off') : ?>
+                    <?php if ($total_kegiatan_bulan_ini != null && session('level_id') == 2 || $total_kegiatan_bulan_ini != null &&  session('level_id') == 3) {
+                      echo '<a href="#" data-toggle="modal" data-target="#modal-list-laporan" class="selanjutnya">
                 <p style="margin:0;">More info</p> <i class="fas fa-arrow-circle-down"></i>
               </a>';
-                  } else {
-                    echo
-                    '<a href="#" class="selanjutnya">
+                    } else {
+                      echo
+                      '<a href="#" class="selanjutnya">
                 <p style="margin:0;">&nbsp;</p>
               </a>';
-                  } ?>
-                <?php endif; ?>
-
-
-              </div>
-            </div>
-
-          </div>
-          <!-- /.row -->
-        </div>
-      </section>
-    <?php endif; ?>
-
-    <!-- PERLU PENYESUAIAN -->
-    <?php if (session('level_id') == 8 || session('level_id') == 9 || session('level_id') == 5) : ?>
-      <section class="content">
-        <div class="container-fluid">
-          <!-- Small boxes (Stat box) -->
-          <div class="row">
-            <div class="col-lg-3 col-6 widget" style="cursor: pointer;">
-              <!-- small box -->
-              <div class="small-box  bg-white" style="border: 1px solid gray; padding: 0;">
-                <div class="inner" style="color: #55415C; padding-left: 15px;">
-                  <h3 style="font-size: 70px;"><?php if ($jumlah_laporan) {
-                                                  echo $jumlah_laporan;
-                                                } else {
-                                                  echo 0;
-                                                }; ?></h3>
-                  <p style="font-weight: bold;">Jumlah Laporan Seluruh Pegawai</p>
-                </div>
-                <span href="#" class="selanjutnya">
-                  <p style="margin:0;">&nbsp;</p>
-                </span>
-              </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6 widget" style="cursor: pointer;">
-              <!-- small box -->
-              <div class="small-box bg-white" style="border: 1px solid gray; padding: 0;">
-                <div class="inner" style="color: #55415C; padding-left: 15px;">
-
-                  <h3 style="font-size: 70px;"><?php if ($jumlah_pegawai) {
-                                                  echo $jumlah_pegawai;
-                                                } else {
-                                                  echo 0;
-                                                }; ?></h3>
-
-                  <p style="font-weight: bold;">Jumlah Pegawai</p>
-                </div>
-                <span href="#" class="selanjutnya">
-                  <p style="margin:0;">&nbsp;</p>
-                </span>
-              </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6 widget" style="cursor: pointer;">
-              <!-- small box -->
-              <div class="small-box bg-white" style="border: 1px solid gray; padding: 0;">
-                <div class="inner" style="color: #55415C; padding-left: 15px;">
-                  <?php if ($jumlah_user != null) : ?>
-                    <h3 style="font-size: 70px;"><?php if ($jumlah_user_aktif) {
-                                                    echo $jumlah_user_aktif;
-                                                  } else {
-                                                    echo 0;
-                                                  }; ?></h3>
+                    } ?>
                   <?php endif; ?>
-                  <p style="font-weight: bold;">Jumlah User Aktif</p>
                 </div>
-                <span href="#" class="selanjutnya">
-                  <p style="margin:0;">&nbsp;</p>
-                </span>
               </div>
             </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6 widget" style="cursor: pointer;">
-              <!-- small box -->
-              <div class="small-box bg-white" style="border: 1px solid gray; padding: 0;">
-                <div class="inner" style="color: #55415C; padding-left: 15px;">
-                  <h3 style="font-size: 70px;"><?php if ($jumlah_user_tidak_aktif) {
-                                                  echo $jumlah_user_tidak_aktif;
-                                                } else {
-                                                  echo 0;
-                                                }; ?></h3>
-
-                  <p style="font-weight: bold;">Jumlah User Tidak Aktif</p>
-                </div>
-                <span href="#" class="selanjutnya">
-                  <p style="margin:0;">&nbsp;</p>
-                </span>
-              </div>
-            </div>
-            <!-- ./col -->
+            <!-- /.row -->
           </div>
-          <!-- /.row -->
-        </div>
-      </section>
+        </section>
+      <?php endif; ?>
     <?php endif; ?>
-
 
 
     <!-- CALENDAR -->
@@ -209,7 +121,6 @@
                       <small>Menampilkan Kegiatan Milik</small>
                     </div>
                   </div>
-
                   <div class="row">
                     <?php if ($user_dipilih != null) : ?>
                       <div class="col-2 text-center">
@@ -220,30 +131,29 @@
                         <small><?= $user_dipilih['nip_baru'] ?></small>
                         <small><?= $user_dipilih['email'] ?></small>
                         <div class="d-flex">
-                          <?php if ($list_golongan != null) : ?>
-                            <?php foreach ($list_golongan as $golongan) : ?>
-                              <?php if ($golongan['id'] == $user_dipilih['gol_kd']) : ?>
-                                <span class="badge badge-secondary py-1"><?= $golongan['golongan'] ?></span>
-                              <?php endif; ?>
-                            <?php endforeach; ?>
-                          <?php endif; ?>
-                          <?php if ($list_fungsional != null) : ?>
-                            <?php foreach ($list_fungsional as $fungsional) : ?>
-                              <?php if ($fungsional['id'] == $user_dipilih['fungsional_kd']) : ?>
-                                <span class="ml-2 badge badge-secondary py-1"><?= $fungsional['jabatan_fungsional'] ?></span>
-                              <?php endif; ?>
-                            <?php endforeach; ?>
+                          <?php if ($pop_up == 'off') : ?>
+                            <?php if ($list_golongan != null) : ?>
+                              <?php foreach ($list_golongan as $golongan) : ?>
+                                <?php if ($golongan['id'] == $user_dipilih['gol_kd']) : ?>
+                                  <span class="badge badge-secondary py-1"><?= $golongan['golongan'] ?></span>
+                                <?php endif; ?>
+                              <?php endforeach; ?>
+                            <?php endif; ?>
+                            <?php if ($list_fungsional != null) : ?>
+                              <?php foreach ($list_fungsional as $fungsional) : ?>
+                                <?php if ($fungsional['id'] == $user_dipilih['fungsional_kd']) : ?>
+                                  <span class="ml-2 badge badge-secondary py-1"><?= $fungsional['jabatan_fungsional'] ?></span>
+                                <?php endif; ?>
+                              <?php endforeach; ?>
+                            <?php endif; ?>
                           <?php endif; ?>
                         </div>
                       </div>
-
                     <?php endif; ?>
-
                   </div>
                   <?php if ($user_dipilih == null) : ?>
                     <strong>Pegawai Belum Memiliki Akun</strong>
                   <?php endif; ?>
-
                 </div>
               </div>
             </div>
@@ -266,7 +176,6 @@
                 </div>
               </div>
             <?php endif; ?>
-
             <div class="row">
               <div class="col-md-12 position-relative">
                 <div class="card">
@@ -286,7 +195,6 @@
             <div class="row mb-3">
               <!-- GANTIII JADII SATU -->
               <?php if (allowChart(session('level_id'), 1)) : ?>
-
                 <div class="col-12 ">
                   <div class="row">
                     <div class="col-12">
@@ -296,7 +204,6 @@
                           <button class="btn btn-sm btn-primary shadow hari-ini">Hari ini</button>
                           <button class="btn btn-sm ml-3 akan-datang">Akan Datang</button>
                           <button class="btn btn-sm ml-3 sebelumnya">Sebelumnya</button>
-
                           <div class="mt-3 w-100 catatan-container-hari-ini px-1 d-flex flex-column align-items-center">
                           </div>
                           <div class="mt-3 w-100 catatan-container-akan-datang  px-1 d-none flex-column align-items-center ">
@@ -324,17 +231,14 @@
                             <span class="pulse"></span>
                           </button>
                           <button class="btn btn-sm terkirim ml-3">Terkirim</button>
-
                           <div class="mt-3 w-100 catatan-container-diterima px-1 d-flex flex-column align-items-center">
                           </div>
                           <div class="mt-3 w-100 catatan-container-terkirim  px-1 d-none flex-column align-items-center ">
                           </div>
-
                         </div>
                       </div>
                     </div>
                   </div>
-
                 </div>
               <?php endif; ?>
             </div>
@@ -365,7 +269,6 @@
                     <button class="btn btn-primary float-right mt-3 mx-4" data-toggle="modal" data-target="#modal-cetak-bidang">Download Rekap</button>
                   </div>
                 </div>
-
                 <!-- /.card-header -->
                 <form action="<?= base_url('/showDataUser') ?>" method="POST" class="card-body table-responsive pb-0 px-0">
                   <table class="table table-hover text-nowrap" id="tabelData4">
@@ -380,23 +283,25 @@
                     </thead>
                     <tbody>
                       <?php $no_ke = 1; ?>
-                      <?php if ($list_pegawai != null) : ?>
-                        <?php foreach ($list_pegawai as $pegawai) : ?>
-                          <tr>
-                            <td class="text-center"><?= $no_ke; ?></td>
-                            <td><?= $pegawai['nama_pegawai']; ?></td>
-                            <td class="text-center">
-                              <?= $jml_perbulan_pegawai[($no_ke - 1)]; ?>
-                            </td>
+                      <?php if ($pop_up == 'off' || $pop_up == 'on-2') : ?>
+                        <?php if ($list_pegawai != null) : ?>
+                          <?php foreach ($list_pegawai as $pegawai) : ?>
+                            <tr>
+                              <td class="text-center"><?= $no_ke; ?></td>
+                              <td><?= $pegawai['nama_pegawai']; ?></td>
+                              <td class="text-center">
+                                <?= $jml_perbulan_pegawai[($no_ke - 1)]; ?>
+                              </td>
 
-                            <td class="text-center"> <?= $jml_perminggu_pegawai[($no_ke - 1)]; ?></td>
-                            <?php $no_ke++ ?>
-                            <td>
+                              <td class="text-center"> <?= $jml_perminggu_pegawai[($no_ke - 1)]; ?></td>
+                              <?php $no_ke++ ?>
+                              <td>
 
-                              <a href="<?= base_url('/showKegiatanPegawai/' . $pegawai['nip_lama']); ?>" class="btn btn-info btn-xs tombol" style="background-color: #2D95C9; border:none;"><i class="fas fa-search-plus"></i></a>
-                            </td>
-                          </tr>
-                        <?php endforeach; ?>
+                                <a href="<?= base_url('/showKegiatanPegawai/' . $pegawai['nip_lama']); ?>" class="btn btn-info btn-xs tombol" style="background-color: #2D95C9; border:none;"><i class="fas fa-search-plus"></i></a>
+                              </td>
+                            </tr>
+                          <?php endforeach; ?>
+                        <?php endif; ?>
                       <?php endif; ?>
                     </tbody>
                   </table>
@@ -405,12 +310,8 @@
           </div>
           <?php  ?>
           <!-- CHART -->
-
-
         </div>
       <?php endif; ?>
-
-
 
       <!-- MODAL CETAK -->
       <div class="modal fade" id="modal-cetak" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -437,9 +338,7 @@
                   <div class="password">
                     <input type="date" id='tgl_cetak_awal' name="tgl_awal" class="form-control" required>
                   </div>
-
                 </div>
-
                 <div class="form-group text-center col-6">
                   <label>Akhir</label>
                   <div class="password">
@@ -447,7 +346,6 @@
                   </div>
                 </div>
               </div>
-
             </div>
             <div class="modal-footer border-0">
               <button type="button" class="btn btn-secondary" style="border:none;" data-dismiss="modal">Batal</button>
@@ -474,17 +372,18 @@
                   <h5><strong>Tentukan batas mencetak</strong></h5>
                 </div>
               </div>
-
               <div class="row mb-3">
                 <div class="col-12">
                   <div class="input-group satkers w-100">
                     <label for="">Satker</label>
                     <select class=" form-control  w-100 mb-3" name="satker">
                       <option value="all">- Semua -</option>
-                      <?php if ($list_satker != NULL) : ?>
-                        <?php foreach ($list_satker as $satker) : ?>
-                          <option value="<?= $satker['kd_satker']; ?>"><?= $satker['satker']; ?></option>
-                        <?php endforeach; ?>
+                      <?php if ($pop_up == 'off') : ?>
+                        <?php if ($list_satker != NULL) : ?>
+                          <?php foreach ($list_satker as $satker) : ?>
+                            <option value="<?= $satker['kd_satker']; ?>"><?= $satker['satker']; ?></option>
+                          <?php endforeach; ?>
+                        <?php endif; ?>
                       <?php endif; ?>
                     </select>
                   </div>
@@ -492,14 +391,15 @@
                     <label for="">Bidang</label>
                     <select class=" form-control  w-100" name="bidang">
                       <option value="all">- Semua -</option>
-                      <?php if ($list_bidang != NULL) : ?>
-                        <?php foreach ($list_bidang as $bidang) : ?>
-                          <option value="<?= $bidang['kd_es3']; ?>"><?= $bidang['deskripsi']; ?></option>
-                        <?php endforeach; ?>
+                      <?php if ($pop_up == 'off') : ?>
+                        <?php if ($list_bidang != NULL) : ?>
+                          <?php foreach ($list_bidang as $bidang) : ?>
+                            <option value="<?= $bidang['kd_es3']; ?>"><?= $bidang['deskripsi']; ?></option>
+                          <?php endforeach; ?>
+                        <?php endif; ?>
                       <?php endif; ?>
                     </select>
                   </div>
-
                 </div>
               </div>
               <div class="row">
@@ -516,7 +416,6 @@
                   </div>
                 </div>
               </div>
-
             </div>
             <div class="modal-footer border-0">
               <button type="button" class="btn btn-secondary" style="border:none;" data-dismiss="modal">Batal</button>
@@ -527,8 +426,8 @@
       </div>
 
 
+      <!-- MODAL KEGIATAN -->
       <?php if (session('level_id') == 2 || session('level_id') == 3) : ?>
-        <!-- MODAL KEGIATAN -->
         <div class="modal fade" id="modal-list-laporan">
           <div class="modal-dialog modal-dialog-scrollable modal-xl ">
             <div class="modal-content" enctype="multipart/form-data">
@@ -612,7 +511,6 @@
                                       <?php endforeach; ?>
                                     </div>
                                   <?php endforeach; ?>
-
                                 </td>
                               </tr>
                             <?php endforeach; ?>
@@ -623,7 +521,6 @@
                   </div>
                 </div>
               </div>
-
             </div>
             <!-- /.modal-content -->
           </div>
@@ -785,6 +682,7 @@
           </div>
         </div>
       <?php endif; ?>
+
       <!-- MODAL DETAIL -->
       <div class="modal fade" id="<?= $modal_detail; ?>" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-dialog-scrollable modal-xl">

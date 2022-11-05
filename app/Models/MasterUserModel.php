@@ -101,10 +101,9 @@ class MasterUserModel extends Model
 
     public function getTotalByUserJoinPegawai2($pegawai_id)
     {
-
-        $monday = date("Y-m-d", strtotime("last monday"));
-        $sunday = date("Y-m-d", strtotime("last sunday"));
-        $query = ('SELECT * FROM dbsiphp.tbl_user tn join dbsiphp2.mst_pegawai tn1 join dbsiphp.mst_laporanharian tn2 where tn1.id = ' . $pegawai_id . ' AND tn2.tgl_kegiatan >=' . $monday . ' AND tn2.tgl_kegiatan <=' . $sunday . ' AND tn.nip_lama_user = tn1.nip_lama AND tn.id = tn2.user_id ORDER BY tn1.id ASC');
+        $monday = (`"` . date("Y-m-d", strtotime("last monday")) . `"`);
+        $sunday = date("Y-m-d", strtotime("next sunday"));
+        $query = ('SELECT * FROM dbsiphp.tbl_user user join dbsiphp2.mst_pegawai pegawai join dbsiphp.mst_laporanharian laporan where pegawai.id = ' .  $pegawai_id  . ' AND laporan.tgl_kegiatan >=' . " '" .  $monday . "' "  . ' AND laporan.tgl_kegiatan <=' . " '" .  $sunday . "' "  . ' AND user.nip_lama_user = pegawai.nip_lama AND user.id = laporan.user_id ORDER BY pegawai.id ASC');
         return $this->db->query($query)->getResultArray();
     }
 

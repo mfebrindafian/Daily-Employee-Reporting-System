@@ -25,7 +25,7 @@ function allowHalaman($level_id, $id_menu) //untuk list menu tanpa child
 function allowChart($level_id, $id_chart)
 {
     if ($id_chart == 1) { //untuk chart kegiatan tahunan
-        if ($level_id == 7) {
+        if ($level_id == 2 || $level_id == 3) {
             return true;
         } else {
             return false;

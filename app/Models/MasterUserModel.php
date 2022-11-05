@@ -2,23 +2,12 @@
 
 namespace App\Models;
 
-use CodeIgniter\I18n\Time;
 use CodeIgniter\Model;
 
 class MasterUserModel extends Model
 {
-    protected $useTimestamps = true;
-    protected $useSoftDeletes = true;
     protected $table = 'tbl_user';
     protected $allowedFields = ['username', 'fullname', 'email', 'password', 'token', 'image', 'nip_lama_user',  'is_active'];
-
-    public function get_data_login($username, $tbl)
-    {
-        $builder = $this->db->table($tbl);
-        $builder->where('username', $username);
-        $log = $builder->get()->getRow();
-        return $log;
-    }
 
     public function getUser($username)
     {
@@ -31,24 +20,14 @@ class MasterUserModel extends Model
 
     public function getAllUserAktif()
     {
-        return $this
-            ->table('tbl_user.*,mst_pegawai.*')
-            ->where('mst_pegawai.satker_kd', 1500)
-            ->where('tbl_user.is_active', 'Y')
-            ->join('mst_pegawai', 'mst_pegawai.nip_lama = tbl_user.nip_lama_user')
-            ->get()
-            ->getResultArray();
+        $query = ('SELECT * FROM dbsiphp.tbl_user tn join dbsiphp2.mst_pegawai tn1 where tn.nip_lama_user = tn1.nip_lama AND tn1.satker_kd = 1500 AND tn.is_active = "Y"');
+        return $this->db->query($query)->getResultArray();
     }
 
     public function getAllUserTidakAktif()
     {
-        return $this
-            ->table('tbl_user.*,mst_pegawai.*')
-            ->where('mst_pegawai.satker_kd', 1500)
-            ->where('tbl_user.is_active', 'N')
-            ->join('mst_pegawai', 'mst_pegawai.nip_lama = tbl_user.nip_lama_user')
-            ->get()
-            ->getResultArray();
+        $query = ('SELECT * FROM dbsiphp.tbl_user tn join dbsiphp2.mst_pegawai tn1 where tn.nip_lama_user = tn1.nip_lama AND tn1.satker_kd = 1500 AND tn.is_active = "N"');
+        return $this->db->query($query)->getResultArray();
     }
 
     public function getProfilUser($user_id)
@@ -70,12 +49,8 @@ class MasterUserModel extends Model
 
     public function getAllUserOnDashboard()
     {
-        return $this
-            ->table('tbl_user.*,mst_pegawai.*')
-            ->where('mst_pegawai.satker_kd', 1500)
-            ->join('mst_pegawai', 'mst_pegawai.nip_lama = tbl_user.nip_lama_user')
-            ->get()
-            ->getResultArray();
+        $query = ('SELECT * FROM dbsiphp.tbl_user tn join dbsiphp2.mst_pegawai tn1 where tn.nip_lama_user = tn1.nip_lama');
+        return $this->db->query($query)->getResultArray();
     }
 
 
@@ -103,13 +78,8 @@ class MasterUserModel extends Model
 
     public function getAllUserBySatker($kd_satker)
     {
-        return $this
-            ->table($this->table)
-            ->select('tbl_user.*', 'mst_pegawai.*')
-            ->where('mst_pegawai.satker_kd', $kd_satker)
-            ->join('mst_pegawai', 'mst_pegawai.nip_lama= tbl_user.nip_lama_user')
-            ->get()
-            ->getResultArray();
+        $query = ('SELECT * FROM dbsiphp.tbl_user tn join dbsiphp2.mst_pegawai tn1 where tn.nip_lama_user = tn1.nip_lama AND tn1.satker_kd = ' . $kd_satker . '');
+        return $this->db->query($query)->getResultArray();
     }
 
     public function getUserId($nip_lama)
@@ -124,41 +94,24 @@ class MasterUserModel extends Model
 
     public function getTotalByUserJoinPegawai($pegawai_id)
     {
-        return $this
-            ->table($this->table)
-            ->select('mst_laporanharian.*,tbl_user.*,mst_pegawai.*')
-            ->where('mst_pegawai.id', $pegawai_id)
-            ->join('mst_pegawai', 'tbl_user.nip_lama_user = mst_pegawai.nip_lama')
-            ->join('mst_laporanharian', 'tbl_user.id = mst_laporanharian.user_id')
-            ->orderBy('mst_pegawai.id', 'ASC')
-            ->get()
-            ->getResultArray();
+
+        $query = ('SELECT * FROM dbsiphp.tbl_user tn join dbsiphp2.mst_pegawai tn1 join dbsiphp.mst_laporanharian tn2 where tn1.id = ' . $pegawai_id . ' AND tn.nip_lama_user = tn1.nip_lama AND tn.id = tn2.user_id ORDER BY tn1.id ASC');
+        return $this->db->query($query)->getResultArray();
     }
 
     public function getTotalByUserJoinPegawai2($pegawai_id)
     {
-        return $this
-            ->table($this->table)
-            ->select('mst_laporanharian.*,tbl_user.*,mst_pegawai.*')
-            ->where('mst_pegawai.id', $pegawai_id)
-            ->where('mst_laporanharian.tgl_kegiatan >=', date("Y-m-d", strtotime("last monday")))
-            ->where('mst_laporanharian.tgl_kegiatan <=', date("Y-m-d", strtotime("next sunday")))
-            ->join('mst_pegawai', 'tbl_user.nip_lama_user = mst_pegawai.nip_lama')
-            ->join('mst_laporanharian', 'tbl_user.id = mst_laporanharian.user_id')
-            ->orderBy('mst_pegawai.id', 'ASC')
-            ->get()
-            ->getResultArray();
+
+        $monday = date("Y-m-d", strtotime("last monday"));
+        $sunday = date("Y-m-d", strtotime("last sunday"));
+        $query = ('SELECT * FROM dbsiphp.tbl_user tn join dbsiphp2.mst_pegawai tn1 join dbsiphp.mst_laporanharian tn2 where tn1.id = ' . $pegawai_id . ' AND tn2.tgl_kegiatan >=' . $monday . ' AND tn2.tgl_kegiatan <=' . $sunday . ' AND tn.nip_lama_user = tn1.nip_lama AND tn.id = tn2.user_id ORDER BY tn1.id ASC');
+        return $this->db->query($query)->getResultArray();
     }
 
 
     public function getDataPegawaiByUserId($user_id)
     {
-        return $this
-            ->table($this->table)
-            ->select('tbl_user.*,mst_pegawai.*')
-            ->where('tbl_user.id', $user_id)
-            ->join('mst_pegawai', 'tbl_user.nip_lama_user = mst_pegawai.nip_lama')
-            ->get()
-            ->getRowArray();
+        $query = ('SELECT * FROM dbsiphp.tbl_user tn join dbsiphp2.mst_pegawai tn1 where tn.nip_lama_user = tn1.nip_lama AND tn.id = ' . $user_id);
+        return $this->db->query($query)->getRowArray();
     }
 }

@@ -6,10 +6,29 @@ use CodeIgniter\Model;
 
 class MasterPegawaiModel extends Model
 {
-    protected $useTimestamps = true;
-    protected $useSoftDeletes = true;
+    protected $DBGroup = 'siphp2';
     protected $table = 'mst_pegawai';
     protected $allowedFields = ['nip_lama', 'nip_baru', 'nama_pegawai', 'gol_kd', 'tmt', 'jabatan_kd', 'ket_jabatan', 'pendidikan_kd',  'tahun_pdd',  'jk', 'tgl_lahir', 'satker_kd', 'es3_kd', 'es4_kd', 'fungsional_kd'];
+
+    public function getAllPegawai()
+    {
+        return $this
+            ->table('mst_pegawai')
+            ->get()
+            ->getResultArray();
+    }
+    
+    public function getProfilCetak($nip_lama_user)
+    {
+        return $this
+            ->table($this->table)
+            ->select('mst_pegawai.*,mst_fungsional.*,mst_satker.*')
+            ->where('mst_pegawai.nip_lama', $nip_lama_user)
+            ->join('mst_fungsional', 'mst_fungsional.id = mst_pegawai.fungsional_kd')
+            ->join('mst_satker', 'mst_satker.kd_satker = mst_pegawai.satker_kd')
+            ->get()
+            ->getRowArray();
+    }
 
     public function getProfilPegawai($nip_lama_user)
     {
@@ -29,17 +48,7 @@ class MasterPegawaiModel extends Model
     }
 
 
-    public function getProfilCetak($nip_lama_user)
-    {
-        return $this
-            ->table($this->table)
-            ->select('mst_pegawai.*,mst_fungsional.*,mst_satker.*')
-            ->where('mst_pegawai.nip_lama', $nip_lama_user)
-            ->join('mst_fungsional', 'mst_fungsional.id = mst_pegawai.fungsional_kd')
-            ->join('mst_satker', 'mst_satker.kd_satker = mst_pegawai.satker_kd')
-            ->get()
-            ->getRowArray();
-    }
+
 
     public function getDetailPegawaiById($id_pegawai)
     {
@@ -58,13 +67,7 @@ class MasterPegawaiModel extends Model
             ->getRowArray();
     }
 
-    public function getAllPegawai()
-    {
-        return $this
-            ->table('mst_pegawai')
-            ->get()
-            ->getResultArray();
-    }
+
 
     public function getAllPegawaiOnDashboard()
     {
@@ -121,21 +124,19 @@ class MasterPegawaiModel extends Model
 
     public function getAllPegawaiOnBidang($satker_kd, $es3_kd)
     {
-        if (intval($es3_kd) != 0) {
-            return $this
-                ->table('tbl_user.*,mst_pegawai.*')
-                ->where('mst_pegawai.satker_kd', $satker_kd)
-                ->where('mst_pegawai.es3_kd', $es3_kd)
-                ->join('tbl_user', 'mst_pegawai.nip_lama = tbl_user.nip_lama_user')
-                ->get()
-                ->getResultArray();
+        if ($satker_kd == 'all' && $es3_kd == 'all') {
+            $query = ('SELECT * FROM dbsiphp.tbl_user tn join dbsiphp2.mst_pegawai tn1 where tn.nip_lama_user = tn1.nip_lama');
+            return $this->db->query($query)->getResultArray();
+        } else if ($satker_kd == 'all' && $es3_kd != 'all') {
+            $query = ('SELECT * FROM dbsiphp.tbl_user tn join dbsiphp2.mst_pegawai tn1 where tn.nip_lama_user = tn1.nip_lama  AND tn1.es3_kd = ' . intval($es3_kd));
+            return $this->db->query($query)->getResultArray();
+        } else if ($satker_kd != 'all' && $es3_kd == 'all') {
+            $query = ('SELECT * FROM dbsiphp.tbl_user tn join dbsiphp2.mst_pegawai tn1 where tn.nip_lama_user = tn1.nip_lama AND tn1.satker_kd = ' . $satker_kd);
+            return $this->db->query($query)->getResultArray();
         } else {
-            return $this
-                ->table('tbl_user.*,mst_pegawai.*')
-                ->where('mst_pegawai.satker_kd', $satker_kd)
-                ->join('tbl_user', 'mst_pegawai.nip_lama = tbl_user.nip_lama_user')
-                ->get()
-                ->getResultArray();
+
+            $query = ('SELECT * FROM dbsiphp.tbl_user tn join dbsiphp2.mst_pegawai tn1 where tn.nip_lama_user = tn1.nip_lama AND tn1.satker_kd = ' . $satker_kd . ' AND tn1.es3_kd = ' . intval($es3_kd));
+            return $this->db->query($query)->getResultArray();
         }
     }
 }

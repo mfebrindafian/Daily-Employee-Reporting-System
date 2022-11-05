@@ -6,8 +6,7 @@ use CodeIgniter\Model;
 
 class MasterPendidikanModel extends Model
 {
-    protected $useTimestamps = true;
-    protected $useSoftDeletes = true;
+    protected $DBGroup = 'siphp2';
     protected $table = 'mst_pendidikan';
     protected $allowedFields = ['tk_pendidikan'];
 

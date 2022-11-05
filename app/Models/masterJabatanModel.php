@@ -6,8 +6,7 @@ use CodeIgniter\Model;
 
 class MasterJabatanModel extends Model
 {
-    protected $useTimestamps = true;
-    protected $useSoftDeletes = true;
+    protected $DBGroup = 'siphp2';
     protected $table = 'mst_jabatan';
     protected $allowedFields = ['nama_jabatan'];
 

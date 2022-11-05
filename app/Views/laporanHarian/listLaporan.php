@@ -343,7 +343,6 @@
                             <?php if ($laporan_harian_tertentu != NULL) : ?>
                                 <input type="hidden" name="laporan_id_edit" value="<?= $laporan_harian_tertentu['id']; ?>">
                                 <input type="date" class="d-none" id="tanggal-kegiatan" name="tanggal" value="<?= $laporan_harian_tertentu['tgl_kegiatan']; ?>" class="form-control">
-                                <p>Last Modified : <?= $laporan_harian_tertentu['updated_at'];; ?></p>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -532,7 +531,6 @@
                         <?php if ($laporan_harian_tertentu != NULL) : ?>
                             <h2 class="mb-1" id="tanggal-detail"></h2>
                             <input type="date" id="tanggal-kegiatan-detail" class="d-none" value="<?= $laporan_harian_tertentu['tgl_kegiatan']; ?>">
-                            <p>Last Modified : <?= $laporan_harian_tertentu['updated_at'];; ?></p>
                         <?php endif; ?>
                     </div>
                 </div>

@@ -6,8 +6,6 @@ use CodeIgniter\Model;
 
 class MasterMenuModel extends Model
 {
-    protected $useTimestamps = true;
-    protected $useSoftDeletes = true;
     protected $table = 'tbl_menu';
     protected $allowedFields = ['nama_menu', 'link', 'icon', 'urutan', 'is_active'];
 

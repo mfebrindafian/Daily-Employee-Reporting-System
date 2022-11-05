@@ -3,53 +3,44 @@
 namespace App\Controllers;
 
 use App\Models\MasterUserModel;
+use App\Models\MasterPegawaiModel;
 use App\Models\MasterAksesUserLevelModel;
-
 
 class masterAkses extends BaseController
 {
     protected $masterUserModel;
+    protected $masterPegawaiModel;
     protected $masterAksesUserLevelModel;
-
     public function __construct()
     {
         $this->masterUserModel = new masterUserModel();
+        $this->masterPegawaiModel = new masterPegawaiModel();
         $this->masterAksesUserLevelModel = new masterAksesUserLevelModel();
     }
-
     public function index()
     {
         $alert = false;
-        $data = [
-            'alert' => $alert,
-        ];
+        $data = ['alert' => $alert];
         return view('siphp/login', $data);
     }
-
     public function open()
     {
         $username = $this->request->getVar('username');
         $password = $this->request->getVar('password');
         $user = $this->masterUserModel->getUser($username);
-
+        $data_pegawai_user = $this->masterPegawaiModel->getProfilCetak($user['nip_lama_user']);
 
         $pass_default =  password_hash('123456', PASSWORD_DEFAULT);
-
-
-
         if ($user == NULL) {
             session()->setFlashdata('pesan', 'Username Anda Salah');
             session()->setFlashdata('icon', 'error');
             return redirect()->to('/');
         }
-
-
         $list_user_level = $this->masterAksesUserLevelModel->getUserLevel($user['id']);
         $level_id = $list_user_level[count($list_user_level) - 1]['level_id'];
         $list_menu = $this->masterAksesUserLevelModel->getAksesMenu($level_id, $user['id']);
         $list_submenu = $this->masterAksesUserLevelModel->getAksesSubmenu($level_id, $user['id']);
         if (password_verify($password, $user['password'])) {
-
             if (password_verify($password, $pass_default)) {
                 $alert = false;
                 $data = [
@@ -58,8 +49,6 @@ class masterAkses extends BaseController
                 ];
                 return view('siphp/gantiPassword', $data);
             }
-
-
             if ($user['is_active'] == 'Y') {
                 $data = [
                     'log' => TRUE,
@@ -69,17 +58,14 @@ class masterAkses extends BaseController
                     'list_menu'  => $list_menu,
                     'list_submenu' => $list_submenu,
                     'fullname' => $user['fullname'],
-                    'data_user' => $user
+                    'data_user' => $user,
+                    'es3_kd' => $data_pegawai_user['es3_kd']
                 ];
             } else {
                 session()->setFlashdata('pesan', 'Akun Tidak Aktif');
                 session()->setFlashdata('icon', 'error');
                 return redirect()->to('/');
             }
-
-
-
-
             session()->set($data);
             session()->setFlashdata('pesan', 'berhasil login');
             return redirect()->to('/dashboard');
@@ -104,9 +90,11 @@ class masterAkses extends BaseController
             'list_menu'  => $list_menu,
             'list_submenu' => $list_submenu,
             'fullname' => session('fullname'),
-            'data_user' => session('data_user')
+            'data_user' => session('data_user'),
+
 
         ];
+
 
         session()->set($data1);
 
@@ -130,21 +118,16 @@ class masterAkses extends BaseController
         $pass_baru = $this->request->getVar('password_baru');
         $confirm_pass = $this->request->getVar('confirm_password');
         $user = $this->masterUserModel->getProfilUser($user_id);
-
         if ($pass_baru == $confirm_pass && $pass_baru == '123456') {
-            //alert gagal ubah password 
             $alert = true;
             $data = [
                 'alert' => $alert,
                 'data_user' => $user
             ];
-
             return view('siphp/gantiPassword', $data);
         }
-
         if ($pass_baru == $confirm_pass) {
             $pass_baru_hash = password_hash($pass_baru, PASSWORD_DEFAULT);
-
             $this->masterUserModel->save([
                 'id' => $user['id'],
                 'username' => $user['username'],
@@ -154,14 +137,12 @@ class masterAkses extends BaseController
                 'token' => '',
                 'image' => $user['image'],
                 'nip_lama_user' => $user['nip_lama_user'],
-                'is_active' => $user['is_active'],
+                'is_active' => $user['is_active']
             ]);
-
             $list_user_level = $this->masterAksesUserLevelModel->getUserLevel($user['id']);
             $level_id = $list_user_level[count($list_user_level) - 1]['level_id'];
             $list_menu = $this->masterAksesUserLevelModel->getAksesMenu($level_id, $user['id']);
             $list_submenu = $this->masterAksesUserLevelModel->getAksesSubmenu($level_id, $user['id']);
-
             if ($user['is_active'] == 'Y') {
                 $data = [
                     'log' => TRUE,
@@ -178,23 +159,15 @@ class masterAkses extends BaseController
                 session()->setFlashdata('icon', 'error');
                 return redirect()->to('/');
             }
-
             session()->set($data);
             session()->setFlashdata('pesan', 'berhasil login');
             return redirect()->to('/dashboard');
-            // ///alert berhasil ubah password
-            // session()->setFlashdata('pesan', 'Password berhasil diubah!');
-            // session()->setFlashdata('pesan_text', 'Silahkan login kembali');
-            // session()->setFlashdata('icon', 'success');
-            // return redirect()->to('/');
         } else {
-            //alert gagal ubah password 
             $alert = true;
             $data = [
                 'alert' => $alert,
                 'data_user' => $user
             ];
-
             return view('siphp/gantiPassword', $data);
         }
     }

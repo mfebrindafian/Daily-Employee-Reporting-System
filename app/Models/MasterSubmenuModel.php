@@ -6,8 +6,6 @@ use CodeIgniter\Model;
 
 class MasterSubmenuModel extends Model
 {
-    protected $useTimestamps = true;
-    protected $useSoftDeletes = true;
     protected $table = 'tbl_submenu';
     protected $allowedFields = ['nama_submenu', 'menu_id', 'link', 'is_active'];
 

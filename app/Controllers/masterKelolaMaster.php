@@ -44,15 +44,11 @@ class masterKelolaMaster extends BaseController
         $this->masterEs4Model = new MasterEs4Model();
         $this->masterFungsionalModel = new MasterFungsionalModel();
     }
-
     public function masterUser()
     {
         $list_user = $this->masterUserModel->getAllUser();
         $list_pegawai = $this->masterPegawaiModel->getAllPegawai();
         $level_tersedia = $this->masterUserLevelModel->getAlllevel();
-
-
-
         $data = [
             'title' => 'Master User',
             'menu' => 'Kelola Master',
@@ -65,7 +61,6 @@ class masterKelolaMaster extends BaseController
             'class_modal_default' => 'col-md-6',
             'class_modal_setup' => 'col-md-6 d-none'
         ];
-
         return view('kelolaMaster/masterUser', $data);
     }
 
@@ -76,7 +71,6 @@ class masterKelolaMaster extends BaseController
         $list_user_level = $this->masterAksesUserLevelModel->getUserLevel($user_id);
         $level_tersedia = $this->masterUserLevelModel->getAlllevel();
         $list_pegawai = $this->masterPegawaiModel->getAllPegawai();
-
         $data = [
             'title' => 'Master User',
             'menu' => 'Kelola Master',
@@ -89,7 +83,6 @@ class masterKelolaMaster extends BaseController
             'class_modal_default' => 'col-md-6 d-none',
             'class_modal_setup' => 'col-md-6'
         ];
-        //dd($data);
         return view('kelolaMaster/masterUser', $data);
     }
 
@@ -106,8 +99,6 @@ class masterKelolaMaster extends BaseController
         $is_active = $this->request->getVar('is_active');
         $level_user = $this->request->getVar('level_show');
         $list_user_level = $this->masterAksesUserLevelModel->getUserLevel($id_user);
-
-
         for ($i = 0; $i < count($list_user_level); $i++) {
             $this->masterAksesUserLevelModel->save([
                 'id' => $list_user_level[$i]['id'],
@@ -115,8 +106,6 @@ class masterKelolaMaster extends BaseController
                 'level_id' => $level_user[$i]
             ]);
         }
-
-
         $this->masterUserModel->save([
             'id' => $id_user,
             'username' => $username,
@@ -130,9 +119,7 @@ class masterKelolaMaster extends BaseController
         ]);
 
         if (session('user_id') == $id_user) {
-
             $list_user_level = $this->masterAksesUserLevelModel->getUserLevel($id_user);
-
             $data1 = [
                 'log' => TRUE,
                 'user_id' => session('user_id'),
@@ -145,8 +132,6 @@ class masterKelolaMaster extends BaseController
             ];
             session()->set($data1);
         }
-
-
         return redirect()->to('/showDataUser/' . $id_user);
     }
 
@@ -154,17 +139,12 @@ class masterKelolaMaster extends BaseController
     {
         $id_user = $this->request->getVar('id_user_role');
         $level_id = $this->request->getVar('role');
-
         $this->masterAksesUserLevelModel->save([
             'user_id' => $id_user,
             'level_id' => $level_id
         ]);
-
-
         if (session('user_id') == $id_user) {
-
             $list_user_level = $this->masterAksesUserLevelModel->getUserLevel($id_user);
-
             $data1 = [
                 'log' => TRUE,
                 'user_id' => session('user_id'),
@@ -179,7 +159,6 @@ class masterKelolaMaster extends BaseController
         }
         session()->setFlashdata('pesan', 'Tambah Level berhasil');
         session()->setFlashdata('icon', 'success');
-
         return redirect()->to('/showDataUser/' . $id_user);
     }
 
@@ -193,9 +172,7 @@ class masterKelolaMaster extends BaseController
         $image_user = $this->request->getVar('image_user_reset');
         $nip_lama_user = $this->request->getVar('nip_lama_user_reset');
         $is_active = $this->request->getVar('is_active_reset');
-
         $pass_default =  password_hash('123456', PASSWORD_DEFAULT);
-
         $this->masterUserModel->save([
             'id' => $id_user,
             'username' => $username,
@@ -209,7 +186,6 @@ class masterKelolaMaster extends BaseController
         ]);
         session()->setFlashdata('pesan', 'Reset password ' . $username . ' berhasil');
         session()->setFlashdata('icon', 'success');
-
         return redirect()->to('/showDataUser/' . $id_user);
     }
 
@@ -217,14 +193,9 @@ class masterKelolaMaster extends BaseController
     {
         $id_akses_user_level = $this->request->getVar('id_level_hapus');
         $id_user = $this->request->getVar('id_user_hapus');
-
-
         $this->masterAksesUserLevelModel->delete($id_akses_user_level);
-
         if (session('user_id') == $id_user) {
-
             $list_user_level = $this->masterAksesUserLevelModel->getUserLevel($id_user);
-
             $data1 = [
                 'log' => TRUE,
                 'user_id' => session('user_id'),
@@ -237,10 +208,8 @@ class masterKelolaMaster extends BaseController
             ];
             session()->set($data1);
         }
-
         session()->setFlashdata('pesan', 'Hapus Level berhasil');
         session()->setFlashdata('icon', 'success');
-
         return redirect()->to('/showDataUser/' . $id_user);
     }
 
@@ -255,9 +224,7 @@ class masterKelolaMaster extends BaseController
         $email_tambah = $this->request->getVar('email_tambah');
         $is_active_tambah = $this->request->getVar('is_active_tambah');
         $pass_default_tambah =  password_hash('123456', PASSWORD_DEFAULT);
-
         $image_user = ($nip_lama_tambah['nip_lama'] . '.jpg');
-
         $this->masterUserModel->save([
             'username' => $username_tambah,
             'fullname' => $fullname_tambah,
@@ -268,31 +235,45 @@ class masterKelolaMaster extends BaseController
             'nip_lama_user' => $nip_lama_tambah['nip_lama'],
             'is_active' => $is_active_tambah,
         ]);
-
         $last_input_user_id = $this->masterUserModel->getLastId();
-
-
         $all_level = $this->masterUserLevelModel->getAlllevel();
         for ($al = 0; $al <= count($all_level); $al++) {
             if ($this->request->getVar('level_pick' . $al) != null) {
                 $Level_choose[] = ($al + 1);
             }
         }
-
         for ($lev = 0; $lev < count($Level_choose); $lev++) {
             $this->masterAksesUserLevelModel->save([
                 'user_id' => $last_input_user_id,
                 'level_id' => $Level_choose[$lev]
             ]);
         }
-
         session()->setFlashdata('pesan', 'tambah user ' . $username_tambah . ' berhasil');
         session()->setFlashdata('icon', 'success');
 
         return redirect()->to('/masterUser');
     }
 
+    public function get_autofillPegawai()
+    {
+        $model = new MasterPegawaiModel();
 
+        $request = \Config\Services::request();
+        $kode = $request->getPostGet('term');
+        $pegawai = $model
+            ->like('nama_pegawai', $kode)
+            ->orderBy('nama_pegawai', 'ASC')
+            ->findAll();
+        $hasil = array();
+        foreach ($pegawai as $rt) :
+            $hasil[] = [
+                "label" => $rt['nama_pegawai']
+            ];
+        endforeach;
+        echo json_encode($hasil);
+    }
+
+    /* BATASSSS HAPUSSSS FUNGSIII KARENA MASTERR PEGAWAI TIDAK DIGUNAKAN */
     public function masterPegawai()
     {
         $keyword = $this->request->getVar('keyword');
@@ -302,8 +283,6 @@ class masterKelolaMaster extends BaseController
         } else {
             $list_pegawai = $this->masterPegawaiModel->getAllPegawai();
         }
-
-
         $list_bidang = $this->masterEs3Model->getAllBidang();
         $list_golongan = $this->masterGolonganModel->getAllGolongan();
         $list_jabatan = $this->masterJabatanModel->getAllJabatan();
@@ -313,8 +292,6 @@ class masterKelolaMaster extends BaseController
         $list_fungsional = $this->masterFungsionalModel->getAllFungsional();
 
         $data_user = $this->masterUserModel->getAllUser();
-
-
         $data = [
             'title' => 'Master Pegawai',
             'menu' => 'Kelola Master',
@@ -402,7 +379,6 @@ class masterKelolaMaster extends BaseController
 
 
         ];
-        //dd($data);
         return view('kelolaMaster/masterPegawai', $data);
     }
 
@@ -484,10 +460,6 @@ class masterKelolaMaster extends BaseController
         return view('kelolaMaster/masterPegawai', $data);
     }
 
-
-
-
-
     public function masterKegiatan()
     {
         $data = [
@@ -496,26 +468,5 @@ class masterKelolaMaster extends BaseController
             'subMenu' => 'Master Kegiatan'
         ];
         return view('kelolaMaster/masterKegiatan', $data);
-    }
-
-
-
-    public function get_autofillPegawai()
-    {
-        $model = new MasterPegawaiModel();
-
-        $request = \Config\Services::request();
-        $kode = $request->getPostGet('term');
-        $pegawai = $model
-            ->like('nama_pegawai', $kode)
-            ->orderBy('nama_pegawai', 'ASC')
-            ->findAll();
-        $hasil = array();
-        foreach ($pegawai as $rt) :
-            $hasil[] = [
-                "label" => $rt['nama_pegawai']
-            ];
-        endforeach;
-        echo json_encode($hasil);
     }
 }

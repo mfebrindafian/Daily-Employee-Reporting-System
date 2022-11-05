@@ -6,8 +6,7 @@ use CodeIgniter\Model;
 
 class MasterEs3Model extends Model
 {
-    protected $useTimestamps = true;
-    protected $useSoftDeletes = true;
+    protected $DBGroup = 'siphp2';
     protected $table = 'mst_es3';
     protected $allowedFields = ['deskripsi', 'nip_kepalaes3', 'nip_wakiles3'];
 

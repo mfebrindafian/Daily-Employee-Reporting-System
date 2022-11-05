@@ -6,19 +6,8 @@ use CodeIgniter\Model;
 
 class MasterUserLevelModel extends Model
 {
-    protected $useTimestamps = true;
-    protected $useSoftDeletes = true;
     protected $table = 'user_level';
     protected $allowedFields = ['nama_level'];
-
-    public function getAllId()
-    {
-        return $this
-            ->table($this->table)
-            ->select('id')
-            ->get()
-            ->getResultArray();
-    }
 
     public function getAlllevel()
     {
@@ -29,6 +18,17 @@ class MasterUserLevelModel extends Model
             ->get()
             ->getResultArray();
     }
+    
+    public function getAllId()
+    {
+        return $this
+            ->table($this->table)
+            ->select('id')
+            ->get()
+            ->getResultArray();
+    }
+
+
     public function getLastId()
     {
         return $this

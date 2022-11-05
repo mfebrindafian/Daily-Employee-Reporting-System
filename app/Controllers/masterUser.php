@@ -38,26 +38,18 @@ class masterUser extends BaseController
             'list_bidang' => $this->masterEs3Model->getAllBidang(),
             'list_seksi' => $this->masterEs4Model->getAllSeksi()
         ];
-        // dd($data);
-
         return view('Profile/index', $data);
     }
 
     public function gantiPasswordByUser()
     {
         $user = $this->masterUserModel->getProfilUser(session('user_id'));
-
-
         $password_lama = $this->request->getVar('password_lama');
         $password_baru = $this->request->getVar('password_baru');
-
-
         if (password_verify($password_lama, $user['password'])) {
 
             $lower_pass = strtolower($password_baru);
             $pass_baru = password_hash($lower_pass, PASSWORD_DEFAULT);
-
-
             $this->masterUserModel->save([
                 'id' => intval(session('user_id')),
                 'username' => $user['username'],
@@ -74,10 +66,9 @@ class masterUser extends BaseController
         } else {
             return redirect()->to('/dashboard');
         }
-
-
         return redirect()->to('/profile');
     }
+    
     public function updateProfileByUser()
     {
         $id_user = $this->request->getVar('id_profile_user');

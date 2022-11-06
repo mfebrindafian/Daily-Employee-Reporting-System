@@ -12,6 +12,7 @@ use App\Models\MasterSatkerModel;
 use App\Models\MasterFungsionalModel;
 use App\Models\MasterCatatanModel;
 use App\Models\MasterEs3Model;
+use App\Models\MasterKegiatanModel;
 use CodeIgniter\I18n\Time;
 
 class masterDashboard extends BaseController
@@ -26,7 +27,7 @@ class masterDashboard extends BaseController
     protected $masterFungsionalModel;
     protected $masterCatatanModel;
     protected $masterEs3Model;
-
+    protected $masterKegiatanModel;
     public function __construct()
     {
         $this->masterUserModel = new masterUserModel();
@@ -39,6 +40,7 @@ class masterDashboard extends BaseController
         $this->masterFungsionalModel = new MasterFungsionalModel();
         $this->masterCatatanModel = new MasterCatatanModel();
         $this->masterEs3Model = new MasterEs3Model();
+        $this->masterKegiatanModel = new masterKegiatanModel();
     }
 
     public function index()

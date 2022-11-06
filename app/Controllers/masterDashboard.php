@@ -117,7 +117,10 @@ class masterDashboard extends BaseController
             for ($i = 0; $i < count($list_uraian); $i++) {
                 $kegiatan_bulan_ini = $kegiatan_bulan_ini + count($list_uraian[$i]);
             }
+        } else {
+            $kegiatan_bulan_ini = 0;
         }
+        
         $list_pegawai = $this->masterPegawaiModel->getAllPegawaiOnDashboard();
         $ke = 0;
         foreach ($list_pegawai as $pegawai) {

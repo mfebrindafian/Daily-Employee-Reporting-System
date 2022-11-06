@@ -60,7 +60,7 @@ class masterLaporanHarian extends BaseController
         $itemsCount = 10;
         $tanggal_input_terakhir = $this->masterLaporanHarianModel->getMaxDate(session('user_id'));
 
-        $list_rencana = $this->masterKegiatanModel->getAllByUserId(session('user_id'));
+
 
         $data = [
             'title' => 'List Laporan',
@@ -77,7 +77,7 @@ class masterLaporanHarian extends BaseController
             'tanggal_input_terakhir' => $tanggal_input_terakhir,
             'tahun_tersedia' => $tahun_tersedia,
             'keyword' => $keyword,
-            'list_rencana' => $list_rencana
+            'list_rencana' => $this->masterKegiatanModel->getAllByUserId(session('user_id'))
         ];
         return view('laporanHarian/listLaporan', $data);
     }
@@ -92,13 +92,12 @@ class masterLaporanHarian extends BaseController
         $field_tipe = $this->request->getVar('field_tipe');
         $field_rencana = $this->request->getVar('field_rencana');
         $field_jam = $this->request->getVar('field_jam');
-
-
-
-
+        $field_menit = $this->request->getVar('field_menit');
+        
         for ($i = 1; $i <= count($field_uraian); $i++) {
             $field_bukti[] = $this->request->getFileMultiple('field_bukti' . $i);
         }
+
         $data_user = session('data_user');
         $folderNIP = $data_user['nip_lama_user'];
         $dirname = 'berkas/' . $folderNIP . '/' . $tanggal;
@@ -125,7 +124,8 @@ class masterLaporanHarian extends BaseController
             }
         }
 
-        $uraian_laporan = array('uraian' => $field_uraian, 'jumlah' => $field_jumlah, 'satuan' => $field_satuan, 'hasil' => $field_hasil, 'bukti_dukung' => $namaFile);
+        $uraian_laporan = array('kode_tipe' => $field_tipe, 'kd_rencana' => $field_rencana, 'uraian' => $field_uraian, 'jumlah' => $field_jumlah, 'satuan' => $field_satuan, 'hasil' => $field_hasil, 'durasi_jam' => $field_jam, 'durasi_menit' => $field_menit, 'bukti_dukung' => $namaFile);
+
         $json_laporan = json_encode($uraian_laporan);
 
         $this->masterLaporanHarianModel->save([
@@ -189,6 +189,7 @@ class masterLaporanHarian extends BaseController
             'tahun_tersedia' => $tahun_tersedia,
             'keyword' => $keyword,
             'list_full_laporan_harian' =>  $this->masterLaporanHarianModel->getTotalByUser(session('user_id')),
+            'list_rencana' => $this->masterKegiatanModel->getAllByUserId(session('user_id'))
         ];
         return view('laporanHarian/listLaporan', $data);
     }
@@ -370,6 +371,7 @@ class masterLaporanHarian extends BaseController
             'tahun_tersedia' => $tahun_tersedia,
             'keyword' => $keyword,
             'list_full_laporan_harian' =>  $this->masterLaporanHarianModel->getTotalByUser(session('user_id')),
+            'list_rencana' => $this->masterKegiatanModel->getAllByUserId(session('user_id'))
         ];
         return view('laporanHarian/listLaporan', $data);
     }

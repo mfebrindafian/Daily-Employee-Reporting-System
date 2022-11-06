@@ -89,6 +89,7 @@
                                         <th>URAIAN KEGIATAN</th>
                                         <th>JUMLAH</th>
                                         <th>SATUAN</th>
+                                        <th>Durasi Kerja</th>
                                         <th>BUKTI DUKUNG</th>
                                         <th>AKSI</th>
                                     </tr>
@@ -107,6 +108,7 @@
                                                 <td id="tgl-kegiatan-tabel"><?= $list['tgl_kegiatan']; ?></td>
                                                 <?php $laporan = $list['uraian_kegiatan']; ?>
                                                 <?php $data = json_decode($laporan); ?>
+
                                                 <?php $list_uraian = $data->uraian; ?>
                                                 <td>
                                                     <?php foreach ($list_uraian as $uraian) : ?>
@@ -129,6 +131,18 @@
                                                         </div>
                                                     <?php endforeach; ?>
                                                 </td>
+                                                <?php $list_jam = $data->durasi_jam; ?>
+                                                <?php $list_menit = $data->durasi_menit ?>
+                                                <?php $jammenit = 0; ?>
+                                                <td><?php foreach ($list_jam as $jam) : ?>
+                                                        <div class="p-2 mb-1 text-center rounded-sm card-laporan">
+                                                            <?= $list_jam[$jammenit]; ?> Jam : <?= $list_menit[$jammenit]; ?> Menit
+                                                        </div>
+                                                        <?php $jammenit++ ?>
+                                                    <?php endforeach; ?>
+                                                </td>
+
+
                                                 <?php $list_bukti_dukung = $data->bukti_dukung; ?>
                                                 <td>
                                                     <?php $data_user = session('data_user'); ?>

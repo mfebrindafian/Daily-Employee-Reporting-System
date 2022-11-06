@@ -229,7 +229,7 @@
 
                                                 <?php if ($list_rencana != null) : ?>
                                                     <?php foreach ($list_rencana as $rencana) : ?>
-                                                        <option value="<?= $rencana('id'); ?>"><?= $rencana('rincian_kegiatan'); ?></option>
+                                                        <option value="<?= $rencana['id']; ?>"><?= $rencana['rincian_kegiatan']; ?></option>
                                                     <?php endforeach; ?>
                                                 <?php endif; ?>
                                             </select>

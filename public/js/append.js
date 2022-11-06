@@ -117,11 +117,13 @@ $(document).ready(function () {
                                     </div>
                                 </div>
                                 <div class="col-xl-2 baris-kegiatan">
-                                    <div class="row"><strong>Waktu</strong></div>
-                                    <div class="input-group">
-                                        <input class="form-control" name="field_jam[]" type="time">
-                                    </div>
+                                <div class="row"><strong>Waktu</strong></div>
+                                <div class="input-group">
+                                    <input class="form-control" required type="number" name="field_jam[]" value="00">
+                                    <span class="px-2"> : </span>
+                                    <input class="form-control" required type="number" name="field_menit[]" value="00">
                                 </div>
+                            </div>
                             </div>
                             <div class="row my-3">
                                 <div class="col-1"></div>

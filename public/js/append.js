@@ -49,8 +49,7 @@ $(document).ready(function () {
                                                 <option value=""> - Pilih Tipe -</option>
                                                 <option value="1">Berdasarkan Rencana</option>
                                                 <option value="2">Umum</option>
-                                                <option value="3">Cuti</option>
-                                                <option value="4">Lembur</option>
+                                                <option value="3">Lembur</option>
                                             </select>
                                         </div>
                                     </div>

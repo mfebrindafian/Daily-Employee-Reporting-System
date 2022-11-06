@@ -9,6 +9,7 @@ use App\Models\MasterUserModel;
 use App\Models\MasterPegawaiModel;
 use App\Models\MasterEs3Model;
 use App\Models\MasterSatkerModel;
+use App\Models\MasterKegiatanModel;
 use CodeIgniter\Session\Session;
 use PHPUnit\Framework\Test;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -23,6 +24,7 @@ class masterLaporanHarian extends BaseController
     protected $masterEs3Model;
     protected $masterSatkerModel;
     protected $masterLaporanHarianModel;
+    protected $masterKegiatanModel;
     public function __construct()
     {
         $this->masterSatuanModel = new masterSatuanModel();
@@ -31,6 +33,7 @@ class masterLaporanHarian extends BaseController
         $this->masterEs3Model = new masterEs3Model();
         $this->masterSatkerModel = new masterSatkerModel();
         $this->masterLaporanHarianModel = new masterLaporanHarianModel();
+        $this->masterKegiatanModel = new masterKegiatanModel();
     }
     public function listLaporan()
     {
@@ -56,6 +59,9 @@ class masterLaporanHarian extends BaseController
         $keyword = $this->request->getVar('keyword');
         $itemsCount = 10;
         $tanggal_input_terakhir = $this->masterLaporanHarianModel->getMaxDate(session('user_id'));
+
+        $list_rencana = $this->masterKegiatanModel->getAllByUserId(session('user_id'));
+
         $data = [
             'title' => 'List Laporan',
             'menu' => 'Laporan Harian',
@@ -70,7 +76,8 @@ class masterLaporanHarian extends BaseController
             'laporan_harian_tertentu' => NULL,
             'tanggal_input_terakhir' => $tanggal_input_terakhir,
             'tahun_tersedia' => $tahun_tersedia,
-            'keyword' => $keyword
+            'keyword' => $keyword,
+            'list_rencana' => $list_rencana
         ];
         return view('laporanHarian/listLaporan', $data);
     }
@@ -82,6 +89,13 @@ class masterLaporanHarian extends BaseController
         $field_jumlah = $this->request->getVar('field_jumlah');
         $field_satuan = $this->request->getVar('field_satuan');
         $field_hasil = $this->request->getVar('field_hasil');
+        $field_tipe = $this->request->getVar('field_tipe');
+        $field_rencana = $this->request->getVar('field_rencana');
+        $field_jam = $this->request->getVar('field_jam');
+
+
+
+
         for ($i = 1; $i <= count($field_uraian); $i++) {
             $field_bukti[] = $this->request->getFileMultiple('field_bukti' . $i);
         }
@@ -110,6 +124,7 @@ class masterLaporanHarian extends BaseController
                 );
             }
         }
+        
         $uraian_laporan = array('uraian' => $field_uraian, 'jumlah' => $field_jumlah, 'satuan' => $field_satuan, 'hasil' => $field_hasil, 'bukti_dukung' => $namaFile);
         $json_laporan = json_encode($uraian_laporan);
 

@@ -18,7 +18,6 @@
   <link rel="stylesheet" href="<?= base_url('/css/jquery-ui.min.css') ?>">
 
   <link rel=" stylesheet" href="<?= base_url('/css/custom.css') ?>" />
-  <link rel="stylesheet" href="<?= base_url('/css/trix.css') ?>" />
   <script src="<?= base_url('/js/trix.js') ?>"></script>
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />

@@ -408,144 +408,211 @@
                         <?php $data = json_decode($laporan); ?>
                         <?php for ($i = 0; $i < count($list_uraian = $data->uraian); $i++) : ?>
                             <div class="row mt-4 rounded position-relative pt-2 kegiatan">
-                                <div class="col-xl-1 baris-kegiatan">
-                                    <div class="row"><strong>NO</strong></div>
-                                    <div class="row"><?= $i + 1; ?></div>
-                                </div>
-                                <div class="col-xl-4 baris-kegiatan">
-                                    <div class="row"><strong>Uraian Kegiatan</strong></div>
-                                    <div class="row px-1 w-100">
-                                        <div class="form-group w-100 position-relative">
-                                            <textarea id="kegiatan-input" class="form-control  w-100" name="field_uraian[]" rows="3" placeholder="Masukkan Uraian Kegiatan ..." required><?= $list_uraian[$i]; ?></textarea>
-                                            <div class="option-kegiatan-wrapper w-100 mt-2 bg-white py-2 rounded shadow-lg position-absolute d-none">
-                                                <?php if ($list_full_laporan_harian != null) : ?>
-                                                    <?php foreach (array_unique($list_uraian_unik) as $uraian) : ?>
-                                                        <option class="option-kegiatan border-bottom d-none"><?= $uraian; ?></option>
-                                                    <?php endforeach; ?>
-                                                <?php endif; ?>
-                                            </div>
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-xl-1 baris-kegiatan">
+                                            <div class="row"><strong>NO</strong></div>
+                                            <div class="row">1</div>
                                         </div>
 
-                                    </div>
-                                </div>
-                                <div class="col-xl-1 baris-kegiatan">
-                                    <?php $list_jumlah = $data->jumlah; ?>
-                                    <div class="row"><strong>Jumlah</strong></div>
-                                    <div class="row px-1 w-100">
-                                        <div class="form-group w-100">
-                                            <input type="number" min="1" class="form-control w-100" name="field_jumlah[]" value="<?= $list_jumlah[$i]; ?>" required>
+                                        <?php $list_tipe = $data->kode_tipe; ?>
+                                        <div class="<?= ($list_tipe[$i] != 1) ? 'col-xl-11' : 'col-xl-5' ?>  baris-kegiatan">
+                                            <div class="row"><strong>Tipe Kegiatan</strong></div>
+                                            <div class="row w-100">
+                                                <div class="input-group w-100">
+                                                    <select class="form-control w-100 tipe-kegiatan" name="field_tipe[]" required>
+                                                        <?php if ($list_tipe[$i] == 1) {
+                                                            echo '<option value="1">Berdasarkan Rencana</option>';
+                                                        } elseif ($list_tipe[$i] == 2) {
+                                                            echo '<option value="2">Umum</option>';
+                                                        } elseif ($list_tipe[$i] == 3) {
+                                                            '<option value="3">Lembur</option>';
+                                                        } ?>
+                                                        <?php if ($list_tipe[$i] == 1) {
+                                                            echo '<option value="2">Umum</option><option value="3">Lembur</option>';
+                                                        } elseif ($list_tipe[$i] == 2) {
+                                                            echo '<option value="1">Berdasarkan Rencana</option><option value="3">Lembur</option>';
+                                                        } elseif ($list_tipe[$i] == 3) {
+                                                            '<option value="1">Berdasarkan Rencana</option><option value="2">Umum</option';
+                                                        } ?>
+
+
+
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-2 baris-kegiatan">
-                                    <?php $list_satuan2 = $data->satuan; ?>
-                                    <div class="row"><strong>Satuan</strong></div>
-                                    <div class="row px-1 w-100">
-                                        <div class="input-group w-100">
-                                            <select class=" form-control w-100" name="field_satuan[]" required>
-                                                <option value="<?= $list_satuan2[$i] ?>"><?= $list_satuan2[$i] ?></option>
-                                                <?php if ($list_satuan != NULL) : ?>
-                                                    <?php foreach ($list_satuan as $satuan) : ?>
-                                                        <?php if ($satuan['nama_satuan'] != $list_satuan2[$i]) : ?>
-                                                            <option value="<?= $satuan['nama_satuan']; ?>"><?= $satuan['nama_satuan']; ?></option>
+                                        <div class="col-xl-6 baris-kegiatan pilih-kegiatan  <?php if ($list_tipe[$i] != 1) {
+                                                                                                echo 'd-none';
+                                                                                            }  ?>">
+                                            <div class="row"><strong>Pilih Kegiatan</strong></div>
+                                            <div class="row w-100">
+                                                <div class="input-group w-100">
+                                                    <?php $list_rencana2 = $data->kd_rencana; ?>
+                                                    <select class="form-control w-100 pilih-rencana" name="field_rencana[]" required>
+                                                        <option value="<?= $list_rencana2[$i]; ?>"><?php if ($list_rencana != null) {
+                                                                                                        foreach ($list_rencana as $rencana) {
+                                                                                                            if ($rencana['id'] == $list_rencana2[$i]) {
+                                                                                                                echo $rencana['rincian_kegiatan'];
+                                                                                                            }
+                                                                                                        }
+                                                                                                    } ?></option>
+                                                        <?php if ($list_rencana != null) : ?>
+                                                            <?php foreach ($list_rencana as $rencana) : ?>
+                                                                <?php if ($list_rencana2[$i] != $rencana['id']) : ?>
+                                                                    <option value="<?= $rencana['id']; ?>"><?= $rencana['rincian_kegiatan']; ?></option>
+                                                                <?php endif; ?>
+                                                            <?php endforeach; ?>
                                                         <?php endif; ?>
-                                                    <?php endforeach; ?>
-                                                <?php endif; ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-2 baris-kegiatan">
-                                    <?php $list_hasil = $data->hasil; ?>
-                                    <div class="row"><strong>Hasil Kegiatan</strong></div>
-                                    <div class="row px-1 w-100">
-                                        <div class="form-group  w-100 position-relative">
-                                            <textarea class="form-control  w-100" name="field_hasil[]" rows="3" placeholder="Masukkan Hasil Kegiatan ..." required><?= $list_hasil[$i]; ?></textarea>
-                                            <!-- <textarea id="kegiatan-input" class="form-control  w-100" name="field_hasil[]" rows="3" placeholder="Masukkan Hasil Kegiatan ..." required></textarea> -->
-                                            <!-- <div class="option-kegiatan-wrapper w-100 mt-2 bg-white py-2 rounded shadow-lg position-absolute d-none">
-                                        <option class="option-kegiatan border-bottom d-none">Option 1</option>
-                                    </div> -->
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-2 baris-kegiatan">
-                                    <?php $list_bukti_dukung = $data->bukti_dukung; ?>
-                                    <div class="row"><strong>Bukti Dukung</strong></div>
-                                    <div class="row w-100">
-                                        <div class="form-group w-100">
-                                            <?php for ($a = 0; $a < count($list_bukti_dukung[$i]); $a++) : ?>
-                                                <div title="<?= $list_bukti_dukung[$i][$a]; ?>" class="file-list">
-                                                    <input type="hidden" name="field_bukti_lama<?= $i + 1; ?>[]" value="<?= $list_bukti_dukung[$i][$a]; ?>">
-                                                    <span class="w-75 text-truncate p-0"><?= $list_bukti_dukung[$i][$a]; ?></span>
-                                                    <?php if (count($list_bukti_dukung[$i]) != 1) : ?>
-                                                        <button class="btn-silang" type="button" id="btn-edit-hapus" data-toggle="modal" data-target="#modal-edit-hapus" data-id_laporan_tertentu="<?= $laporan_harian_tertentu['id']; ?>" data-posisi_array="<?= $i; ?>" data-posisi_dalam_array="<?= $a; ?>" data-nama_bukti_dukung="<?= $list_bukti_dukung[$i][$a]; ?>" data-tanggal_hapus="<?= $laporan_harian_tertentu['tgl_kegiatan']; ?>"><i class="fas fa-times" style="color: #80772d;"></i></button>
-                                                    <?php endif; ?>
+                                                    </select>
                                                 </div>
-                                                <?php if (count($list_bukti_dukung[$i]) == 1) : ?>
-                                                    <p class="file-tip2 d-none">
-                                                        Untuk Menghapus
-                                                        <br> <br>
-                                                        <strong> <?= $list_bukti_dukung[$i][$a]; ?> </strong>
-                                                        <br> <br>
-                                                        Silahkan Tambah bukti dukung baru
-                                                    </p>
-                                                <?php endif; ?>
-
-                                            <?php endfor; ?>
-
-                                            <div class="input-group w-100">
-                                                <div class="custom-file w-100">
-                                                    <div id="resp<?= $i + 1; ?>"></div>
-                                                    <input type="file" name="field_bukti<?= $i + 1; ?>[]" class="custom-file-input w-100" id="formFileMultiple" accept=".png, .jpg, .jpeg, .pdf, .xlsx, .docx, .ppt, .txt, .rar, .zip" multiple />
-                                                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                                    <p class="file-tip d-none">
-                                                        <strong class="mt-2 d-flex align-items-center">
-                                                            <i class="fas fa-exclamation-circle fa-2x text-yellow mr-2"></i>
-                                                            Jenis file :
-                                                        </strong> <br>
-                                                        .png, .jpg, .jpeg, .pdf, .xlsx, .docx, .ppt, .txt, .rar, .zip, .csv <br><br>
-                                                        <strong>
-                                                            Ukuran File Maks : 200kb
-                                                        </strong>
-                                                    </p>
-                                                </div>
-
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="row my-3 ">
+                                        <div class="col-xl-1 baris-kegiatan">
+                                        </div>
+                                        <div class="col-xl-4 baris-kegiatan">
+                                            <div class="row"><strong>Uraian Kegiatan</strong></div>
+                                            <div class="row px-1 w-100">
+                                                <div class="form-group w-100 position-relative">
+                                                    <textarea id="kegiatan-input" class="form-control  w-100" name="field_uraian[]" rows="3" placeholder="Masukkan Uraian Kegiatan ..." required><?= $list_uraian[$i]; ?></textarea>
+                                                    <div class="option-kegiatan-wrapper w-100 mt-2 bg-white py-2 rounded shadow-lg position-absolute d-none">
+                                                        <?php if ($list_full_laporan_harian != null) : ?>
+                                                            <?php foreach (array_unique($list_uraian_unik) as $uraian) : ?>
+                                                                <option class="option-kegiatan border-bottom d-none"><?= $uraian; ?></option>
+                                                            <?php endforeach; ?>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-1 baris-kegiatan">
+                                            <?php $list_jumlah = $data->jumlah; ?>
+                                            <div class="row"><strong>Jumlah</strong></div>
+                                            <div class="row px-1 w-100">
+                                                <div class="form-group w-100">
+                                                    <input type="number" min="1" class="form-control w-100" name="field_jumlah[]" value="<?= $list_jumlah[$i]; ?>" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-2 baris-kegiatan">
+                                            <?php $list_satuan2 = $data->satuan; ?>
+
+                                            <div class="row"><strong>Satuan</strong></div>
+                                            <div class="row px-1 w-100">
+                                                <div class="input-group w-100">
+                                                    <select class=" form-control w-100" name="field_satuan[]" required>
+                                                        <option value="<?= $list_satuan2[$i] ?>"><?= $list_satuan2[$i] ?></option>
+                                                        <?php if ($list_satuan != NULL) : ?>
+                                                            <?php foreach ($list_satuan as $satuan) : ?>
+                                                                <?php if ($satuan['nama_satuan'] != $list_satuan2[$i]) : ?>
+                                                                    <option value="<?= $satuan['nama_satuan']; ?>"><?= $satuan['nama_satuan']; ?></option>
+                                                                <?php endif; ?>
+                                                            <?php endforeach; ?>
+                                                        <?php endif; ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-2 baris-kegiatan">
+                                            <?php $list_hasil = $data->hasil; ?>
+                                            <div class="row"><strong>Hasil Kegiatan</strong></div>
+                                            <div class="row px-1 w-100">
+                                                <div class="form-group  w-100 position-relative">
+                                                    <textarea class="form-control  w-100" name="field_hasil[]" rows="3" placeholder="Masukkan Hasil Kegiatan ..." required><?= $list_hasil[$i]; ?></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-2 baris-kegiatan">
+                                            <?php $list_jam = $data->durasi_jam; ?>
+                                            <?php $list_menit = $data->durasi_menit; ?>
+                                            <div class="row"><strong>Waktu</strong></div>
+                                            <div class="input-group">
+                                                <input class="form-control" required type="number" name="field_jam[]" value="<?= $list_jam[$i] ?>">
+                                                <span class="px-2"> : </span>
+                                                <input class="form-control" required type="number" name="field_menit[]" value="<?= $list_menit[$i] ?>"">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" row my-3">
+                                                <div class="col-1"></div>
+                                                <div class="col-xl-11 baris-kegiatan mb-2">
+                                                    <div class="row"><strong>Bukti Dukung</strong></div>
+                                                    <div class="row w-100">
+                                                        <?php for ($a = 0; $a < count($list_bukti_dukung[$i]); $a++) : ?>
+                                                            <div title="<?= $list_bukti_dukung[$i][$a]; ?>" class="file-list w-100">
+                                                                <input type="hidden" name="field_bukti_lama<?= $i + 1; ?>[]" value="<?= $list_bukti_dukung[$i][$a]; ?>">
+                                                                <span class="w-100 text-truncate p-0"><?= $list_bukti_dukung[$i][$a]; ?></span>
+                                                                <?php if (count($list_bukti_dukung[$i]) != 1) : ?>
+                                                                    <button class="btn-silang" type="button" id="btn-edit-hapus" data-toggle="modal" data-target="#modal-edit-hapus" data-id_laporan_tertentu="<?= $laporan_harian_tertentu['id']; ?>" data-posisi_array="<?= $i; ?>" data-posisi_dalam_array="<?= $a; ?>" data-nama_bukti_dukung="<?= $list_bukti_dukung[$i][$a]; ?>" data-tanggal_hapus="<?= $laporan_harian_tertentu['tgl_kegiatan']; ?>"><i class="fas fa-times" style="color: #80772d;"></i></button>
+                                                                <?php endif; ?>
+                                                            </div>
+                                                            <?php if (count($list_bukti_dukung[$i]) == 1) : ?>
+                                                                <p class="file-tip2 d-none">
+                                                                    Untuk Menghapus
+                                                                    <br> <br>
+                                                                    <strong> <?= $list_bukti_dukung[$i][$a]; ?> </strong>
+                                                                    <br> <br>
+                                                                    Silahkan Tambah bukti dukung baru
+                                                                </p>
+                                                            <?php endif; ?>
+
+                                                        <?php endfor; ?>
+                                                        <div class="input-group w-100">
+                                                            <div class="custom-file w-100">
+                                                                <div id="resp<?= $i + 1; ?>"></div>
+                                                                <input type="file" name="field_bukti<?= $i + 1; ?>[]" class="custom-file-input w-100" id="formFileMultiple" accept=".png, .jpg, .jpeg, .pdf, .xlsx, .docx, .ppt, .txt, .rar, .zip" multiple />
+                                                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                                <p class="file-tip d-none">
+                                                                    <strong class="mt-2 d-flex align-items-center">
+                                                                        <i class="fas fa-exclamation-circle fa-2x text-yellow mr-2"></i>
+                                                                        Jenis file :
+                                                                    </strong> <br>
+                                                                    .png, .jpg, .jpeg, .pdf, .xlsx, .docx, .ppt, .txt, .rar, .zip, .csv <br><br>
+                                                                    <strong>
+                                                                        Ukuran File Maks : 200kb
+                                                                    </strong>
+                                                                </p>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endfor; ?>
+                            <?php endif; ?>
+                                </div>
+                                <!-- baru -->
+                                <div class="row mt-5">
+                                    <div class="col-5">
+                                        <hr>
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        <em><strong>Tugas Tambahan</strong></em>
+                                    </div>
+                                    <div class="col-5">
+                                        <hr>
+                                    </div>
+                                </div>
+                                <div id="baru2">
+
+                                </div>
+                                <!-- tombol -->
+                                <div class="row ">
+                                    <div class="col-12 py-3 px-0">
+                                        <button id="tambah-baris2" type="button" class="btn btn-default w-100 font-weight-bold">
+                                            <i class="fas fa-plus mr-2"></i>Tambah
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        <?php endfor; ?>
-                    <?php endif; ?>
-                </div>
-                <!-- baru -->
-                <div class="row mt-5">
-                    <div class="col-5">
-                        <hr>
-                    </div>
-                    <div class="col-2 text-center">
-                        <em><strong>Tugas Tambahan</strong></em>
-                    </div>
-                    <div class="col-5">
-                        <hr>
-                    </div>
-                </div>
-                <div id="baru2">
-
-                </div>
-                <!-- tombol -->
-                <div class="row ">
-                    <div class="col-12 py-3 px-0">
-                        <button id="tambah-baris2" type="button" class="btn btn-default w-100 font-weight-bold">
-                            <i class="fas fa-plus mr-2"></i>Tambah
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer justify-content-between">
-                <a href="<?= base_url('/listLaporan'); ?>" type="button" class="btn btn-default">Tutup</a>
-                <button id="tombol-edit" type="submit" class="btn btn-info tombol" style="background-color: #3c4b64; border:none;">Update</button>
-            </div>
+                            <div class="modal-footer justify-content-between">
+                                <a href="<?= base_url('/listLaporan'); ?>" type="button" class="btn btn-default">Tutup</a>
+                                <button id="tombol-edit" type="submit" class="btn btn-info tombol" style="background-color: #3c4b64; border:none;">Update</button>
+                            </div>
         </form>
         <!-- /.modal-content -->
     </div>

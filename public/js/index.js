@@ -706,3 +706,26 @@ $(document).ready(function () {
           $('.pulse').addClass('d-none');
      }
 });
+
+function hariLibur(tahun) {
+     var tahun = new Date().getFullYear();
+     $.ajax({
+          dataType: 'json',
+          url: 'https://api-harilibur.vercel.app/api?year=' + tahun,
+          success: function (data) {
+               for (i = 0; i < data.length; i++) {
+                    $('.fc-daygrid-day').each(function () {
+                         if ($(this).data('date') == data[i]['holiday_date'] && data[i]['is_national_holiday'] == true) {
+                              $(this).addClass('hari-libur');
+                              $(this).find('i').remove();
+                              $(this).attr('title', data[i]['holiday_name']);
+                         }
+                    });
+               }
+          },
+     });
+
+     $('.fc-day-sun, .fc-day-sat').each(function () {
+          $(this).find('i').remove();
+     });
+}

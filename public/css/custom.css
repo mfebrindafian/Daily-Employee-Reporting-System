@@ -351,10 +351,6 @@ input[type='file'] {
      cursor: pointer;
 }
 
-.fc-daygrid-day:hover {
-     background-color: #ebebeb;
-}
-
 .card-catatan {
      background-color: white;
      width: 350px;
@@ -573,4 +569,12 @@ label {
           -moz-box-shadow: 0 0 0 0 rgba(255, 53, 38, 0);
           box-shadow: 0 0 0 0 rgba(255, 53, 38, 0);
      }
+}
+.fc-daygrid-day:not(.hari-libur):hover {
+     background-color: #ebebeb;
+}
+
+.hari-libur {
+     z-index: 20;
+     background-color: #ff8282;
 }

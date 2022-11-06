@@ -163,6 +163,9 @@ class masterDashboard extends BaseController
         $today = Time::today('Asia/Jakarta');
         $today->toLocalizedString('yyyy-MM-dd');
 
+
+        $list_rencana = $this->masterKegiatanModel->getAllByUserId(session('user_id'));
+
         $data = [
             'title' => 'Dashboard',
             'menu' => 'Dashboard',
@@ -172,7 +175,6 @@ class masterDashboard extends BaseController
             'list_satuan' => $this->masterSatuanModel->getAll(),
             'total_laporan' => count($total_laporan),
             'total_kegiatan_bulan_ini' => $kegiatan_bulan_ini,
-            'jumlah_user' => count($list_user),
             'modal_detail' => '',
             'laporan_harian_tertentu' => NULL,
             'laporan_bulan_ini' => $laporan_bulan_ini,
@@ -188,15 +190,16 @@ class masterDashboard extends BaseController
             'list_fungsional' => $this->masterFungsionalModel->getAllFungsional(),
             'jumlah_pegawai' => count($this->masterPegawaiModel->getAllPegawaiOnDashboard()),
             'jumlah_laporan' => count($this->masterLaporanHarianModel->getAllLaporan()),
-            'jumlah_user_aktif' => count($this->masterUserModel->getAllUserAktif()),
-            'jumlah_user_tidak_aktif' => count($this->masterUserModel->getAllUserTidakAktif()),
             'nip_lama_pegawai_terpilih' => null,
             'today' => $today,
             'akses_tambah' => 'active',
             'list_satker' => $this->masterSatkerModel->getAllSatker(),
             'list_bidang' => $this->masterEs3Model->getAllBidang(),
-            'pop_up' => 'off'
+            'pop_up' => 'off',
+            'list_rencana' => $list_rencana
+
         ];
+
         return view('Dashboard/index', $data);
     }
 

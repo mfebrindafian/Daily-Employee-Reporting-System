@@ -199,7 +199,7 @@
                     </div>
                 </div>
                 <div id="lama">
-                    <div class="row rounded position-relative pt-2 kegiatan-baru ">
+                    <div class="row rounded position-relative py-2 kegiatan-baru ">
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-xl-1 baris-kegiatan">
@@ -237,98 +237,101 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row my-3">
-                                <div class="col-xl-1 baris-kegiatan">
-                                </div>
-                                <div class="col-xl-4 baris-kegiatan">
-                                    <div class="row"><strong>Uraian Kegiatan</strong></div>
-                                    <div class="row px-1  w-100">
-                                        <?php if ($list_full_laporan_harian != null) : ?>
-                                            <?php foreach ($list_full_laporan_harian as $list) : ?>
-                                                <?php $laporan = $list['uraian_kegiatan']; ?>
-                                                <?php $data = json_decode($laporan); ?>
-                                                <?php $list_uraian = $data->uraian; ?>
-                                                <?php foreach ($list_uraian as $uraian) : ?>
-                                                    <?php $list_uraian_unik[] = $uraian; ?>
+                            <div class="masukan-kegiatan">
+                                <div class="row my-3 ">
+                                    <div class="col-xl-1 baris-kegiatan">
+                                    </div>
+                                    <div class="col-xl-4 baris-kegiatan">
+                                        <div class="row"><strong>Uraian Kegiatan</strong></div>
+                                        <div class="row px-1  w-100">
+                                            <?php if ($list_full_laporan_harian != null) : ?>
+                                                <?php foreach ($list_full_laporan_harian as $list) : ?>
+                                                    <?php $laporan = $list['uraian_kegiatan']; ?>
+                                                    <?php $data = json_decode($laporan); ?>
+                                                    <?php $list_uraian = $data->uraian; ?>
+                                                    <?php foreach ($list_uraian as $uraian) : ?>
+                                                        <?php $list_uraian_unik[] = $uraian; ?>
+                                                    <?php endforeach; ?>
                                                 <?php endforeach; ?>
-                                            <?php endforeach; ?>
-                                        <?php endif; ?>
-                                        <div class="form-group w-100 position-relative">
-                                            <textarea id="kegiatan-input" class="form-control  w-100" name="field_uraian[]" rows="3" placeholder="Masukkan Uraian Kegiatan ..." required></textarea>
-                                            <div class="option-kegiatan-wrapper w-100 mt-2 bg-white py-2 rounded shadow-lg position-absolute d-none">
-                                                <?php if ($list_full_laporan_harian != null) : ?>
-                                                    <?php foreach (array_unique($list_uraian_unik) as $uraian) : ?>
-                                                        <option class="option-kegiatan border-bottom d-none"><?= $uraian; ?></option>
-                                                    <?php endforeach; ?>
-                                                <?php endif; ?>
+                                            <?php endif; ?>
+                                            <div class="form-group w-100 position-relative">
+                                                <textarea id="kegiatan-input" class="form-control  w-100" name="field_uraian[]" rows="3" placeholder="Masukkan Uraian Kegiatan ..." required></textarea>
+                                                <div class="option-kegiatan-wrapper w-100 mt-2 bg-white py-2 rounded shadow-lg position-absolute d-none">
+                                                    <?php if ($list_full_laporan_harian != null) : ?>
+                                                        <?php foreach (array_unique($list_uraian_unik) as $uraian) : ?>
+                                                            <option class="option-kegiatan border-bottom d-none"><?= $uraian; ?></option>
+                                                        <?php endforeach; ?>
+                                                    <?php endif; ?>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-xl-1 baris-kegiatan">
-                                    <div class="row"><strong>Jumlah</strong></div>
-                                    <div class="row px-1  w-100">
-                                        <div class="form-group  w-100">
-                                            <input type="number" class="form-control  w-100" name="field_jumlah[]" min="1" value="1" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-2 baris-kegiatan">
-                                    <div class="row"><strong>Satuan</strong></div>
-                                    <div class="row px-1  w-100">
-                                        <div class="input-group  w-100">
-                                            <select class=" form-control  w-100" name="field_satuan[]" required>
-                                                <?php if ($list_satuan != NULL) : ?>
-                                                    <?php foreach ($list_satuan as $satuan) : ?>
-                                                        <option value="<?= $satuan['nama_satuan']; ?>"><?= $satuan['nama_satuan']; ?></option>
-                                                    <?php endforeach; ?>
-                                                <?php endif; ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-2 baris-kegiatan">
-                                    <div class="row"><strong>Hasil Kegiatan</strong></div>
-
-                                    <div class="row px-1  w-100">
-                                        <div class="form-group  w-100 position-relative">
-                                            <textarea class="form-control  w-100" name="field_hasil[]" rows="3" placeholder="Masukkan Hasil Kegiatan ..." required></textarea>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-2 baris-kegiatan">
-                                    <div class="row"><strong>Waktu</strong></div>
-                                    <div class="input-group">
-                                        <input class="form-control" name="field_jam[]" type="time">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row my-3">
-                                <div class="col-1"></div>
-                                <div class="col-xl-11 baris-kegiatan mb-2">
-                                    <div class="row"><strong>Bukti Dukung</strong></div>
-                                    <div class="row w-100">
-                                        <div class="input-group w-100">
-                                            <div class="custom-file w-100 position-relative">
-                                                <input type="file" class="custom-file-input w-100" name="field_bukti1[]" id="formFileMultiple" accept=".png, .jpg, .jpeg, .pdf, .xlsx, .docx, .ppt, .txt, .rar, .zip, .csv" required multiple />
-                                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                                <p class="file-tip d-none">
-                                                    <strong class="mt-2 d-flex align-items-center">
-                                                        <i class="fas fa-exclamation-circle fa-2x text-yellow mr-2"></i>
-                                                        Jenis file :
-                                                    </strong> <br>
-                                                    .png, .jpg, .jpeg, .pdf, .xlsx, .docx, .ppt, .txt, .rar, .zip <br><br>
-                                                    <strong>
-                                                        Ukuran File Maks : 200kb
-                                                    </strong>
-                                                </p>
+                                    <div class="col-xl-1 baris-kegiatan">
+                                        <div class="row"><strong>Jumlah</strong></div>
+                                        <div class="row px-1  w-100">
+                                            <div class="form-group  w-100">
+                                                <input type="number" class="form-control  w-100" name="field_jumlah[]" min="1" value="1" required>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="col-xl-2 baris-kegiatan">
+                                        <div class="row"><strong>Satuan</strong></div>
+                                        <div class="row px-1  w-100">
+                                            <div class="input-group  w-100">
+                                                <select class=" form-control  w-100" name="field_satuan[]" required>
+                                                    <?php if ($list_satuan != NULL) : ?>
+                                                        <?php foreach ($list_satuan as $satuan) : ?>
+                                                            <option value="<?= $satuan['nama_satuan']; ?>"><?= $satuan['nama_satuan']; ?></option>
+                                                        <?php endforeach; ?>
+                                                    <?php endif; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 baris-kegiatan">
+                                        <div class="row"><strong>Hasil Kegiatan</strong></div>
 
+                                        <div class="row px-1  w-100">
+                                            <div class="form-group  w-100 position-relative">
+                                                <textarea class="form-control  w-100" name="field_hasil[]" rows="3" placeholder="Masukkan Hasil Kegiatan ..." required></textarea>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 baris-kegiatan">
+                                        <div class="row"><strong>Waktu</strong></div>
+                                        <div class="input-group">
+                                            <input class="form-control" name="field_jam[]" type="time">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-1"></div>
+                                    <div class="col-xl-11 baris-kegiatan mb-2">
+                                        <div class="row"><strong>Bukti Dukung</strong></div>
+                                        <div class="row w-100">
+                                            <div class="input-group w-100">
+                                                <div class="custom-file w-100 position-relative">
+                                                    <input type="file" class="custom-file-input w-100" name="field_bukti1[]" id="formFileMultiple" accept=".png, .jpg, .jpeg, .pdf, .xlsx, .docx, .ppt, .txt, .rar, .zip, .csv" required multiple />
+                                                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                    <p class="file-tip d-none">
+                                                        <strong class="mt-2 d-flex align-items-center">
+                                                            <i class="fas fa-exclamation-circle fa-2x text-yellow mr-2"></i>
+                                                            Jenis file :
+                                                        </strong> <br>
+                                                        .png, .jpg, .jpeg, .pdf, .xlsx, .docx, .ppt, .txt, .rar, .zip <br><br>
+                                                        <strong>
+                                                            Ukuran File Maks : 200kb
+                                                        </strong>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -773,14 +776,19 @@
     $(document).ready(function() {
         var pilih = document.getElementsByClassName("pilih-kegiatan");
         var pilihRencana = document.getElementsByClassName("pilih-rencana");
+        var masukanKegiatan = document.getElementsByClassName("masukan-kegiatan");
         $(document).on('change', '.tipe-kegiatan', function() {
             if ($(this).val() == '1') {
                 $('#value-0').selected
                 pilih[$('.tipe-kegiatan').index(this)].classList.remove('d-none')
+                masukanKegiatan[$('.tipe-kegiatan').index(this)].classList.remove('d-none')
                 $(this).parent().parent().parent().removeClass('col-xl-11').addClass('col-xl-5')
+            } else if ($(this).val() == '3') {
+                masukanKegiatan[$('.tipe-kegiatan').index(this)].classList.add('d-none')
             } else {
                 pilihRencana[$('.tipe-kegiatan').index(this)].value = '0';
                 pilih[$('.tipe-kegiatan').index(this)].classList.add('d-none')
+                masukanKegiatan[$('.tipe-kegiatan').index(this)].classList.remove('d-none')
                 $(this).parent().parent().parent().addClass('col-xl-11').removeClass('col-xl-5')
             }
         })

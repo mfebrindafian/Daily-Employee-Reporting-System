@@ -751,6 +751,12 @@
             <?php endforeach; ?>
         ]
     <?php endif; ?>
+    <?php if ($list_rencana != NULL) : ?>
+        const rencana = [
+            <?php foreach ($list_rencana as $rencana) : ?> "<?= $rencana['rincian_kegiatan']; ?>",
+            <?php endforeach; ?>
+        ]
+    <?php endif; ?>
     var currentDate = '<?php
 
                         use CodeIgniter\I18n\Time;

@@ -124,7 +124,7 @@ class masterLaporanHarian extends BaseController
                 );
             }
         }
-        
+
         $uraian_laporan = array('uraian' => $field_uraian, 'jumlah' => $field_jumlah, 'satuan' => $field_satuan, 'hasil' => $field_hasil, 'bukti_dukung' => $namaFile);
         $json_laporan = json_encode($uraian_laporan);
 

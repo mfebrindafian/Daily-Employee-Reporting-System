@@ -93,7 +93,7 @@ class masterLaporanHarian extends BaseController
         $field_rencana = $this->request->getVar('field_rencana');
         $field_jam = $this->request->getVar('field_jam');
         $field_menit = $this->request->getVar('field_menit');
-        
+
         for ($i = 1; $i <= count($field_uraian); $i++) {
             $field_bukti[] = $this->request->getFileMultiple('field_bukti' . $i);
         }
@@ -256,6 +256,10 @@ class masterLaporanHarian extends BaseController
         $field_jumlah = $this->request->getVar('field_jumlah');
         $field_satuan = $this->request->getVar('field_satuan');
         $field_hasil = $this->request->getVar('field_hasil');
+        $field_tipe = $this->request->getVar('field_tipe');
+        $field_rencana = $this->request->getVar('field_rencana');
+        $field_jam = $this->request->getVar('field_jam');
+        $field_menit = $this->request->getVar('field_menit');
 
         $data_user = session('data_user');
         $folderNIP = $data_user['nip_lama_user'];
@@ -316,7 +320,8 @@ class masterLaporanHarian extends BaseController
 
 
 
-        $uraian_laporan = array('uraian' => $field_uraian, 'jumlah' => $field_jumlah, 'satuan' => $field_satuan, 'hasil' => $field_hasil, 'bukti_dukung' => $field_bukti_baru);
+        $uraian_laporan = array('kode_tipe' => $field_tipe, 'kd_rencana' => $field_rencana, 'uraian' => $field_uraian, 'jumlah' => $field_jumlah, 'satuan' => $field_satuan, 'hasil' => $field_hasil, 'durasi_jam' => $field_jam, 'durasi_menit' => $field_menit, 'bukti_dukung' => $namaFile);
+
         $encode_laporan = json_encode($uraian_laporan);
 
 
@@ -432,7 +437,8 @@ class masterLaporanHarian extends BaseController
             $sheet->setCellValue('D6', 'Satuan');
             $sheet->setCellValue('E6', 'Jumlah');
             $sheet->setCellValue('F6', 'Hasil Kegiatan');
-            $sheet->setCellValue('G6', 'Bukti Dukung');
+            $sheet->setCellValue('G6', 'Durasi Kerja');
+            $sheet->setCellValue('H6', 'Bukti Dukung');
 
             $column = 7; //Kolom start
 
@@ -454,6 +460,12 @@ class masterLaporanHarian extends BaseController
                     $sheet->setCellValue(('E' . $column), $list_jumlah[$i]);
                     $list_hasil = $data->hasil;
                     $sheet->setCellValue(('F' . $column), $list_hasil[$i]);
+                    $list_jam = $data->durasi_jam;
+                    $list_menit = $data->durasi_menit;
+                    $sheet->setCellValue(('G' . $column), $list_jam[$i] . ' Jam ' . $list_menit[$i] . ' Menit');
+
+
+
                     $list_bukti_dukung = $data->bukti_dukung;
                     $bukti_cell = '';
                     $data_user = session('data_user');
@@ -465,11 +477,11 @@ class masterLaporanHarian extends BaseController
                             $bukti_cell = (base_url('/berkas/' . $folderNIP . '/' . $list_laporan[$a]['tgl_kegiatan'] . '/' . $list_bukti_dukung[$i][$j]));
                         }
                     }
-                    $sheet->setCellValue(('G' . $column), $bukti_cell);
+                    $sheet->setCellValue(('H' . $column), $bukti_cell);
                     $column++;
                 }
             }
-            $sheet->getStyle('A6:G6')->getFont()->setBold(true);
+            $sheet->getStyle('A6:H6')->getFont()->setBold(true);
             $styleArray = [
                 'borders' => [
                     'allBorders' => [
@@ -479,7 +491,7 @@ class masterLaporanHarian extends BaseController
                 ],
 
             ];
-            $sheet->getStyle('A6:G' . ($column - 1))->applyFromArray($styleArray);
+            $sheet->getStyle('A6:H' . ($column - 1))->applyFromArray($styleArray);
 
             $styleArray2 = [
                 'alignment' => [
@@ -488,7 +500,7 @@ class masterLaporanHarian extends BaseController
                 ],
             ];
 
-            $sheet->getStyle('A6:F6')->applyFromArray($styleArray2);
+            $sheet->getStyle('A6:G6')->applyFromArray($styleArray2);
             $sheet->getStyle('A7:A' . ($column - 1))->applyFromArray($styleArray2);
             $sheet->getStyle('D7:D' . ($column - 1))->applyFromArray($styleArray2);
             $sheet->getStyle('E7:E' . ($column - 1))->applyFromArray($styleArray2);
@@ -502,7 +514,7 @@ class masterLaporanHarian extends BaseController
             $sheet->getColumnDimension('D')->setAutoSize(true);
             $sheet->getColumnDimension('E')->setAutoSize(true);
             $sheet->getColumnDimension('F')->setAutoSize(true);
-            //  $sheet->getColumnDimension('G')->setAutoSize(true);
+            $sheet->getColumnDimension('G')->setAutoSize(true);
 
             // Set judul file excel nya
             $sheet->setTitle("Laporan Pegawai");
@@ -582,8 +594,9 @@ class masterLaporanHarian extends BaseController
             $sheet->setCellValue('D6', 'Satuan');
             $sheet->setCellValue('E6', 'Jumlah');
             $sheet->setCellValue('F6', 'Hasil Kegiatan');
+            $sheet->setCellValue('G6', 'Durasi Kerja');
             if (session('jabatan') == 'koordinator' && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('jabatan') == 'koordinator' && session('es3_kd') == 0) {
-                $sheet->setCellValue('G6', 'Bukti Dukung');
+                $sheet->setCellValue('H6', 'Bukti Dukung');
             }
 
 
@@ -607,6 +620,11 @@ class masterLaporanHarian extends BaseController
                     $sheet->setCellValue(('E' . $column), $list_jumlah[$i]);
                     $list_hasil = $data->hasil;
                     $sheet->setCellValue(('F' . $column), $list_hasil[$i]);
+                    $list_jam = $data->durasi_jam;
+                    $list_menit = $data->durasi_menit;
+                    $sheet->setCellValue(('G' . $column), $list_jam[$i] . ' Jam ' . $list_menit[$i] . ' Menit');
+
+
                     if (session('jabatan') == 'koordinator' && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('jabatan') == 'koordinator' && session('es3_kd') == 0) {
                         $list_bukti_dukung = $data->bukti_dukung;
                         $bukti_cell = '';
@@ -619,15 +637,15 @@ class masterLaporanHarian extends BaseController
                                 $bukti_cell = (base_url('/berkas/' . $data_pegawai_user['nip_lama'] . '/' . $list_laporan[$a]['tgl_kegiatan'] . '/' . $list_bukti_dukung[$i][$j]));
                             }
                         }
-                        $sheet->setCellValue(('G' . $column), $bukti_cell);
+                        $sheet->setCellValue(('H' . $column), $bukti_cell);
                     }
                     $column++;
                 }
             }
             if (session('jabatan') == 'koordinator' && $data_pegawai_user['es3_kd'] == session('es3_kd')) {
-                $sheet->getStyle('A6:G6')->getFont()->setBold(true);
+                $sheet->getStyle('A6:H6')->getFont()->setBold(true);
             } else {
-                $sheet->getStyle('A6:F6')->getFont()->setBold(true);
+                $sheet->getStyle('A6:G6')->getFont()->setBold(true);
             }
             $styleArray = [
                 'borders' => [
@@ -639,9 +657,9 @@ class masterLaporanHarian extends BaseController
 
             ];
             if (session('jabatan') == 'koordinator' && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('jabatan') == 'koordinator' && session('es3_kd') == 0) {
-                $sheet->getStyle('A6:F' . ($column - 1))->applyFromArray($styleArray);
+                $sheet->getStyle('A6:G' . ($column - 1))->applyFromArray($styleArray);
             } else {
-                $sheet->getStyle('A6:F' . ($column - 1))->applyFromArray($styleArray);
+                $sheet->getStyle('A6:G' . ($column - 1))->applyFromArray($styleArray);
             }
 
             $styleArray2 = [
@@ -651,7 +669,7 @@ class masterLaporanHarian extends BaseController
                 ],
             ];
 
-            $sheet->getStyle('A6:F6')->applyFromArray($styleArray2);
+            $sheet->getStyle('A6:G6')->applyFromArray($styleArray2);
             $sheet->getStyle('A7:A' . ($column - 1))->applyFromArray($styleArray2);
             $sheet->getStyle('D7:D' . ($column - 1))->applyFromArray($styleArray2);
             $sheet->getStyle('E7:E' . ($column - 1))->applyFromArray($styleArray2);
@@ -665,7 +683,7 @@ class masterLaporanHarian extends BaseController
             $sheet->getColumnDimension('D')->setAutoSize(true);
             $sheet->getColumnDimension('E')->setAutoSize(true);
             $sheet->getColumnDimension('F')->setAutoSize(true);
-            //  $sheet->getColumnDimension('G')->setAutoSize(true);
+            $sheet->getColumnDimension('G')->setAutoSize(true);
 
             // Set judul file excel nya
             $sheet->setTitle("Laporan Pegawai");
@@ -770,8 +788,9 @@ class masterLaporanHarian extends BaseController
                 $sheet->setCellValue(('D' . $column_head), 'Satuan');
                 $sheet->setCellValue(('E' . $column_head), 'Jumlah');
                 $sheet->setCellValue(('F' . $column_head), 'Hasil Kegiatan');
+                $sheet->setCellValue(('G' . $column_head), 'Durasi Kerja');
                 if (session('jabatan') == 'koordinator' && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('jabatan') == 'koordinator' && session('es3_kd') == 0) {
-                    $sheet->setCellValue(('G' . $column_head), 'Bukti Dukung');
+                    $sheet->setCellValue(('H' . $column_head), 'Bukti Dukung');
                 }
 
 
@@ -799,6 +818,12 @@ class masterLaporanHarian extends BaseController
                             $sheet->setCellValue(('E' . $column), $list_jumlah[$i]);
                             $list_hasil = $data->hasil;
                             $sheet->setCellValue(('F' . $column), $list_hasil[$i]);
+                            $list_jam = $data->durasi_jam;
+                            $list_menit = $data->durasi_menit;
+                            $sheet->setCellValue(('G' . $column), $list_jam[$i] . ' Jam ' . $list_menit[$i] . ' Menit');
+
+
+
                             if (session('jabatan') == 'koordinator' && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('jabatan') == 'koordinator' && session('es3_kd') == 0) {
                                 $list_bukti_dukung = $data->bukti_dukung;
                                 $bukti_cell = '';
@@ -809,7 +834,7 @@ class masterLaporanHarian extends BaseController
                                         $bukti_cell = (base_url('/berkas/' . $data_pegawai_user['nip_lama'] . '/' . $list_laporan[$a]['tgl_kegiatan'] . '/' . $list_bukti_dukung[$i][$j]));
                                     }
                                 }
-                                $sheet->setCellValue(('G' . $column), $bukti_cell);
+                                $sheet->setCellValue(('H' . $column), $bukti_cell);
                             }
 
                             $column++;

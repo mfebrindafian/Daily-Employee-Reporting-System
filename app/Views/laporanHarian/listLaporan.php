@@ -226,7 +226,12 @@
                                         <div class="input-group w-100">
                                             <select class="form-control w-100 pilih-rencana" name="field_rencana[]" required>
                                                 <option value="0">- Pilih Kegiatan -</option>
-                                                <option value="haloe">Kegiatan 1</option>
+
+                                                <?php if ($list_rencana != null) : ?>
+                                                    <?php foreach ($list_rencana as $rencana) : ?>
+                                                        <option value="<?= $rencana('id'); ?>"><?= $rencana('rincian_kegiatan'); ?></option>
+                                                    <?php endforeach; ?>
+                                                <?php endif; ?>
                                             </select>
                                         </div>
                                     </div>

@@ -45,7 +45,7 @@ class masterDashboard extends BaseController
     {
         $event_data = $this->masterLaporanHarianModel->getAll(session('user_id'));
         $list_user = $this->masterUserModel->getAllUserOnDashboard();
-        if (session('level_id') == "2" || session('level_id') == 3) {
+        if (session('level_id') == "2") {
             if ($event_data != NULL) {
                 foreach ($event_data as $row) {
 
@@ -68,7 +68,7 @@ class masterDashboard extends BaseController
         }
         $total_laporan = $this->masterLaporanHarianModel->getTotalByUser(session('user_id'));
         $catatan_data = $this->masterCatatanModel->getAll(session('user_id'));
-        if (session('level_id') == "2" || session('level_id') == 3) {
+        if (session('level_id') == "2") {
             if ($catatan_data != NULL) {
                 foreach ($catatan_data as $catatan) {
                     $pengirim = $this->masterUserModel->getDataPegawaiByUserId($catatan['user_id']);
@@ -243,7 +243,7 @@ class masterDashboard extends BaseController
         }
 
         $catatan_data = $this->masterCatatanModel->getAll(session('user_id'));
-        if (session('level_id') == "2" || session('level_id') == 3) {
+        if (session('level_id') == "2") {
             if ($catatan_data != NULL) {
                 foreach ($catatan_data as $catatan) {
                     $pengirim = $this->masterUserModel->getDataPegawaiByUserId($catatan['user_id']);
@@ -384,7 +384,7 @@ class masterDashboard extends BaseController
             $tanggal_mulai = "";
         }
         $catatan_data = $this->masterCatatanModel->getAll(session('user_id'));
-        if (session('level_id') == "2" || session('level_id') == 3) {
+        if (session('level_id') == "2") {
             if ($catatan_data != NULL) {
                 foreach ($catatan_data as $catatan) {
                     $pengirim = $this->masterUserModel->getDataPegawaiByUserId($catatan['user_id']);

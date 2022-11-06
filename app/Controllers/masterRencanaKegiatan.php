@@ -16,12 +16,24 @@ class masterRencanaKegiatan extends BaseController
     {
         $list_kegiatan = $this->masterKegiatanModel->getAllByUserId(session('user_id'));
 
+        if ($list_kegiatan != null) {
+            foreach ($list_kegiatan as $list) {
+                $kegiatan = explode('-', $list['tgl_input']);
+                if ($kegiatan[0] == date('Y')) {
+                    $daftar_kegiatan[] = $list;
+                } else {
+                    $daftar_kegiatan = null;
+                }
+            }
+        } else {
+            $daftar_kegiatan = null;
+        }
 
         $data = [
             'title' => 'Rincian Kegiatan',
             'menu' => 'Dashboard',
             'subMenu' => '',
-            'list_kegiatan' => $list_kegiatan
+            'list_kegiatan' => $daftar_kegiatan
         ];
         return view('Dashboard/rencanaKegiatan', $data);
     }
@@ -62,7 +74,21 @@ class masterRencanaKegiatan extends BaseController
     public function hapusStatusRincian($id_kegiatan)
     {
         $this->masterKegiatanModel->delete($id_kegiatan);
-
         return redirect()->to('/rincianKegiatanPegawai');
+    }
+
+    public function riwayatRencanaKegiatan()
+    {
+        $user_id = session('user_id');
+        $list_rencana = $this->masterKegiatanModel->getAllByUserIdOrderYear($user_id);
+
+        $data = [
+            'title' => 'Rincian Kegiatan',
+            'menu' => 'Dashboard',
+            'subMenu' => '',
+            'list_kegiatan' => $list_rencana
+        ];
+
+        return view('Dashboard/riwayatKegiatan', $data);
     }
 }

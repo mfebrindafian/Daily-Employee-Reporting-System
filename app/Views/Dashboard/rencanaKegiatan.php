@@ -29,7 +29,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <button data-toggle="modal" data-target="#modal-tambah" class="btn btn-success tombol mr-2" style="background-color: #3c4b64; border: none;">Tambah</button>
-                                    <a href="#" class="btn btn-outline-secondary">Riwayat</a>
+                                    <a href="<?= base_url('/riwayatRencanaKegiatan'); ?>" class="btn btn-outline-secondary">Riwayat</a>
                                 </div>
                                 <div class="col-md-6 text-right">
                                     <h5>

@@ -17,4 +17,14 @@ class masterKegiatanModel extends Model
             ->get()
             ->getResultArray();
     }
+
+    public function getAllByUserIdOrderYear($user_id)
+    {
+        return $this
+            ->table($this->table)
+            ->where('user_id', $user_id)
+            ->orderBy('tgl_input', 'ASC')
+            ->get()
+            ->getResultArray();
+    }
 }

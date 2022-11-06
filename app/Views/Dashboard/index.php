@@ -49,7 +49,7 @@
     </div>
     <!-- /.content-header -->
     <?php if ($pop_up == 'off') : ?>
-      <?php if (session('level_id') == 2 || session('level_id') == 3) : ?>
+      <?php if (session('level_id') == 2) : ?>
         <section class="content">
           <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
@@ -59,12 +59,12 @@
                 <div class="small-box  bg-white" style="border: 1px solid gray; padding: 0;">
                   <div class="inner" style="color: #55415C; padding-left: 15px;">
                     <h3 style="font-size: 70px;"><?= $total_laporan; ?></h3>
-                    <?php if (session('level_id') == 2 || session('level_id') == 3) : ?>
+                    <?php if (session('level_id') == 2) : ?>
                       <p style="font-weight: bold;">Jumlah Seluruh Laporan</p>
                     <?php endif; ?>
 
                   </div>
-                  <?php if (session('level_id') == 2 || session('level_id') == 3) : ?>
+                  <?php if (session('level_id') == 2) : ?>
                     <a href="<?= base_url('/listLaporan'); ?>" class="selanjutnya">
                       <p style="margin:0;">More info</p> <i class="fas fa-arrow-circle-down"></i>
                     </a>
@@ -87,7 +87,7 @@
                     <p style="font-weight: bold;">Jumlah Kegiatan Bulan <?= $namaBulan; ?></p>
                   </div>
                   <?php if ($pop_up == 'off') : ?>
-                    <?php if ($total_kegiatan_bulan_ini != null && session('level_id') == 2 || $total_kegiatan_bulan_ini != null &&  session('level_id') == 3) {
+                    <?php if ($total_kegiatan_bulan_ini != null && session('level_id') == 2 ) {
                       echo '<a href="#" data-toggle="modal" data-target="#modal-list-laporan" class="selanjutnya">
                 <p style="margin:0;">More info</p> <i class="fas fa-arrow-circle-down"></i>
               </a>';
@@ -427,7 +427,7 @@
 
 
       <!-- MODAL KEGIATAN -->
-      <?php if (session('level_id') == 2 || session('level_id') == 3) : ?>
+      <?php if (session('level_id') == 2) : ?>
         <div class="modal fade" id="modal-list-laporan">
           <div class="modal-dialog modal-dialog-scrollable modal-xl ">
             <div class="modal-content" enctype="multipart/form-data">
@@ -540,7 +540,7 @@
       <?php endif; ?>
 
       <!-- MODAL TAMBAH KEGIATAN -->
-      <?php if (session('level_id') == 2  && $akses_tambah == 'active' || session('level_id') == 3 && $akses_tambah == 'active') : ?>
+      <?php if (session('level_id') == 2  && $akses_tambah == 'active') : ?>
         <div class="modal fade" id="modal-tambah">
           <div class="modal-dialog modal-xl ">
             <form action="<?= base_url('/saveLaporanHarian'); ?>" method="post" class="modal-content form-tambah" enctype="multipart/form-data">
@@ -726,7 +726,7 @@
                         <th>SATUAN</th>
                         <th>HASIL KEGIATAN</th>
                         <?php if ($laporan_harian_tertentu != NULL) : ?>
-                          <?php if ($laporan_harian_tertentu['user_id'] == session('user_id') || session('level_id') == 3 && session('es3_kd') == 0 || session('level_id') == 3 && $user_dipilih['es3_kd'] == session('es3_kd')) : ?>
+                          <?php if ($laporan_harian_tertentu['user_id'] == session('user_id') || session('jabatan') == 'koordinator' && session('es3_kd') == 0 || session('jabatan') == 'koordinator' && $user_dipilih['es3_kd'] == session('es3_kd')) : ?>
                             <th>BUKTI DUKUNG</th>
                           <?php endif; ?>
                         <?php endif; ?>
@@ -768,7 +768,7 @@
                             <?php $data_user = session('data_user'); ?>
                             <?php $folderNIP = $data_user['nip_lama_user'];  ?>
                             <?php if ($laporan_harian_tertentu != NULL) : ?>
-                              <?php if ($laporan_harian_tertentu['user_id'] == session('user_id') || session('level_id') == 3 && session('es3_kd') == 0  || session('level_id') == 3 && $user_dipilih['es3_kd'] == session('es3_kd')) : ?>
+                              <?php if ($laporan_harian_tertentu['user_id'] == session('user_id') || session('jabatan') == 'koordinator' && session('es3_kd') == 0  || session('jabatan') == 'koordinator' && $user_dipilih['es3_kd'] == session('es3_kd')) : ?>
                                 <td>
                                   <?php $list_bukti_dukung = $data->bukti_dukung; ?>
                                   <?php for ($a = 0; $a < count($list_bukti_dukung[$i]); $a++) : ?>
@@ -850,7 +850,7 @@
         });
       </script>
 
-      <?php if (session('level_id') == 2 || session('level_id') == 3) : ?>
+      <?php if (session('level_id') == 2) : ?>
         <script type="text/javascript">
           $('#tabelData').DataTable({
             "paging": false,
@@ -882,7 +882,7 @@
         $(document).ready(function() {
           appendIconKalender();
           appendIconKalenderUncheck();
-          <?php if (session('level_id') == 2  && $akses_tambah == 'active' || session('level_id') == 3 && $akses_tambah == 'active') : ?>
+          <?php if (session('level_id') == 2  && $akses_tambah == 'active') : ?>
             catatan();
             tips();
           <?php endif; ?>
@@ -891,7 +891,7 @@
             hapusAppend();
             appendIconKalender();
             appendIconKalenderUncheck();
-            <?php if (session('level_id') == 2  && $akses_tambah == 'active' || session('level_id') == 3 && $akses_tambah == 'active') : ?>
+            <?php if (session('level_id') == 2  && $akses_tambah == 'active') : ?>
               catatan();
             <?php endif; ?>
           });
@@ -899,7 +899,7 @@
             hapusAppend();
             appendIconKalender();
             appendIconKalenderUncheck();
-            <?php if (session('level_id') == 2  && $akses_tambah == 'active' || session('level_id') == 3 && $akses_tambah == 'active') : ?>
+            <?php if (session('level_id') == 2  && $akses_tambah == 'active') : ?>
               catatan();
             <?php endif; ?>
           });
@@ -907,7 +907,7 @@
             hapusAppend();
             appendIconKalender();
             appendIconKalenderUncheck();
-            <?php if (session('level_id') == 2  && $akses_tambah == 'active' || session('level_id') == 3 && $akses_tambah == 'active') : ?>
+            <?php if (session('level_id') == 2  && $akses_tambah == 'active') : ?>
               catatan();
             <?php endif; ?>
           });

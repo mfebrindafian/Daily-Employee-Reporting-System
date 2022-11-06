@@ -565,7 +565,7 @@ class masterLaporanHarian extends BaseController
             $sheet->setCellValue('D6', 'Satuan');
             $sheet->setCellValue('E6', 'Jumlah');
             $sheet->setCellValue('F6', 'Hasil Kegiatan');
-            if (session('level_id') == 3 && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('level_id') == 3 && session('es3_kd') == 0) {
+            if (session('jabatan') == 'koordinator' && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('jabatan') == 'koordinator' && session('es3_kd') == 0) {
                 $sheet->setCellValue('G6', 'Bukti Dukung');
             }
 
@@ -590,7 +590,7 @@ class masterLaporanHarian extends BaseController
                     $sheet->setCellValue(('E' . $column), $list_jumlah[$i]);
                     $list_hasil = $data->hasil;
                     $sheet->setCellValue(('F' . $column), $list_hasil[$i]);
-                    if (session('level_id') == 3 && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('level_id') == 3 && session('es3_kd') == 0) {
+                    if (session('jabatan') == 'koordinator' && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('jabatan') == 'koordinator' && session('es3_kd') == 0) {
                         $list_bukti_dukung = $data->bukti_dukung;
                         $bukti_cell = '';
                         // $data_user = session('data_user');
@@ -607,7 +607,7 @@ class masterLaporanHarian extends BaseController
                     $column++;
                 }
             }
-            if (session('level_id') == 3 && $data_pegawai_user['es3_kd'] == session('es3_kd')) {
+            if (session('jabatan') == 'koordinator' && $data_pegawai_user['es3_kd'] == session('es3_kd')) {
                 $sheet->getStyle('A6:G6')->getFont()->setBold(true);
             } else {
                 $sheet->getStyle('A6:F6')->getFont()->setBold(true);
@@ -621,7 +621,7 @@ class masterLaporanHarian extends BaseController
                 ],
 
             ];
-            if (session('level_id') == 3 && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('level_id') == 3 && session('es3_kd') == 0) {
+            if (session('jabatan') == 'koordinator' && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('jabatan') == 'koordinator' && session('es3_kd') == 0) {
                 $sheet->getStyle('A6:F' . ($column - 1))->applyFromArray($styleArray);
             } else {
                 $sheet->getStyle('A6:F' . ($column - 1))->applyFromArray($styleArray);
@@ -753,7 +753,7 @@ class masterLaporanHarian extends BaseController
                 $sheet->setCellValue(('D' . $column_head), 'Satuan');
                 $sheet->setCellValue(('E' . $column_head), 'Jumlah');
                 $sheet->setCellValue(('F' . $column_head), 'Hasil Kegiatan');
-                if (session('level_id') == 3 && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('level_id') == 3 && session('es3_kd') == 0) {
+                if (session('jabatan') == 'koordinator' && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('jabatan') == 'koordinator' && session('es3_kd') == 0) {
                     $sheet->setCellValue(('G' . $column_head), 'Bukti Dukung');
                 }
 
@@ -782,7 +782,7 @@ class masterLaporanHarian extends BaseController
                             $sheet->setCellValue(('E' . $column), $list_jumlah[$i]);
                             $list_hasil = $data->hasil;
                             $sheet->setCellValue(('F' . $column), $list_hasil[$i]);
-                            if (session('level_id') == 3 && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('level_id') == 3 && session('es3_kd') == 0) {
+                            if (session('jabatan') == 'koordinator' && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('jabatan') == 'koordinator' && session('es3_kd') == 0) {
                                 $list_bukti_dukung = $data->bukti_dukung;
                                 $bukti_cell = '';
                                 for ($j = 0; $j < count($list_bukti_dukung[$i]); $j++) {
@@ -800,7 +800,7 @@ class masterLaporanHarian extends BaseController
                         }
                     }
                 }
-                if (session('level_id') == 3 && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('level_id') == 3 && session('es3_kd') == 0) {
+                if (session('jabatan') == 'koordinator' && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('jabatan') == 'koordinator' && session('es3_kd') == 0) {
                     $sheet->getStyle('A' . $column_head . ':G' . $column_head)->getFont()->setBold(true);
                 } else {
                     $sheet->getStyle('A' . $column_head . ':F' . $column_head)->getFont()->setBold(true);
@@ -814,7 +814,7 @@ class masterLaporanHarian extends BaseController
                     ],
 
                 ];
-                if (session('level_id') == 3 && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('level_id') == 3 && session('es3_kd') == 0) {
+                if (session('jabatan') == 'koordinator' && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('jabatan') == 'koordinator' && session('es3_kd') == 0) {
                     $sheet->getStyle('A' . $column_head . ':G' . ($column - 1))->applyFromArray($styleArray);
                 } else {
                     $sheet->getStyle('A' . $column_head . ':F' . ($column - 1))->applyFromArray($styleArray);
@@ -839,7 +839,7 @@ class masterLaporanHarian extends BaseController
                         // 'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
                     ],
                 ];
-                if (session('level_id') == 3 && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('level_id') == 3 && session('es3_kd') == 0) {
+                if (session('jabatan') == 'koordinator' && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('jabatan') == 'koordinator' && session('es3_kd') == 0) {
                     $sheet->getStyle('G' . ($column_head + 1) . ':G' . ($column - 1))->applyFromArray($styleArray3);
                 }
                 $sheet->getStyle('F' . ($column_head + 1) . ':F' . ($column - 1))->applyFromArray($styleArray3);

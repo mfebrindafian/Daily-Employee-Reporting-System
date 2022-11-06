@@ -29,6 +29,11 @@ class masterAkses extends BaseController
         $password = $this->request->getVar('password');
         $user = $this->masterUserModel->getUser($username);
         $data_pegawai_user = $this->masterPegawaiModel->getProfilCetak($user['nip_lama_user']);
+        if ($data_pegawai_user['jabatan_kd'] == '1' || $data_pegawai_user['jabatan_kd'] == '3' || $data_pegawai_user['jabatan_kd'] == '5') {
+            $jabatan = 'koordinator';
+        } else {
+            $jabatan = 'pegawai';
+        }
 
         $pass_default =  password_hash('123456', PASSWORD_DEFAULT);
         if ($user == NULL) {
@@ -59,7 +64,8 @@ class masterAkses extends BaseController
                     'list_submenu' => $list_submenu,
                     'fullname' => $user['fullname'],
                     'data_user' => $user,
-                    'es3_kd' => $data_pegawai_user['es3_kd']
+                    'es3_kd' => $data_pegawai_user['es3_kd'],
+                    'jabatan' => $jabatan
                 ];
             } else {
                 session()->setFlashdata('pesan', 'Akun Tidak Aktif');

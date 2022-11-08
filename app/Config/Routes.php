@@ -93,6 +93,8 @@ $routes->post('/hapusBuktiDukung', 'masterLaporanHarian::hapusBuktiDukung');
 $routes->post('/cetakLaporan', 'masterLaporanHarian::cetakLaporan');
 $routes->post('/cetakLaporanByPimpinan', 'masterLaporanHarian::cetakLaporanByPimpinan');
 $routes->post('/cetakLaporanByBidang', 'masterLaporanHarian::cetakLaporanByBidang');
+//routes tambah cuti
+$routes->post('/inputCuti', 'masterLaporanHarian::inputCuti');
 
 //Routes Ke views dan controller Kelola Master
 $routes->get('/masterUser', 'masterKelolaMaster::masterUser');

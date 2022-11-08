@@ -11,9 +11,12 @@ use App\Models\MasterEs3Model;
 use App\Models\MasterSatkerModel;
 use App\Models\MasterKegiatanModel;
 use CodeIgniter\Session\Session;
+use DateTime;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PHPUnit\Framework\Test;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use CodeIgniter\I18n\Time;
 
 
 class masterLaporanHarian extends BaseController
@@ -383,7 +386,7 @@ class masterLaporanHarian extends BaseController
             'list_full_laporan_harian' =>  $this->masterLaporanHarianModel->getTotalByUser(session('user_id')),
             'list_rencana' => $this->masterKegiatanModel->getAllByUserId(session('user_id'))
         ];
-        dd($data);
+        // dd($data);
         return view('laporanHarian/listLaporan', $data);
     }
 
@@ -405,6 +408,7 @@ class masterLaporanHarian extends BaseController
         );
 
         $tgl_awl = $this->request->getVar('tgl_awal');
+        // dd($tgl_awl);
         $var1 = explode('-', $tgl_awl);
         $tgl_awal = $var1[2] . ' ' . $bulan[(int)$var1[1]] . ' ' . $var1[0];
         $tgl_akhr = $this->request->getVar('tgl_akhir');
@@ -727,6 +731,7 @@ class masterLaporanHarian extends BaseController
             'Desember'
         );
         $tgl_awl = $this->request->getVar('tgl_awal');
+
         $var1 = explode('-', $tgl_awl);
         $tgl_awal = $var1[2] . ' ' . $bulan[(int)$var1[1]] . ' ' . $var1[0];
         $tgl_akhr = $this->request->getVar('tgl_akhir');
@@ -930,8 +935,116 @@ class masterLaporanHarian extends BaseController
         }
     }
 
-    public function tambahcuti()
+    public function inputCuti()
     {
-        
+        $tanggal_mulai = $this->request->getVar('tanggal_mulai');
+        $tanggal_selesai = $this->request->getVar('tanggal_selesai');
+        $keterangan = $this->request->getVar('keterangan');
+        $file_bukti = $this->request->getFile('file_bukti');
+
+
+        $data_user = session('data_user');
+        $folderNIP = $data_user['nip_lama_user'];
+        $dirname = 'berkas/' . $folderNIP . '/' . $tanggal_mulai;
+
+        if (!file_exists($dirname)) {
+            mkdir('berkas/' . $folderNIP . '/' . $tanggal_mulai, 0777, true);
+        }
+        $ekstensi = $file_bukti->getExtension();
+        $namaFile = $tanggal_mulai;
+        $namaFile .= '_bukti_cuti';
+        $namaFile .= '.';
+        $namaFile .= $ekstensi;
+        $posisi_file = 'berkas/' . $folderNIP . '/' . $tanggal_mulai . '/' . $namaFile;
+
+        if (!file_exists($posisi_file)) {
+            $file_bukti->move($dirname, $namaFile);
+        }
+
+
+        $rangArray = [];
+        $startDate = strtotime($tanggal_mulai);
+        $endDate = strtotime($tanggal_selesai);
+        for (
+            $currentDate = $startDate;
+            $currentDate <= $endDate;
+            $currentDate += (86400)
+        ) {
+            $date = date('Y-m-d', $currentDate);
+            $rangArray[] = $date;
+        }
+
+        foreach ($rangArray as $rang) {
+            if (date('N', strtotime($rang)) < 6) {
+                $rangArray2[] = $rang;
+            }
+        }
+
+
+        $arrContextOptions = array(
+            "ssl" => array(
+                "verify_peer" => false,
+                "verify_peer_name" => false,
+            ),
+        );
+        $url = ("https://api-harilibur.vercel.app/api");
+        $get_url = file_get_contents($url, false, stream_context_create($arrContextOptions));
+        $libur_nasional = json_decode($get_url);
+
+        foreach ($libur_nasional as $libur) {
+            if ($libur->is_national_holiday == 'true') {
+                $tanggal = new DateTime($libur->holiday_date);
+                $libur_nasional2[] = $tanggal->format('Y-m-d');
+            }
+        }
+
+
+        foreach ($rangArray2 as $rang2) {
+            if (in_array($rang2, $libur_nasional2) == false) {
+                $rangArray3[] = $rang2;
+            }
+        }
+
+        $list_tanggal_terinput = $this->masterLaporanHarianModel->getAllYear(session('user_id'));
+
+        foreach ($list_tanggal_terinput as $tanggal_input) {
+            $tanggal_terinput[] = $tanggal_input['tgl_kegiatan'];
+        }
+
+
+        foreach ($rangArray3 as $rang3) {
+            if (in_array($rang3, $tanggal_terinput) == false) {
+                $rangArray4[] = $rang3;
+            }
+        }
+
+
+
+        $field_tipe[] = 4;
+        $field_rencana[] = 0;
+        $field_uraian[] = $keterangan;
+        $field_jumlah[] = 1;
+        $field_satuan[] = 'Dokumen';
+        $field_hasil[] = $keterangan;
+        $field_jam[] = 0;
+        $field_menit[] = 0;
+        $namaFileSimpan[][] = $namaFile;
+
+
+        $uraian_laporan = array('kode_tipe' => $field_tipe, 'kd_rencana' => $field_rencana, 'uraian' => $field_uraian, 'jumlah' => $field_jumlah, 'satuan' => $field_satuan, 'hasil' => $field_hasil, 'durasi_jam' => $field_jam, 'durasi_menit' => $field_menit, 'bukti_dukung' => $namaFileSimpan);
+
+
+        $json_laporan = json_encode($uraian_laporan);
+
+        foreach ($rangArray4 as $rang4) {
+            $this->masterLaporanHarianModel->save([
+                'user_id' => session('user_id'),
+                'tgl_kegiatan' => $rang4,
+                'uraian_kegiatan' => $json_laporan,
+            ]);
+        }
+        session()->setFlashdata('pesan', 'Kegiatan Cuti Berhasil Ditambahkan');
+        session()->setFlashdata('icon', 'success');
+        return redirect()->to('/listLaporan');
     }
 }

@@ -144,6 +144,7 @@
 
 
                                                 <?php $list_bukti_dukung = $data->bukti_dukung; ?>
+                                                <?php $list_tipe = $data->kode_tipe; ?>
 
                                                 <td>
                                                     <?php $data_user = session('data_user'); ?>
@@ -151,7 +152,16 @@
                                                     <?php foreach ($list_bukti_dukung as $bukti_dukung) : ?>
                                                         <div class="p-2 mb-1 rounded-sm card-bukti-laporan">
                                                             <?php foreach ($bukti_dukung as $b) : ?>
-                                                                <a title="<?= $b; ?>" target="_blank" href="<?= base_url('berkas/' . $folderNIP . '/' . $list['tgl_kegiatan'] . '/' . $b) ?>"> <?= $b; ?></a>
+                                                                <?php foreach ($list_tipe as $tipe) : ?>
+                                                                    <?php if ($tipe != 4) : ?>
+                                                                        <a title="<?= $b; ?>" target="_blank" href="<?= base_url('berkas/' . $folderNIP . '/' . $list['tgl_kegiatan'] . '/' . $b) ?>"> <?= $b; ?></a>
+                                                                    <?php endif; ?>
+                                                                    <?php if ($tipe == 4) : ?>
+                                                                        <?php $fullbukti = explode('_', $b) ?>
+                                                                        <a title="<?= $b; ?>" target="_blank" href="<?= base_url('berkas/' . $folderNIP . '/' . $fullbukti[0] . '/' . $b) ?>"> <?= $b; ?></a>
+                                                                    <?php endif ?>
+                                                                <?php endforeach; ?>
+
                                                             <?php endforeach; ?>
                                                         </div>
                                                     <?php endforeach; ?>
@@ -161,9 +171,14 @@
                                                     <a href="<?= base_url('/showDetailLaporanHarian/' . $list['id']) ?>" type="button" id="btn-detail" class="btn btn-info btn-xs tombol" style="background-color: #E18939; border:none;">
                                                         <i class="fas fa-eye"></i>
                                                     </a>
-                                                    <a href="<?= base_url('/showEditLaporanHarian/' . $list['id']) ?>" type="button" id="btn-edit" class="btn btn-info btn-xs tombol" style="background-color: #2D95C9; border:none;">
-                                                        <i class="fas fa-pen"></i>
-                                                    </a>
+                                                    <?php foreach ($list_tipe as $tipe) : ?>
+                                                        <?php if ($tipe != 4) : ?>
+                                                            <a href="<?= base_url('/showEditLaporanHarian/' . $list['id']) ?>" type="button" id="btn-edit" class="btn btn-info btn-xs tombol" style="background-color: #2D95C9; border:none;">
+                                                                <i class="fas fa-pen"></i>
+                                                            </a>
+                                                            <?php break; ?>
+                                                        <?php endif ?>
+                                                    <?php endforeach; ?>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
@@ -790,7 +805,7 @@
 <!-- MODAL CUTI -->
 <div class="modal fade" id="modal-cuti" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
-        <form action="" method="POST" class="modal-content">
+        <form action="<?= base_url('/inputCuti'); ?>" method="POST" class="modal-content" enctype="multipart/form-data">
             <div class="modal-header border-0">
                 <h5 class="modal-title" id="exampleModalLabel">Form Cuti</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -805,7 +820,7 @@
                                 <div class="row"><strong>Mulai Cuti</strong></div>
                                 <div class="row px-1  w-100">
                                     <div class="form-group w-100 position-relative">
-                                        <input type="date" name="" class="form-control">
+                                        <input type="date" name="tanggal_mulai" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -813,7 +828,7 @@
                                 <div class="row"><strong>Akhir Cuti</strong></div>
                                 <div class="row px-1  w-100">
                                     <div class="input-group  w-100">
-                                        <input type="date" name="" class="form-control">
+                                        <input type="date" name="tanggal_selesai" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -822,7 +837,7 @@
 
                                 <div class="row px-1  w-100">
                                     <div class="form-group  w-100 position-relative">
-                                        <textarea class="form-control  w-100" name="" rows="1" placeholder="Masukkan Keterangan Cuti..." required></textarea>
+                                        <textarea class="form-control  w-100" name="keterangan" rows="1" placeholder="Masukkan Keterangan Cuti..." required></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -833,7 +848,7 @@
                                 <div class="row w-100">
                                     <div class="input-group w-100">
                                         <div class="custom-file w-100 position-relative">
-                                            <input type="file" class="custom-file-input w-100" name="" id="formFileMultiple" accept=".png, .jpg, .jpeg, .pdf, .xlsx, .docx, .ppt, .txt, .rar, .zip, .csv" required multiple />
+                                            <input type="file" class="custom-file-input w-100" name="file_bukti" id="formFileMultiple" accept=".png, .jpg, .jpeg, .pdf, .xlsx, .docx, .ppt, .txt, .rar, .zip, .csv" required />
                                             <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                             <p class="file-tip d-none">
                                                 <strong class="mt-2 d-flex align-items-center">

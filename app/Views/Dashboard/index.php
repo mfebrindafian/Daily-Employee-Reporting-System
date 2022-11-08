@@ -3,6 +3,7 @@
 <?php if (allowHalaman(session('level_id'), 1)) : ?>
 
   <?= $this->section('content'); ?>
+
   <?php if (date('m') == "01") {
     $namaBulan = 'Januari';
   } elseif (date('m') == "02") {

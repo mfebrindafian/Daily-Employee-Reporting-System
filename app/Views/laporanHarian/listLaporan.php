@@ -29,10 +29,10 @@
                         <div class="col-md-6 py-1">
                             <div class="input-group">
                                 <?php if ($tanggal_input_terakhir != null) {
-                                    echo '<button type="button" id="btn-modal-tambah" class="btn btn-info tombol mr-2" style="background-color: #3c4b64; border:none;"><i class="fas fa-plus mr-2"></i>Tambah</button>';
+                                    echo '<button type="button" id="btn-modal-tambah" class="btn btn-info tombol mr-2" style="background-color: #3c4b64; border:none;"><i class="fas fa-plus mr-2"></i>Tambah Laporan</button>';
                                 } ?>
                                 <?php if ($list_full_laporan_harian == NULL) {
-                                    echo '<button type="button" id="btn-modal-tambah" class="btn btn-info tombol mr-2" style="background-color: #3c4b64; border:none;"><i class="fas fa-plus mr-2"></i>Tambah</button>';
+                                    echo '<button type="button" id="btn-modal-tambah" class="btn btn-info tombol mr-2" style="background-color: #3c4b64; border:none;"><i class="fas fa-plus mr-2"></i>Tambah Laporan</button>';
                                 } ?>
 
                                 <button type="button" id="btn-cetak" data-toggle="modal" data-target="#modal-cetak" class="btn btn-info tombol mr-2" style="background-color: #3c4b64; border:none;"><i class="fas fa-print mr-2"></i>Cetak</button>

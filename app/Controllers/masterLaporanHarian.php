@@ -1029,14 +1029,14 @@ class masterLaporanHarian extends BaseController
 
 
 
-        $field_tipe[] = 4;
-        $field_rencana[] = 0;
+        $field_tipe[] = '4';
+        $field_rencana[] = '0';
         $field_uraian[] = $keterangan;
-        $field_jumlah[] = 1;
+        $field_jumlah[] = '1';
         $field_satuan[] = 'Dokumen';
         $field_hasil[] = $keterangan;
-        $field_jam[] = 0;
-        $field_menit[] = 0;
+        $field_jam[] = '0';
+        $field_menit[] = '0';
         $namaFileSimpan[][] = $namaFile;
 
 
@@ -1066,13 +1066,32 @@ class masterLaporanHarian extends BaseController
         $data_user = session('data_user');
         $folderNIP = $data_user['nip_lama_user'];
 
-        foreach ($list_bukti_dukung as $list_bukti) {
-            foreach ($list_bukti as $list) {
-                unlink('berkas/' . $folderNIP . '/' . $data_laporan['tgl_kegiatan'] . '/' . $list);
+        $list_tipe = $data->kode_tipe;
+        if ($list_tipe[0] != '4') {
+            foreach ($list_bukti_dukung as $list_bukti) {
+                foreach ($list_bukti as $list) {
+                    unlink('berkas/' . $folderNIP . '/' . $data_laporan['tgl_kegiatan'] . '/' . $list);
+                }
             }
-        }
+            $this->masterLaporanHarianModel->delete($data_laporan['id']);
+        } else {
 
-        $this->masterLaporanHarianModel->delete($data_laporan['id']);
+            $abs_namafile = $list_bukti_dukung[0][0];
+            $list_laporan = $this->masterLaporanHarianModel->getAll(session('user_id'));
+            foreach ($list_laporan as $list) {
+                $laporan2 = $list['uraian_kegiatan'];
+                $data2 = json_decode($laporan2);
+                $list_bukti_dukung2 = $data2->bukti_dukung;
+                if ($list_bukti_dukung2[0][0] == $abs_namafile) {
+                    $can_delete[] = $list;
+                }
+            }
+            if (count($can_delete) == 1) {
+                $tgl_hapus = explode('_', $abs_namafile);
+                unlink('berkas/' . $folderNIP . '/' . $tgl_hapus[0] . '/' . $abs_namafile);
+            }
+            $this->masterLaporanHarianModel->delete($data_laporan['id']);
+        }
 
         session()->setFlashdata('pesan', 'Kegiatan Berhasil Dihapus');
         session()->setFlashdata('icon', 'success');

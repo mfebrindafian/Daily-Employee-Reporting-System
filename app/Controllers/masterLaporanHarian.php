@@ -1066,11 +1066,10 @@ class masterLaporanHarian extends BaseController
         $data_user = session('data_user');
         $folderNIP = $data_user['nip_lama_user'];
 
-
-        $ke = 0;
-        foreach ($list_bukti_dukung as $list) {
-            unlink('berkas/' . $folderNIP . '/' . $data_laporan['tgl_kegiatan'] . '/' . $list[$ke]);
-            $ke++;
+        foreach ($list_bukti_dukung as $list_bukti) {
+            foreach ($list_bukti as $list) {
+                unlink('berkas/' . $folderNIP . '/' . $data_laporan['tgl_kegiatan'] . '/' . $list);
+            }
         }
 
         $this->masterLaporanHarianModel->delete($data_laporan['id']);

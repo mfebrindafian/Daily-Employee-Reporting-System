@@ -72,8 +72,11 @@ class masterDashboard extends BaseController
         if (session('level_id') == "2") {
             if ($catatan_data != NULL) {
                 foreach ($catatan_data as $catatan) {
-                    $pengirim = $this->masterUserModel->getDataPegawaiByUserId($catatan['user_id']);
-                    $penerima = $this->masterUserModel->getDataPegawaiByUserId($catatan['user_id_penerima']);
+                    //perbaikan fungsi join
+                    $nip_lama_pengirim = $this->masterUserModel->getNipLamaByUserId($catatan['user_id']);
+                    $pengirim = $this->masterPegawaiModel->getProfilPegawai($nip_lama_pengirim['nip_lama_user']);
+                    $nip_lama_penerima = $this->masterUserModel->getNipLamaByUserId($catatan['user_id_penerima']);
+                    $penerima = $this->masterPegawaiModel->getProfilPegawai($nip_lama_penerima['nip_lama_user']);
 
                     $catatan_all[] = array(
                         'id' => $catatan['id'],
@@ -123,9 +126,18 @@ class masterDashboard extends BaseController
         $list_pegawai = $this->masterPegawaiModel->getAllPegawaiOnDashboard();
         $ke = 0;
         foreach ($list_pegawai as $pegawai) {
-            $total_laporan_masing[$ke] = $this->masterUserModel->getTotalByUserJoinPegawai($pegawai['id']);
+            $nip_lama_pegawai = $this->masterPegawaiModel->getNipLama($pegawai['id']);
+            $user_id_pegawai_laporan = $this->masterUserModel->getUserId($nip_lama_pegawai['nip_lama']);
+            if ($user_id_pegawai_laporan != null) {
+                $total_laporan_masing[$ke] = $this->masterLaporanHarianModel->getAllLaporanByUserId($user_id_pegawai_laporan['id']);
+            } else {
+                $total_laporan_masing[$ke] = [];
+            }
             $ke++;
         }
+
+
+
         if ($list_pegawai != NULL) {
             foreach ($list_pegawai as $pegawai) {
 
@@ -157,7 +169,13 @@ class masterDashboard extends BaseController
         }
         $ke_minggu = 0;
         foreach ($list_pegawai as $pegawai) {
-            $total_laporan_mingguan_masing[$ke_minggu] = $this->masterUserModel->getTotalByUserJoinPegawai2($pegawai['id']);
+            $nip_lama_pegawai = $this->masterPegawaiModel->getNipLama($pegawai['id']);
+            $user_id_pegawai_laporan = $this->masterUserModel->getUserId($nip_lama_pegawai['nip_lama']);
+            if ($user_id_pegawai_laporan != null) {
+                $total_laporan_mingguan_masing[$ke_minggu] = $this->masterLaporanHarianModel->getAllLaporanByUserId2($user_id_pegawai_laporan['id']);
+            } else {
+                $total_laporan_mingguan_masing[$ke_minggu] = [];
+            }
             $ke_minggu++;
         }
         for ($t = 0; $t < count($total_laporan_mingguan_masing); $t++) {
@@ -211,11 +229,15 @@ class masterDashboard extends BaseController
     public function showDetailLaporanHarianOnDashboard($laporan_id)
     {
         $user_id_detail = $this->masterLaporanHarianModel->getUserIdbyLaporanId($laporan_id);
+
         if ($user_id_detail != null) {
-            $data_user_pilih = $this->masterUserModel->getDataPegawaiByUserId($user_id_detail['user_id']);
+            $data_user = $this->masterUserModel->getProfilUser($user_id_detail['user_id']);
+            $data_pegawai_user = $this->masterPegawaiModel->getProfilPegawai($data_user['nip_lama_user']);
+            $data_user_pilih = array_merge($data_user, $data_pegawai_user);
         } else {
             $data_user_pilih = null;
         }
+
 
         if ($user_id_detail['user_id'] == session('user_id')) {
             $event_data = $this->masterLaporanHarianModel->getAll(session('user_id'));
@@ -254,8 +276,11 @@ class masterDashboard extends BaseController
         if (session('level_id') == "2") {
             if ($catatan_data != NULL) {
                 foreach ($catatan_data as $catatan) {
-                    $pengirim = $this->masterUserModel->getDataPegawaiByUserId($catatan['user_id']);
-                    $penerima = $this->masterUserModel->getDataPegawaiByUserId($catatan['user_id_penerima']);
+                    //perbaikan fungsi join
+                    $nip_lama_pengirim = $this->masterUserModel->getNipLamaByUserId($catatan['user_id']);
+                    $pengirim = $this->masterPegawaiModel->getProfilPegawai($nip_lama_pengirim['nip_lama_user']);
+                    $nip_lama_penerima = $this->masterUserModel->getNipLamaByUserId($catatan['user_id_penerima']);
+                    $penerima = $this->masterPegawaiModel->getProfilPegawai($nip_lama_penerima['nip_lama_user']);
 
                     $catatan_all[] = array(
                         'id' => $catatan['id'],
@@ -281,7 +306,13 @@ class masterDashboard extends BaseController
         $list_pegawai = $this->masterPegawaiModel->getAllPegawaiOnDashboard();
         $ke = 0;
         foreach ($list_pegawai as $pegawai) {
-            $total_laporan_masing[$ke] = $this->masterUserModel->getTotalByUserJoinPegawai($pegawai['id']);
+            $nip_lama_pegawai = $this->masterPegawaiModel->getNipLama($pegawai['id']);
+            $user_id_pegawai_laporan = $this->masterUserModel->getUserId($nip_lama_pegawai['nip_lama']);
+            if ($user_id_pegawai_laporan != null) {
+                $total_laporan_masing[$ke] = $this->masterLaporanHarianModel->getAllLaporanByUserId($user_id_pegawai_laporan['id']);
+            } else {
+                $total_laporan_masing[$ke] = [];
+            }
             $ke++;
         }
 
@@ -316,8 +347,13 @@ class masterDashboard extends BaseController
         }
         $ke_minggu = 0;
         foreach ($list_pegawai as $pegawai) {
-            $total_laporan_mingguan_masing[$ke_minggu] = $this->masterUserModel->getTotalByUserJoinPegawai2($pegawai['id']);
-
+            $nip_lama_pegawai = $this->masterPegawaiModel->getNipLama($pegawai['id']);
+            $user_id_pegawai_laporan = $this->masterUserModel->getUserId($nip_lama_pegawai['nip_lama']);
+            if ($user_id_pegawai_laporan != null) {
+                $total_laporan_mingguan_masing[$ke_minggu] = $this->masterLaporanHarianModel->getAllLaporanByUserId2($user_id_pegawai_laporan['id']);
+            } else {
+                $total_laporan_mingguan_masing[$ke_minggu] = [];
+            }
             $ke_minggu++;
         }
         for ($t = 0; $t < count($total_laporan_mingguan_masing); $t++) {
@@ -357,6 +393,7 @@ class masterDashboard extends BaseController
             'pop_up' => 'on',
             'list_rencana' => $list_rencana
         ];
+        dd($data);
         return view('Dashboard/index', $data);
     }
 
@@ -364,11 +401,16 @@ class masterDashboard extends BaseController
     public function showKegiatanPegawai($nip_lama)
     {
         $user_id_pegawai = $this->masterUserModel->getUserId($nip_lama);
+
         if ($user_id_pegawai != null) {
-            $data_user_pilih = $this->masterUserModel->getDataPegawaiByUserId($user_id_pegawai['id']);
+            $data_user = $this->masterUserModel->getProfilUser($user_id_pegawai['id']);
+            $data_pegawai_user = $this->masterPegawaiModel->getProfilPegawai($data_user['nip_lama_user']);
+            $data_user_pilih = array_merge($data_user, $data_pegawai_user);
         } else {
             $data_user_pilih = null;
         }
+
+
         if ($user_id_pegawai != null) {
             $event_data = $this->masterLaporanHarianModel->getAll($user_id_pegawai['id']);
 
@@ -396,8 +438,11 @@ class masterDashboard extends BaseController
         if (session('level_id') == "2") {
             if ($catatan_data != NULL) {
                 foreach ($catatan_data as $catatan) {
-                    $pengirim = $this->masterUserModel->getDataPegawaiByUserId($catatan['user_id']);
-                    $penerima = $this->masterUserModel->getDataPegawaiByUserId($catatan['user_id_penerima']);
+                    //perbaikan fungsi join
+                    $nip_lama_pengirim = $this->masterUserModel->getNipLamaByUserId($catatan['user_id']);
+                    $pengirim = $this->masterPegawaiModel->getProfilPegawai($nip_lama_pengirim['nip_lama_user']);
+                    $nip_lama_penerima = $this->masterUserModel->getNipLamaByUserId($catatan['user_id_penerima']);
+                    $penerima = $this->masterPegawaiModel->getProfilPegawai($nip_lama_penerima['nip_lama_user']);
 
                     $catatan_all[] = array(
                         'id' => $catatan['id'],
@@ -426,7 +471,13 @@ class masterDashboard extends BaseController
         $list_pegawai = $this->masterPegawaiModel->getAllPegawaiOnDashboard();
         $ke = 0;
         foreach ($list_pegawai as $pegawai) {
-            $total_laporan_masing[$ke] = $this->masterUserModel->getTotalByUserJoinPegawai($pegawai['id']);
+            $nip_lama_pegawai = $this->masterPegawaiModel->getNipLama($pegawai['id']);
+            $user_id_pegawai_laporan = $this->masterUserModel->getUserId($nip_lama_pegawai['nip_lama']);
+            if ($user_id_pegawai_laporan != null) {
+                $total_laporan_masing[$ke] = $this->masterLaporanHarianModel->getAllLaporanByUserId($user_id_pegawai_laporan['id']);
+            } else {
+                $total_laporan_masing[$ke] = [];
+            }
             $ke++;
         }
         if ($list_pegawai != NULL) {
@@ -462,8 +513,13 @@ class masterDashboard extends BaseController
 
         $ke_minggu = 0;
         foreach ($list_pegawai as $pegawai) {
-            $total_laporan_mingguan_masing[$ke_minggu] = $this->masterUserModel->getTotalByUserJoinPegawai2($pegawai['id']);
-
+            $nip_lama_pegawai = $this->masterPegawaiModel->getNipLama($pegawai['id']);
+            $user_id_pegawai_laporan = $this->masterUserModel->getUserId($nip_lama_pegawai['nip_lama']);
+            if ($user_id_pegawai_laporan != null) {
+                $total_laporan_mingguan_masing[$ke_minggu] = $this->masterLaporanHarianModel->getAllLaporanByUserId2($user_id_pegawai_laporan['id']);
+            } else {
+                $total_laporan_mingguan_masing[$ke_minggu] = [];
+            }
             $ke_minggu++;
         }
 
@@ -495,8 +551,6 @@ class masterDashboard extends BaseController
             'list_fungsional' => $this->masterFungsionalModel->getAllFungsional(),
             'jumlah_pegawai' => count($this->masterPegawaiModel->getAllPegawaiOnDashboard()),
             'jumlah_laporan' => count($this->masterLaporanHarianModel->getAllLaporan()),
-            'jumlah_user_aktif' => count($this->masterUserModel->getAllUserAktif()),
-            'jumlah_user_tidak_aktif' => count($this->masterUserModel->getAllUserTidakAktif()),
             'nip_lama_pegawai_terpilih' => $nip_lama,
             'akses_tambah' => 'non-active',
             'list_satker' => $this->masterSatkerModel->getAllSatker(),
@@ -563,8 +617,11 @@ class masterDashboard extends BaseController
     {
         $list_catatan = $this->masterCatatanModel->getAll(session('user_id'));
         foreach ($list_catatan as $catatan) {
-            $pengirim = $this->masterUserModel->getDataPegawaiByUserId($catatan['user_id']);
-            $penerima = $this->masterUserModel->getDataPegawaiByUserId($catatan['user_id_penerima']);
+            //perbaikan fungsi join
+            $nip_lama_pengirim = $this->masterUserModel->getNipLamaByUserId($catatan['user_id']);
+            $pengirim = $this->masterPegawaiModel->getProfilPegawai($nip_lama_pengirim['nip_lama_user']);
+            $nip_lama_penerima = $this->masterUserModel->getNipLamaByUserId($catatan['user_id_penerima']);
+            $penerima = $this->masterPegawaiModel->getProfilPegawai($nip_lama_penerima['nip_lama_user']);
 
             $catatan_all[] = array(
                 'id' => $catatan['id'],

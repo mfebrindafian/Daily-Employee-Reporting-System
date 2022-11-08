@@ -155,11 +155,14 @@
                                                                 <?php foreach ($list_tipe as $tipe) : ?>
                                                                     <?php if ($tipe != 4) : ?>
                                                                         <a title="<?= $b; ?>" target="_blank" href="<?= base_url('berkas/' . $folderNIP . '/' . $list['tgl_kegiatan'] . '/' . $b) ?>"> <?= $b; ?></a>
+                                                                        <?php break; ?>
                                                                     <?php endif; ?>
                                                                     <?php if ($tipe == 4) : ?>
                                                                         <?php $fullbukti = explode('_', $b) ?>
                                                                         <a title="<?= $b; ?>" target="_blank" href="<?= base_url('berkas/' . $folderNIP . '/' . $fullbukti[0] . '/' . $b) ?>"> <?= $b; ?></a>
+                                                                        <?php break; ?>
                                                                     <?php endif ?>
+
                                                                 <?php endforeach; ?>
 
                                                             <?php endforeach; ?>

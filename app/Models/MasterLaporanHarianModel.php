@@ -56,6 +56,27 @@ class MasterLaporanHarianModel extends Model
             ->where('user_id', $user_id)
             ->orderBy('tgl_kegiatan', 'DESC');
     }
+    public function getAllLaporanByUserId($user_id)
+    {
+        return $this
+            ->table($this->table)
+            ->where('user_id', $user_id)
+            ->get()
+            ->getResultArray();
+    }
+
+    public function getAllLaporanByUserId2($user_id)
+    {
+        return $this
+            ->table($this->table)
+            ->where('user_id', $user_id)
+            ->where('tgl_kegiatan >=', date("Y-m-d", strtotime("last monday")))
+            ->where('tgl_kegiatan <=', date("Y-m-d", strtotime("next sunday")))
+            ->get()
+            ->getResultArray();
+    }
+
+
     public function getAll($user_id)
     {
         return $this

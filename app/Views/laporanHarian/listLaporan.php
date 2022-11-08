@@ -304,9 +304,9 @@
                                 <div class="col-xl-2 baris-kegiatan">
                                     <div class="row"><strong>Waktu</strong></div>
                                     <div class="input-group">
-                                        <input class="form-control" required type="number" name="field_jam[]" value="00">
+                                        <input class="form-control satuan-waktu" required type="number" name="field_jam[]" value="0">
                                         <span class="px-2"> : </span>
-                                        <input class="form-control" required type="number" name="field_menit[]" value="00">
+                                        <input class="form-control satuan-waktu" required type="number" name="field_menit[]" value="0">
                                     </div>
                                 </div>
                             </div>

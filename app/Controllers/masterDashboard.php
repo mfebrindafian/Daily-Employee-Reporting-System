@@ -120,7 +120,7 @@ class masterDashboard extends BaseController
         } else {
             $kegiatan_bulan_ini = 0;
         }
-        
+
         $list_pegawai = $this->masterPegawaiModel->getAllPegawaiOnDashboard();
         $ke = 0;
         foreach ($list_pegawai as $pegawai) {
@@ -325,7 +325,7 @@ class masterDashboard extends BaseController
         }
 
         $nip_lama = $this->masterUserModel->getProfilUser($user_id_detail);
-
+        $list_rencana = $this->masterKegiatanModel->getAllByUserId(session('user_id'));
 
         $data = [
             'title' => 'Dashboard',
@@ -354,7 +354,8 @@ class masterDashboard extends BaseController
             'pegawai_json' => $pegawai_json,
             'jml_perbulan_pegawai' => $jml_bulan_pegawai,
             'jml_perminggu_pegawai' => $jml_minggu_pegawai,
-            'pop_up' => 'on'
+            'pop_up' => 'on',
+            'list_rencana' => $list_rencana
         ];
         return view('Dashboard/index', $data);
     }

@@ -470,6 +470,7 @@ class masterDashboard extends BaseController
         for ($t = 0; $t < count($total_laporan_mingguan_masing); $t++) {
             $jml_minggu_pegawai[] = count($total_laporan_mingguan_masing[$t]);
         }
+        $list_rencana = $this->masterKegiatanModel->getAllByUserId(session('user_id'));
 
         $data = [
             'title' => 'Dashboard',
@@ -500,7 +501,8 @@ class masterDashboard extends BaseController
             'akses_tambah' => 'non-active',
             'list_satker' => $this->masterSatkerModel->getAllSatker(),
             'list_bidang' => $this->masterEs3Model->getAllBidang(),
-            'pop_up' => 'on-2'
+            'pop_up' => 'on-2',
+            'list_rencana' => $list_rencana
 
         ];
         return view('Dashboard/index', $data);

@@ -708,7 +708,6 @@ $(document).ready(function () {
 });
 
 function hariLibur(tahun) {
-     var tahun = new Date().getFullYear();
      $.ajax({
           dataType: 'json',
           url: 'https://api-harilibur.vercel.app/api?year=' + tahun,
@@ -717,15 +716,11 @@ function hariLibur(tahun) {
                     $('.fc-daygrid-day').each(function () {
                          if ($(this).data('date') == data[i]['holiday_date'] && data[i]['is_national_holiday'] == true) {
                               $(this).addClass('hari-libur');
-                              $(this).find('i').remove();
-                              $(this).attr('title', data[i]['holiday_name']);
+                              $(this).find('.fa-2x').remove();
+                              $(this).attr('title', data[i]['holiday_name'] + ' (' + tahun + ')');
                          }
                     });
                }
           },
-     });
-
-     $('.fc-day-sun, .fc-day-sat').each(function () {
-          $(this).find('i').remove();
      });
 }

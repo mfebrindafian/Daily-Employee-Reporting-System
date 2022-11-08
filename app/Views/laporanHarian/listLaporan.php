@@ -783,6 +783,79 @@
     </div>
 </div>
 
+<!-- MODAL CUTI -->
+<div class="modal fade" id="modal-cuti" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <form action="" method="POST" class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title" id="exampleModalLabel">Form Cuti</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body px-5 py-3">
+                <div class="row rounded position-relative py-2 kegiatan-baru ">
+                    <div class="col-12">
+                        <div class="row my-3 ">
+                            <div class="col-xl-3 baris-kegiatan">
+                                <div class="row"><strong>Mulai Cuti</strong></div>
+                                <div class="row px-1  w-100">
+                                    <div class="form-group w-100 position-relative">
+                                        <input type="date" name="" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 baris-kegiatan">
+                                <div class="row"><strong>Akhir Cuti</strong></div>
+                                <div class="row px-1  w-100">
+                                    <div class="input-group  w-100">
+                                        <input type="date" name="" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 baris-kegiatan">
+                                <div class="row"><strong>Keterangan Cuti</strong></div>
+
+                                <div class="row px-1  w-100">
+                                    <div class="form-group  w-100 position-relative">
+                                        <textarea class="form-control  w-100" name="" rows="1" placeholder="Masukkan Keterangan Cuti..." required></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-xl-12 baris-kegiatan mb-2">
+                                <div class="row"><strong>Bukti Dukung Cuti</strong></div>
+                                <div class="row w-100">
+                                    <div class="input-group w-100">
+                                        <div class="custom-file w-100 position-relative">
+                                            <input type="file" class="custom-file-input w-100" name="" id="formFileMultiple" accept=".png, .jpg, .jpeg, .pdf, .xlsx, .docx, .ppt, .txt, .rar, .zip, .csv" required multiple />
+                                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                            <p class="file-tip d-none">
+                                                <strong class="mt-2 d-flex align-items-center">
+                                                    <i class="fas fa-exclamation-circle fa-2x text-yellow mr-2"></i>
+                                                    Jenis file :
+                                                </strong> <br>
+                                                .png, .jpg, .jpeg, .pdf, .xlsx, .docx, .ppt, .txt, .rar, .zip <br><br>
+                                                <strong>
+                                                    Ukuran File Maks : 200kb
+                                                </strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 px-4">
+                <button type="button" class="btn btn-secondary" style="border:none;" data-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary tombol" style="background-color: #3c4b64; border:none;">Simpan</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 <script src="<?= base_url('/plugins/dropzone/min/dropzone.min.js') ?>"></script>
 <script src="<?= base_url('/plugins/bs-custom-file-input/bs-custom-file-input.min.js') ?>"></script>

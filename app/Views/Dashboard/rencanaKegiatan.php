@@ -76,7 +76,7 @@
                                                                 } else {
                                                                     echo 'sudah diverifikasi';
                                                                 } ?></td>
-                                                            <td>
+
                                                             <td>
                                                                 <a href="#" class="btn btn-sm btn-warning">Detail</a>
                                                                 <a href="<?= base_url('/hapusStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-danger">Hapus</a>

@@ -1056,4 +1056,27 @@ class masterLaporanHarian extends BaseController
         session()->setFlashdata('icon', 'success');
         return redirect()->to('/listLaporan');
     }
+
+    public function deleteLaporanKegiatan($laporan_id)
+    {
+        $data_laporan = $this->masterLaporanHarianModel->getLaporan(session('user_id'), $laporan_id);
+        $laporan = $data_laporan['uraian_kegiatan'];
+        $data = json_decode($laporan);
+        $list_bukti_dukung = $data->bukti_dukung;
+        $data_user = session('data_user');
+        $folderNIP = $data_user['nip_lama_user'];
+
+
+        $ke = 0;
+        foreach ($list_bukti_dukung as $list) {
+            unlink('berkas/' . $folderNIP . '/' . $data_laporan['tgl_kegiatan'] . '/' . $list[$ke]);
+            $ke++;
+        }
+
+        $this->masterLaporanHarianModel->delete($data_laporan['id']);
+
+        session()->setFlashdata('pesan', 'Kegiatan Berhasil Dihapus');
+        session()->setFlashdata('icon', 'success');
+        return redirect()->to('/listLaporan');
+    }
 }

@@ -31,6 +31,10 @@
                                 <?php if ($tanggal_input_terakhir != null) {
                                     echo '<button type="button" id="btn-modal-tambah" class="btn btn-info tombol mr-2" style="background-color: #3c4b64; border:none;"><i class="fas fa-plus mr-2"></i>Tambah</button>';
                                 } ?>
+                                <?php if ($list_full_laporan_harian == NULL) {
+                                    echo '<button type="button" id="btn-modal-tambah" class="btn btn-info tombol mr-2" style="background-color: #3c4b64; border:none;"><i class="fas fa-plus mr-2"></i>Tambah</button>';
+                                } ?>
+
                                 <button type="button" id="btn-cetak" data-toggle="modal" data-target="#modal-cetak" class="btn btn-info tombol mr-2" style="background-color: #3c4b64; border:none;"><i class="fas fa-print mr-2"></i>Cetak</button>
                                 <button type="button" data-toggle="modal" data-target="#modal-cuti" class="btn btn-outline-success tombol mr-2"><i class="fas fa-plus mr-2"></i>Tambah Cuti</button>
                                 <select name="tahun" class="form-control tahun" style="border-radius: 5px;">
@@ -175,7 +179,7 @@
                                                             <?php break; ?>
                                                         <?php endif ?>
                                                     <?php endforeach; ?>
-                                                    <a href="#" class="border-0 btn btn-xs btn-danger"><i class="fas fa-trash"></i></a>
+                                                    <a href="<?= base_url('/deleteLaporanKegiatan/' . $list['id']); ?>" class="border-0 btn btn-xs btn-danger"><i class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>

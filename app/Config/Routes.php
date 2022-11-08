@@ -80,6 +80,8 @@ $routes->post('/gantiPasswordByUser', 'masterUser::gantiPasswordByUser');
 $routes->get('/listLaporan', 'masterLaporanHarian::listLaporan');
 $routes->get('/inputKegiatan', 'masterLaporanHarian::inputKegiatan');
 $routes->get('/detailKegiatan', 'masterLaporanHarian::detailKegiatan');
+$routes->get('/deleteLaporanKegiatan/(:segment)', 'masterLaporanHarian::deleteLaporanKegiatan/$1');
+
 //Routes ke save laporan harian dan controller save laporan harian
 $routes->post('/saveLaporanHarian', 'masterLaporanHarian::saveLaporanHarian');
 //Routes ke save laporan harian dan controller save laporan harian

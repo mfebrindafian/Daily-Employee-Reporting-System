@@ -113,4 +113,5 @@ class MasterUserModel extends Model
         $query = ('SELECT * FROM dbsiphp.tbl_user tn join dbsiphp2.mst_pegawai tn1 where tn.nip_lama_user = tn1.nip_lama AND tn.id = ' . $user_id);
         return $this->db->query($query)->getRowArray();
     }
+    
 }

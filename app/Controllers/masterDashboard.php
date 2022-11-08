@@ -46,7 +46,6 @@ class masterDashboard extends BaseController
     public function index()
     {
         $event_data = $this->masterLaporanHarianModel->getAll(session('user_id'));
-        $list_user = $this->masterUserModel->getAllUserOnDashboard();
         if (session('level_id') == "2") {
             if ($event_data != NULL) {
                 foreach ($event_data as $row) {
@@ -167,10 +166,7 @@ class masterDashboard extends BaseController
 
         $today = Time::today('Asia/Jakarta');
         $today->toLocalizedString('yyyy-MM-dd');
-
-
         $list_rencana = $this->masterKegiatanModel->getAllByUserId(session('user_id'));
-
         $data = [
             'title' => 'Dashboard',
             'menu' => 'Dashboard',
@@ -204,9 +200,13 @@ class masterDashboard extends BaseController
             'list_rencana' => $list_rencana
 
         ];
-
+        // dd($data);
         return view('Dashboard/index', $data);
     }
+
+
+
+
 
     public function showDetailLaporanHarianOnDashboard($laporan_id)
     {

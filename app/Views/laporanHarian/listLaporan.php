@@ -820,7 +820,7 @@
                                 <div class="row"><strong>Mulai Cuti</strong></div>
                                 <div class="row px-1  w-100">
                                     <div class="form-group w-100 position-relative">
-                                        <input type="date" name="tanggal_mulai" class="form-control">
+                                        <input type="date" name="tanggal_mulai" class="form-control" required>
                                     </div>
                                 </div>
                             </div>
@@ -828,7 +828,7 @@
                                 <div class="row"><strong>Akhir Cuti</strong></div>
                                 <div class="row px-1  w-100">
                                     <div class="input-group  w-100">
-                                        <input type="date" name="tanggal_selesai" class="form-control">
+                                        <input type="date" name="tanggal_selesai" class="form-control" required>
                                     </div>
                                 </div>
                             </div>

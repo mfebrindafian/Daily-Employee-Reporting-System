@@ -175,6 +175,7 @@
                                                             <?php break; ?>
                                                         <?php endif ?>
                                                     <?php endforeach; ?>
+                                                    <a href="#" class="border-0 btn btn-xs btn-danger"><i class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>

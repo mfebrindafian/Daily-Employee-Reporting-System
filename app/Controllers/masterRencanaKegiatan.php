@@ -92,9 +92,13 @@ class masterRencanaKegiatan extends BaseController
         return view('Dashboard/riwayatKegiatan', $data);
     }
 
-    public function detailtRencanaKegiatan()
+    public function detailRencanaKegiatan()
     {
-        $data = [];
+        $data = [
+            'title' => 'Rincian Kegiatan',
+            'menu' => 'Dashboard',
+            'subMenu' => ''
+        ];
 
         return view('Dashboard/detailKegiatan', $data);
     }

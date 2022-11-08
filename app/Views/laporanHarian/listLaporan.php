@@ -144,6 +144,7 @@
 
 
                                                 <?php $list_bukti_dukung = $data->bukti_dukung; ?>
+
                                                 <td>
                                                     <?php $data_user = session('data_user'); ?>
                                                     <?php $folderNIP = $data_user['nip_lama_user'];  ?>
@@ -450,6 +451,7 @@
                                                 <div class="input-group w-100">
                                                     <?php $list_rencana2 = $data->kd_rencana; ?>
                                                     <select class="form-control w-100 pilih-rencana" name="field_rencana[]" required>
+
                                                         <option value="<?= $list_rencana2[$i]; ?>"><?php if ($list_rencana != null) {
                                                                                                         foreach ($list_rencana as $rencana) {
                                                                                                             if ($rencana['id'] == $list_rencana2[$i]) {
@@ -464,6 +466,7 @@
                                                                 <?php endif; ?>
                                                             <?php endforeach; ?>
                                                         <?php endif; ?>
+                                                        <option value="0">-</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -535,10 +538,12 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class=" row my-3">
                                                 <div class="col-1"></div>
                                                 <div class="col-xl-11 baris-kegiatan mb-2">
                                                     <div class="row"><strong>Bukti Dukung</strong></div>
+                                                    <?php $list_bukti_dukung = $data->bukti_dukung; ?>
                                                     <div class="row w-100">
                                                         <?php for ($a = 0; $a < count($list_bukti_dukung[$i]); $a++) : ?>
                                                             <div title="<?= $list_bukti_dukung[$i][$a]; ?>" class="file-list w-100">
@@ -557,7 +562,6 @@
                                                                     Silahkan Tambah bukti dukung baru
                                                                 </p>
                                                             <?php endif; ?>
-
                                                         <?php endfor; ?>
                                                         <div class="input-group w-100">
                                                             <div class="custom-file w-100">
@@ -911,10 +915,10 @@
         var pilihRencana = document.getElementsByClassName("pilih-rencana");
         $(document).on('change', '.tipe-kegiatan', function() {
             if ($(this).val() == '1') {
-                $('#value-0').selected
                 pilih[$('.tipe-kegiatan').index(this)].classList.remove('d-none')
                 $(this).parent().parent().parent().removeClass('col-xl-11').addClass('col-xl-5')
             } else {
+                pilihRencana[$('.tipe-kegiatan').index(this)].value = '0'
                 pilih[$('.tipe-kegiatan').index(this)].classList.add('d-none')
                 $(this).parent().parent().parent().addClass('col-xl-11').removeClass('col-xl-5')
             }

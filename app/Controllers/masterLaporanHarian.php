@@ -191,6 +191,7 @@ class masterLaporanHarian extends BaseController
             'list_full_laporan_harian' =>  $this->masterLaporanHarianModel->getTotalByUser(session('user_id')),
             'list_rencana' => $this->masterKegiatanModel->getAllByUserId(session('user_id'))
         ];
+        // dd($data);
         return view('laporanHarian/listLaporan', $data);
     }
 
@@ -261,6 +262,7 @@ class masterLaporanHarian extends BaseController
         $field_jam = $this->request->getVar('field_jam');
         $field_menit = $this->request->getVar('field_menit');
 
+
         $data_user = session('data_user');
         $folderNIP = $data_user['nip_lama_user'];
         $dirname = 'berkas/' . $folderNIP . '/' . $tanggal;
@@ -279,6 +281,8 @@ class masterLaporanHarian extends BaseController
                 }
             }
         }
+
+
 
         for ($i = 0; $i < count($field_bukti_baru); $i++) {
             $a[] = count($field_bukti_baru[$i]);
@@ -320,7 +324,8 @@ class masterLaporanHarian extends BaseController
 
 
 
-        $uraian_laporan = array('kode_tipe' => $field_tipe, 'kd_rencana' => $field_rencana, 'uraian' => $field_uraian, 'jumlah' => $field_jumlah, 'satuan' => $field_satuan, 'hasil' => $field_hasil, 'durasi_jam' => $field_jam, 'durasi_menit' => $field_menit, 'bukti_dukung' => $namaFile);
+
+        $uraian_laporan = array('kode_tipe' => $field_tipe, 'kd_rencana' => $field_rencana, 'uraian' => $field_uraian, 'jumlah' => $field_jumlah, 'satuan' => $field_satuan, 'hasil' => $field_hasil, 'durasi_jam' => $field_jam, 'durasi_menit' => $field_menit, 'bukti_dukung' => $field_bukti_baru);
 
         $encode_laporan = json_encode($uraian_laporan);
 
@@ -378,6 +383,7 @@ class masterLaporanHarian extends BaseController
             'list_full_laporan_harian' =>  $this->masterLaporanHarianModel->getTotalByUser(session('user_id')),
             'list_rencana' => $this->masterKegiatanModel->getAllByUserId(session('user_id'))
         ];
+        dd($data);
         return view('laporanHarian/listLaporan', $data);
     }
 
@@ -922,5 +928,10 @@ class masterLaporanHarian extends BaseController
             $writer->save('php://output');
             exit();
         }
+    }
+
+    public function tambahcuti()
+    {
+        
     }
 }

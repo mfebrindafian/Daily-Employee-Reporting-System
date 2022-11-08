@@ -61,7 +61,16 @@ class masterLaporanHarian extends BaseController
         }
         $keyword = $this->request->getVar('keyword');
         $itemsCount = 10;
+
+
         $tanggal_input_terakhir = $this->masterLaporanHarianModel->getMaxDate(session('user_id'));
+
+        $input_hari_ini = $this->masterLaporanHarianModel->getDateToday(date('Y-m-d'), session('user_id'));
+
+        if ($input_hari_ini) {
+            $tanggal_input_terakhir = null;
+        }
+
 
 
 

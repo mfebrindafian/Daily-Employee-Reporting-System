@@ -29,10 +29,6 @@
                         <div class="col-md-6 py-1">
                             <div class="input-group">
                                 <?php if ($tanggal_input_terakhir != null) {
-                                    if (date('Y-m-d') != $tanggal_input_terakhir['tgl_kegiatan']) {
-                                        echo '<button type="button" id="btn-modal-tambah" class="btn btn-info tombol mr-2" style="background-color: #3c4b64; border:none;"><i class="fas fa-plus mr-2"></i>Tambah</button>';
-                                    }
-                                } else {
                                     echo '<button type="button" id="btn-modal-tambah" class="btn btn-info tombol mr-2" style="background-color: #3c4b64; border:none;"><i class="fas fa-plus mr-2"></i>Tambah</button>';
                                 } ?>
                                 <button type="button" id="btn-cetak" data-toggle="modal" data-target="#modal-cetak" class="btn btn-info tombol mr-2" style="background-color: #3c4b64; border:none;"><i class="fas fa-print mr-2"></i>Cetak</button>

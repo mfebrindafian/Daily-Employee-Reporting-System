@@ -91,4 +91,11 @@ class masterRencanaKegiatan extends BaseController
 
         return view('Dashboard/riwayatKegiatan', $data);
     }
+
+    public function detailtRencanaKegiatan()
+    {
+        $data = [];
+
+        return view('Dashboard/detailKegiatan', $data);
+    }
 }

@@ -393,7 +393,7 @@ class masterDashboard extends BaseController
             'pop_up' => 'on',
             'list_rencana' => $list_rencana
         ];
-        dd($data);
+        // dd($data);
         return view('Dashboard/index', $data);
     }
 

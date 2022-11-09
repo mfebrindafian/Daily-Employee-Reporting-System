@@ -687,6 +687,7 @@
                                             <td>
                                                 <?= $i + 1; ?>
                                             </td>
+
                                             <td>
                                                 <?= $list_uraian[$i]; ?>
                                             </td>
@@ -711,10 +712,22 @@
                                             </td>
                                             <td>
                                                 <?php $list_bukti_dukung = $data->bukti_dukung; ?>
+                                                <?php $list_tipe = $data->kode_tipe; ?>
                                                 <?php for ($a = 0; $a < count($list_bukti_dukung[$i]); $a++) : ?>
-                                                    <div title="<?= $list_bukti_dukung[$i][$a]; ?>" class="file-list">
-                                                        <a title="<?= $list_bukti_dukung[$i][$a]; ?>" href="<?= base_url('berkas/' . $folderNIP . '/' . $laporan_harian_tertentu['tgl_kegiatan'] . '/' . $list_bukti_dukung[$i][$a]) ?>"> <?= $list_bukti_dukung[$i][$a]; ?></a>
-                                                    </div>
+                                                    <?php foreach ($list_tipe as $tipe) : ?>
+                                                        <?php if ($tipe != 4) : ?>
+                                                            <div title="<?= $list_bukti_dukung[$i][$a]; ?>" class="file-list">
+                                                                <a title="<?= $list_bukti_dukung[$i][$a]; ?>" href="<?= base_url('berkas/' . $folderNIP . '/' . $laporan_harian_tertentu['tgl_kegiatan'] . '/' . $list_bukti_dukung[$i][$a]) ?>"> <?= $list_bukti_dukung[$i][$a]; ?></a>
+                                                            </div>
+                                                        <?php endif; ?>
+                                                        <?php if ($tipe == 4) : ?>
+                                                            <?php $fullbukti = explode('_', $list_bukti_dukung[$i][$a]) ?>
+                                                            <div title="<?= $list_bukti_dukung[$i][$a]; ?>" class="file-list">
+                                                                <a title="<?= $list_bukti_dukung[$i][$a]; ?>" href="<?= base_url('berkas/' . $folderNIP . '/' . $fullbukti[0] . '/' . $list_bukti_dukung[$i][$a]) ?>"> <?= $list_bukti_dukung[$i][$a]; ?></a>
+                                                            </div>
+                                                            <?php break; ?>
+                                                        <?php endif ?>
+                                                    <?php endforeach; ?>
                                                 <?php endfor; ?>
 
                                             </td>

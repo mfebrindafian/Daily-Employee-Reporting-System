@@ -3,14 +3,16 @@
 namespace App\Controllers;
 
 use App\Models\MasterKegiatanModel;
+use App\Models\MasterLaporanHarianModel;
 
 class masterRencanaKegiatan extends BaseController
 {
     protected $masterKegiatanModel;
+    protected $masterLaporanHarianModel;
     public function __construct()
     {
-
         $this->masterKegiatanModel = new masterKegiatanModel();
+        $this->masterLaporanHarianModel = new masterLaporanHarianModel();
     }
     public function rencanaKegiatan()
     {
@@ -92,13 +94,57 @@ class masterRencanaKegiatan extends BaseController
         return view('Dashboard/riwayatKegiatan', $data);
     }
 
-    public function detailRencanaKegiatan()
+    public function detailRencanaKegiatan($id_kegiatan)
     {
+        $data_kegiatan = $this->masterKegiatanModel->getDataById($id_kegiatan);
+
+        $list_laporan = $this->masterLaporanHarianModel->getAllLaporanByUserId(session('user_id'));
+
+        foreach ($list_laporan as $list) {
+            $laporan = $list['uraian_kegiatan'];
+            $data = json_decode($laporan);
+            $list_tipe = $data->kode_tipe;
+            $list_rencana = $data->kd_rencana;
+            $list_uraian = $data->uraian;
+            $list_jumlah = $data->jumlah;
+            $list_satuan = $data->satuan;
+            $list_hasil = $data->hasil;
+            $list_durasi_jam = $data->durasi_jam;
+            $list_durasi_menit = $data->durasi_menit;
+            $list_bukti_dukung = $data->bukti_dukung;
+            $ke = 0;
+            foreach ($list_rencana as $rencana) {
+                $cek[] = $rencana;
+                if ($rencana == $id_kegiatan) {
+                    $list_kegiatan[] = [
+                        'tgl_kegiatan' => $list['tgl_kegiatan'],
+                        'kode_tipe' =>   $list_tipe[$ke],
+                        'kd_rencana' => $list_rencana[$ke],
+                        'uraian' => $list_uraian[$ke],
+                        'jumlah' => $list_jumlah[$ke],
+                        'satuan' => $list_satuan[$ke],
+                        'hasil' => $list_hasil[$ke],
+                        'durasi_jam' => $list_durasi_jam[$ke],
+                        'durasi_menit' => $list_durasi_menit[$ke],
+                        'bukti_dukung' => $list_bukti_dukung[$ke],
+                    ];
+                }
+                $ke++;
+            }
+        }
+
+        if (in_array($id_kegiatan, $cek) == false) {
+            $list_kegiatan = null;
+        }
+
         $data = [
             'title' => 'Rincian Kegiatan',
             'menu' => 'Dashboard',
-            'subMenu' => ''
+            'subMenu' => '',
+            'data_kegiatan' => $data_kegiatan,
+            'list_kegiatan' => $list_kegiatan
         ];
+        // dd($data);
 
         return view('Dashboard/detailKegiatan', $data);
     }

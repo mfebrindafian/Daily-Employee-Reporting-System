@@ -36,21 +36,29 @@
                                         <table class="table table-hover mt-2">
                                             <thead>
                                                 <tr>
-                                                    <th>No.</th>
                                                     <th>Kegiatan</th>
                                                     <th>Status</th>
                                                     <th>Verifikasi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>1.</td>
-                                                    <td>Mencangkul Tanaman</td>
-                                                    <td>Proses</td>
-                                                    <td>
-                                                        <span class="badge badge-success">Sudah diverifikasi</span>
-                                                    </td>
-                                                </tr>
+                                                <?php if ($data_kegiatan != null) : ?>
+                                                    <tr>
+                                                        <td><?= $data_kegiatan['rincian_kegiatan']; ?></td>
+                                                        <td><?php if ($data_kegiatan['status_rincian'] == 'B') {
+                                                                echo 'Belum ditindaklanjuti';
+                                                            } elseif ($data_kegiatan['status_rincian'] == 'T') {
+                                                                echo 'Sedang ditindaklanjuti';
+                                                            } else {
+                                                                echo 'Selesai ditindaklanjuti';
+                                                            } ?></td>
+                                                        <td><?php if ($data_kegiatan['status_verifikasi'] == 'B') {
+                                                                echo 'Belum diverifikasi';
+                                                            } else {
+                                                                echo 'sudah diverifikasi';
+                                                            } ?></td>
+                                                    </tr>
+                                                <?php endif; ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -70,6 +78,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>No.</th>
+                                                    <th>Tanggal Kegiatan</th>
                                                     <th>Uraian</th>
                                                     <th>Jumlah</th>
                                                     <th>Satuan</th>
@@ -79,15 +88,33 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Lorem, ipsum dolor.</td>
-                                                    <td>1</td>
-                                                    <td>Jam</td>
-                                                    <td>12 Jam 15 Menit</td>
-                                                    <td>Suram</td>
-                                                    <td>Bukti Dukung</td>
-                                                </tr>
+                                                <?php $ke = 1; ?>
+                                                <?php if ($list_kegiatan != null) : ?>
+                                                    <?php foreach ($list_kegiatan as $list) : ?>
+                                                        <tr>
+                                                            <td><?= $ke++; ?></td>
+                                                            <td id="tgl-kegiatan-tabel">
+                                                                <?= $list['tgl_kegiatan']; ?>
+                                                            </td>
+                                                            <td><?= $list['uraian']; ?></td>
+                                                            <td><?= $list['jumlah']; ?></td>
+                                                            <td><?= $list['satuan']; ?></td>
+                                                            <td><?= $list['durasi_jam']; ?> Jam <?= $list['durasi_menit']; ?> Menit</td>
+                                                            <td><?= $list['hasil']; ?></td>
+
+                                                            <td>
+                                                                <?php $data_user = session('data_user'); ?>
+                                                                <?php $folderNIP = $data_user['nip_lama_user'];  ?>
+                                                                <?php foreach ($list['bukti_dukung'] as $b) : ?>
+                                                                    <div class="p-2 mb-1 rounded-sm card-bukti-laporan">
+                                                                        <a title="<?= $b; ?>" target="_blank" href="<?= base_url('berkas/' . $folderNIP . '/' . $list['tgl_kegiatan'] . '/' . $b) ?>"> <?= $b; ?></a>
+                                                                    </div>
+                                                                <?php endforeach; ?>
+                                                            </td>
+
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                <?php endif; ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -100,4 +127,7 @@
         </div>
     </section>
 </div>
+
+<script src="<?= base_url('/js/tanggal.js') ?>"></script>
+<script src="<?= base_url('/js/laporan.js') ?>"></script>
 <?= $this->endSection(); ?>

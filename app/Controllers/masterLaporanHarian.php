@@ -153,6 +153,7 @@ class masterLaporanHarian extends BaseController
                 $this->masterKegiatanModel->save([
                     'id' => $rencana,
                     'status_rincian' => 'T',
+                    'tgl_update' => $tanggal
                 ]);
             }
         }
@@ -359,6 +360,16 @@ class masterLaporanHarian extends BaseController
             'tgl_kegiatan' => $tanggal,
             'uraian_kegiatan' => $encode_laporan,
         ]);
+
+        foreach ($field_rencana as $rencana) {
+            if ($rencana != 0) {
+                $this->masterKegiatanModel->save([
+                    'id' => $rencana,
+                    'status_rincian' => 'T',
+                    'tgl_update' => $tanggal
+                ]);
+            }
+        }
         session()->setFlashdata('pesan', 'Kegiatan Berhasil Diupdate');
         session()->setFlashdata('icon', 'success');
         return redirect()->to('/listLaporan');

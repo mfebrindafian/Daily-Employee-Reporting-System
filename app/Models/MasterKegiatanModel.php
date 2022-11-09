@@ -27,4 +27,13 @@ class masterKegiatanModel extends Model
             ->get()
             ->getResultArray();
     }
+
+    public function getDataById($id)
+    {
+        return $this
+            ->table($this->table)
+            ->where('id', $id)
+            ->get()
+            ->getRowArray();
+    }
 }

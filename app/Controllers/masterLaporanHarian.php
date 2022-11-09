@@ -103,6 +103,7 @@ class masterLaporanHarian extends BaseController
         $field_hasil = $this->request->getVar('field_hasil');
         $field_tipe = $this->request->getVar('field_tipe');
         $field_rencana = $this->request->getVar('field_rencana');
+
         $field_jam = $this->request->getVar('field_jam');
         $field_menit = $this->request->getVar('field_menit');
 
@@ -145,6 +146,16 @@ class masterLaporanHarian extends BaseController
             'tgl_kegiatan' => $tanggal,
             'uraian_kegiatan' => $json_laporan,
         ]);
+
+
+        foreach ($field_rencana as $rencana) {
+            if ($rencana != 0) {
+                $this->masterKegiatanModel->save([
+                    'id' => $rencana,
+                    'status_rincian' => 'T',
+                ]);
+            }
+        }
         session()->setFlashdata('pesan', 'Kegiatan Berhasil Ditambahkan');
         session()->setFlashdata('icon', 'success');
         return redirect()->to('/listLaporan');

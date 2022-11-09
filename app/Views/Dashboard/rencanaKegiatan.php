@@ -78,7 +78,7 @@
                                                                 } ?></td>
 
                                                             <td>
-                                                                <a href="<?= base_url('/detailRencanaKegiatan') ?>" class="btn btn-sm btn-warning">Detail</a>
+                                                                <a href="<?= base_url('/detailRencanaKegiatan/' . $list['id']) ?>" class="btn btn-sm btn-warning">Detail</a>
                                                                 <a href="<?= base_url('/hapusStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-danger">Hapus</a>
                                                                 <a href="<?= base_url('/updateStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-success">Selesai</a>
                                                             </td>
@@ -129,7 +129,7 @@
                                                                     echo 'sudah diverifikasi';
                                                                 } ?></td>
                                                             <td>
-                                                                <a href="#" class="btn btn-sm btn-warning">Detail</a>
+                                                                <a href="<?= base_url('/detailRencanaKegiatan/' . $list['id']) ?>" class="btn btn-sm btn-warning">Detail</a>
                                                                 <a href="<?= base_url('/hapusStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-danger">Hapus</a>
                                                                 <a href="<?= base_url('/updateStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-success">Selesai</a>
                                                             </td>

@@ -916,7 +916,10 @@
     <?php endif; ?>
     <?php if ($list_rencana != NULL) : ?>
         const rencana = [
-            <?php foreach ($list_rencana as $rencana) : ?> "<?= $rencana['rincian_kegiatan']; ?>",
+            <?php foreach ($list_rencana as $rencana) : ?> {
+                    "id": "<?= $rencana['id']; ?>",
+                    "rincian": "<?= $rencana['rincian_kegiatan']; ?>"
+                },
             <?php endforeach; ?>
         ]
     <?php else : ?>

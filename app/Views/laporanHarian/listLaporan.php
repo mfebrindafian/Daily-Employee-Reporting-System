@@ -903,18 +903,24 @@
                                                                                 echo $newUraian = str_replace('"', '', $uraian); ?>`,
             <?php endforeach; ?>
         ]
+    <?php else : ?>
+        const uraian = '';
     <?php endif; ?>
     <?php if ($list_satuan != NULL) : ?>
         const satuan = [
             <?php foreach ($list_satuan as $satuan) : ?> "<?= $satuan['nama_satuan']; ?>",
             <?php endforeach; ?>
         ]
+    <?php else : ?>
+        const satuan = '';
     <?php endif; ?>
     <?php if ($list_rencana != NULL) : ?>
         const rencana = [
             <?php foreach ($list_rencana as $rencana) : ?> "<?= $rencana['rincian_kegiatan']; ?>",
             <?php endforeach; ?>
         ]
+    <?php else : ?>
+        const rencana = '';
     <?php endif; ?>
     var currentDate = '<?php
 

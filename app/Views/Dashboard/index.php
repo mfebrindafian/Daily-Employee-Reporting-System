@@ -671,10 +671,22 @@
                       </div>
                       <div class="col-xl-2 baris-kegiatan">
                         <div class="row"><strong>Waktu</strong></div>
-                        <div class="input-group">
-                          <input class="form-control satuan-waktu" required type="number" name="field_jam[]" value="0">
-                          <span class="px-2"> : </span>
-                          <input class="form-control satuan-waktu" required type="number" name="field_menit[]" value="0">
+                        <div class="row">
+                          <div class="col-6 input-group">
+                            <input class="form-control" required type="number" name="field_jam[]" value="0">
+                          </div>
+
+                          <div class="col-6 input-group">
+                            <input class="form-control" required type="number" name="field_menit[]" value="0">
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-6 text-center text-xs">
+                            Jam
+                          </div>
+                          <div class="col-6 text-center text-xs">
+                            Menit
+                          </div>
                         </div>
                       </div>
                     </div>

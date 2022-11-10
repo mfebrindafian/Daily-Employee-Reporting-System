@@ -258,7 +258,7 @@ class masterRencanaKegiatan extends BaseController
             $daftar_kegiatan = null;
         }
         //BATAS UNTUK DAFTAR LIST KEGIATAN
-        dd($jumlah);
+        // dd($jumlah);
         $data = [
             'title' => 'Rincian Kegiatan',
             'menu' => 'Dashboard',

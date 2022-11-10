@@ -434,43 +434,40 @@
                                             <div class="row"><strong>NO</strong></div>
                                             <div class="row">1</div>
                                         </div>
-
                                         <?php $list_tipe = $data->kode_tipe; ?>
+
                                         <div class="<?= ($list_tipe[$i] != 1) ? 'col-xl-11' : 'col-xl-5' ?>  baris-kegiatan">
                                             <div class="row"><strong>Tipe Kegiatan</strong></div>
                                             <div class="row w-100">
                                                 <div class="input-group w-100">
                                                     <select class="form-control w-100 tipe-kegiatan" name="field_tipe[]" required>
-                                                        <?php if ($list_tipe[$i] == 1) {
+
+                                                        <?php if ($list_tipe[$i] == '1') {
                                                             echo '<option value="1">Berdasarkan Rencana</option>';
-                                                        } elseif ($list_tipe[$i] == 2) {
+                                                        } elseif ($list_tipe[$i] == '2') {
                                                             echo '<option value="2">Umum</option>';
-                                                        } elseif ($list_tipe[$i] == 3) {
-                                                            '<option value="3">Lembur</option>';
+                                                        } elseif ($list_tipe[$i] == '3') {
+                                                            echo '<option value="3">Lembur</option>';
                                                         } ?>
-                                                        <?php if ($list_tipe[$i] == 1) {
+                                                        <?php if ($list_tipe[$i] == '1') {
                                                             echo '<option value="2">Umum</option><option value="3">Lembur</option>';
-                                                        } elseif ($list_tipe[$i] == 2) {
+                                                        } elseif ($list_tipe[$i] == '2') {
                                                             echo '<option value="1">Berdasarkan Rencana</option><option value="3">Lembur</option>';
-                                                        } elseif ($list_tipe[$i] == 3) {
-                                                            '<option value="1">Berdasarkan Rencana</option><option value="2">Umum</option';
+                                                        } elseif ($list_tipe[$i] == '3') {
+                                                            echo '<option value="1">Berdasarkan Rencana</option><option value="2">Umum</option';
                                                         } ?>
-
-
-
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6 baris-kegiatan pilih-kegiatan  <?php if ($list_tipe[$i] != 1) {
+                                        <?php $list_rencana2 = $data->kd_rencana; ?>
+                                        <div class="col-xl-6 baris-kegiatan pilih-kegiatan <?php if ($list_tipe[$i] != 1) {
                                                                                                 echo 'd-none';
                                                                                             }  ?>">
                                             <div class="row"><strong>Pilih Kegiatan</strong></div>
                                             <div class="row w-100">
                                                 <div class="input-group w-100">
-                                                    <?php $list_rencana2 = $data->kd_rencana; ?>
                                                     <select class="form-control w-100 pilih-rencana" name="field_rencana[]" required>
-
                                                         <option value="<?= $list_rencana2[$i]; ?>"><?php if ($list_rencana != null) {
                                                                                                         foreach ($list_rencana as $rencana) {
                                                                                                             if ($rencana['id'] == $list_rencana2[$i]) {
@@ -485,7 +482,7 @@
                                                                 <?php endif; ?>
                                                             <?php endforeach; ?>
                                                         <?php endif; ?>
-                                                        <option value="0">-</option>
+                                                        <!-- <option value="0">-</option> -->
                                                     </select>
                                                 </div>
                                             </div>

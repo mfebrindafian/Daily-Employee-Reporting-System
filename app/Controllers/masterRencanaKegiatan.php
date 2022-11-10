@@ -191,7 +191,7 @@ class masterRencanaKegiatan extends BaseController
             $list_laporan4 = null;
         }
 
-        
+
 
 
         //BATAS MENGHITUNG RATA-RATA JAM KERJA HARIAN
@@ -211,7 +211,7 @@ class masterRencanaKegiatan extends BaseController
             $daftar_kegiatan = null;
         }
         //BATAS UNTUK DAFTAR LIST KEGIATAN
-        dd($jumlah);
+        // dd($jumlah);
         $data = [
             'title' => 'Rincian Kegiatan',
             'menu' => 'Dashboard',

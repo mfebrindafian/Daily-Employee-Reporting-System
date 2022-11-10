@@ -60,14 +60,17 @@
                         <div class="col-md-6">
                             <div class="small-box bg-white p-4" data-aos-once="true" data-aos="fade-left" data-aos-delay="200" data-aos-duration="500">
                                 <div class="row">
-                                    <div class="col-4 d-flex justify-content-center align-items-center">
+                                    <div class="col-3 d-flex justify-content-center align-items-center">
                                         <span class="dicon hijau fa-2x rounded">
                                             <i class="far fa-clock"></i>
                                         </span>
                                     </div>
-                                    <div class="col-8">
-                                        <span class="text-bold fa-4x">7 Jam</span>
+                                    <div class="col-9">
+                                        <span class="text-bold fa-4x counter">7</span>jam
+
+                                        <span class="text-bold fa-4x counter ml-3">12</span>menit
                                         <p class="text-gray">Rata-rata jam kerja</p>
+
                                     </div>
                                 </div>
                             </div>
@@ -493,7 +496,7 @@
 
 <script src="<?= base_url('/js/circle-progress.js') ?>"></script>
 <script>
-    var isi = 0.6;
+    var isi = Math.random();
 
     function perc2color(perc) {
         var r, g, b = 0;

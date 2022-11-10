@@ -182,7 +182,7 @@
                                                             <?php break; ?>
                                                         <?php endif ?>
                                                     <?php endforeach; ?>
-                                                    <a href="<?= base_url('/deleteLaporanKegiatan/' . $list['id']); ?>" class="border-0 btn btn-xs btn-danger"><i class="fas fa-trash"></i></a>
+                                                    <button class="border-0 btn btn-xs btn-danger open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="<?= base_url('/deleteLaporanKegiatan/' . $list['id']); ?>"><i class="fas fa-trash"></i></button>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
@@ -196,6 +196,35 @@
         </div>
     </section>
 </div>
+
+<!-- MODAL HAPUS KEGIATAN -->
+<div class="modal fade" id="modal-hapus" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-md" style="top: 18%;">
+        <form action="<?= base_url('/hapusBuktiDukung') ?>" method="POST">
+            <div class="modal-content">
+                <div class="modal-header pt-3" style="border: none;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body px-5 py-3 ">
+                    <div class="row mb-2">
+                        <div class="col-md-12 p-0 d-flex flex-column justify-content-center align-content-center">
+                            <h3 class=" mb-3 text-center">Yakin Hapus Laporan ini?</h3>
+                            <i id="nama_bukti_dukung" class="text-center"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center border-0">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <a class="btn btn-danger hapus-kegiatan">Hapus</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
 
 
 <!-- MODAL TAMBAH KEGIATAN -->
@@ -322,10 +351,22 @@
                                 </div>
                                 <div class="col-xl-2 baris-kegiatan">
                                     <div class="row"><strong>Waktu</strong></div>
-                                    <div class="input-group">
-                                        <input class="form-control satuan-waktu" required type="number" name="field_jam[]" value="0">
-                                        <span class="px-2"> : </span>
-                                        <input class="form-control satuan-waktu" required type="number" name="field_menit[]" value="0">
+                                    <div class="row">
+                                        <div class="col-6 input-group">
+                                            <input class="form-control" required type="number" name="field_jam[]" value="0">
+                                        </div>
+
+                                        <div class="col-6 input-group">
+                                            <input class="form-control" required type="number" name="field_menit[]" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 text-center text-xs">
+                                            Jam
+                                        </div>
+                                        <div class="col-6 text-center text-xs">
+                                            Menit
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -410,18 +451,7 @@
                 <?php if ($laporan_harian_tertentu != NULL) : ?>
                     <input type="hidden" name="id_laporan_harian_tertentu" value="<?= $laporan_harian_tertentu['id']; ?>">
                 <?php endif; ?>
-                <!-- lama -->
-                <div class="row mb-2">
-                    <div class="col-5">
-                        <hr>
-                    </div>
-                    <div class="col-2 text-center">
-                        <em><strong>Tugas Utama</strong></em>
-                    </div>
-                    <div class="col-5">
-                        <hr>
-                    </div>
-                </div>
+
                 <div id="lama2">
                     <?php if ($laporan_harian_tertentu != NULL) : ?>
                         <?php $laporan = $laporan_harian_tertentu['uraian_kegiatan']; ?>
@@ -454,7 +484,7 @@
                                                         } elseif ($list_tipe[$i] == '2') {
                                                             echo '<option value="1">Berdasarkan Rencana</option><option value="3">Lembur</option>';
                                                         } elseif ($list_tipe[$i] == '3') {
-                                                            echo '<option value="1">Berdasarkan Rencana</option><option value="2">Umum</option';
+                                                            echo '<option value="1">Berdasarkan Rencana</option><option value="2">Umum</option>';
                                                         } ?>
                                                     </select>
                                                 </div>
@@ -474,7 +504,7 @@
                                                                                                                 echo $rencana['rincian_kegiatan'];
                                                                                                             }
                                                                                                         }
-                                                                                                    } ?></option>
+                                                                                                    } ?>- pilih kegiatan -</option>
                                                         <?php if ($list_rencana != null) : ?>
                                                             <?php foreach ($list_rencana as $rencana) : ?>
                                                                 <?php if ($list_rencana2[$i] != $rencana['id']) : ?>
@@ -482,7 +512,6 @@
                                                                 <?php endif; ?>
                                                             <?php endforeach; ?>
                                                         <?php endif; ?>
-                                                        <!-- <option value="0">-</option> -->
                                                     </select>
                                                 </div>
                                             </div>
@@ -547,92 +576,93 @@
                                             <?php $list_jam = $data->durasi_jam; ?>
                                             <?php $list_menit = $data->durasi_menit; ?>
                                             <div class="row"><strong>Waktu</strong></div>
-                                            <div class="input-group">
-                                                <input class="form-control" required type="number" name="field_jam[]" value="<?= $list_jam[$i] ?>">
-                                                <span class="px-2"> : </span>
-                                                <input class="form-control" required type="number" name="field_menit[]" value="<?= $list_menit[$i] ?>"">
+                                            <div class="row">
+                                                <div class="col-6 input-group">
+                                                    <input class="form-control" required type="number" name="field_jam[]" value="<?= $list_jam[$i] ?>">
+                                                </div>
+
+                                                <div class="col-6 input-group">
+                                                    <input class="form-control" required type="number" name="field_menit[]" value="<?= $list_menit[$i] ?>">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6 text-center text-xs">
+                                                    Jam
+                                                </div>
+                                                <div class="col-6 text-center text-xs">
+                                                    Menit
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class=" row my-3">
-                                                <div class="col-1"></div>
-                                                <div class="col-xl-11 baris-kegiatan mb-2">
-                                                    <div class="row"><strong>Bukti Dukung</strong></div>
-                                                    <?php $list_bukti_dukung = $data->bukti_dukung; ?>
-                                                    <div class="row w-100">
-                                                        <?php for ($a = 0; $a < count($list_bukti_dukung[$i]); $a++) : ?>
-                                                            <div title="<?= $list_bukti_dukung[$i][$a]; ?>" class="file-list w-100">
-                                                                <input type="hidden" name="field_bukti_lama<?= $i + 1; ?>[]" value="<?= $list_bukti_dukung[$i][$a]; ?>">
-                                                                <span class="w-100 text-truncate p-0"><?= $list_bukti_dukung[$i][$a]; ?></span>
-                                                                <?php if (count($list_bukti_dukung[$i]) != 1) : ?>
-                                                                    <button class="btn-silang" type="button" id="btn-edit-hapus" data-toggle="modal" data-target="#modal-edit-hapus" data-id_laporan_tertentu="<?= $laporan_harian_tertentu['id']; ?>" data-posisi_array="<?= $i; ?>" data-posisi_dalam_array="<?= $a; ?>" data-nama_bukti_dukung="<?= $list_bukti_dukung[$i][$a]; ?>" data-tanggal_hapus="<?= $laporan_harian_tertentu['tgl_kegiatan']; ?>"><i class="fas fa-times" style="color: #80772d;"></i></button>
-                                                                <?php endif; ?>
-                                                            </div>
-                                                            <?php if (count($list_bukti_dukung[$i]) == 1) : ?>
-                                                                <p class="file-tip2 d-none">
-                                                                    Untuk Menghapus
-                                                                    <br> <br>
-                                                                    <strong> <?= $list_bukti_dukung[$i][$a]; ?> </strong>
-                                                                    <br> <br>
-                                                                    Silahkan Tambah bukti dukung baru
-                                                                </p>
-                                                            <?php endif; ?>
-                                                        <?php endfor; ?>
-                                                        <div class="input-group w-100">
-                                                            <div class="custom-file w-100">
-                                                                <div id="resp<?= $i + 1; ?>"></div>
-                                                                <input type="file" name="field_bukti<?= $i + 1; ?>[]" class="custom-file-input w-100" id="formFileMultiple" accept=".png, .jpg, .jpeg, .pdf, .xlsx, .docx, .ppt, .txt, .rar, .zip" multiple />
-                                                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                                                <p class="file-tip d-none">
-                                                                    <strong class="mt-2 d-flex align-items-center">
-                                                                        <i class="fas fa-exclamation-circle fa-2x text-yellow mr-2"></i>
-                                                                        Jenis file :
-                                                                    </strong> <br>
-                                                                    .png, .jpg, .jpeg, .pdf, .xlsx, .docx, .ppt, .txt, .rar, .zip, .csv <br><br>
-                                                                    <strong>
-                                                                        Ukuran File Maks : 200kb
-                                                                    </strong>
-                                                                </p>
-                                                            </div>
-
-                                                        </div>
+                                        <div class="col-1"></div>
+                                        <div class="col-xl-11 baris-kegiatan mb-2">
+                                            <div class="row"><strong>Bukti Dukung</strong></div>
+                                            <?php $list_bukti_dukung = $data->bukti_dukung; ?>
+                                            <div class="row w-100">
+                                                <?php for ($a = 0; $a < count($list_bukti_dukung[$i]); $a++) : ?>
+                                                    <div title="<?= $list_bukti_dukung[$i][$a]; ?>" class="file-list w-100">
+                                                        <input type="hidden" name="field_bukti_lama<?= $i + 1; ?>[]" value="<?= $list_bukti_dukung[$i][$a]; ?>">
+                                                        <span class="w-100 text-truncate p-0"><?= $list_bukti_dukung[$i][$a]; ?></span>
+                                                        <?php if (count($list_bukti_dukung[$i]) != 1) : ?>
+                                                            <button class="btn-silang" type="button" id="btn-edit-hapus" data-toggle="modal" data-target="#modal-edit-hapus" data-id_laporan_tertentu="<?= $laporan_harian_tertentu['id']; ?>" data-posisi_array="<?= $i; ?>" data-posisi_dalam_array="<?= $a; ?>" data-nama_bukti_dukung="<?= $list_bukti_dukung[$i][$a]; ?>" data-tanggal_hapus="<?= $laporan_harian_tertentu['tgl_kegiatan']; ?>"><i class="fas fa-times" style="color: #80772d;"></i></button>
+                                                        <?php endif; ?>
                                                     </div>
+                                                    <?php if (count($list_bukti_dukung[$i]) == 1) : ?>
+                                                        <p class="file-tip2 d-none">
+                                                            Untuk Menghapus
+                                                            <br> <br>
+                                                            <strong> <?= $list_bukti_dukung[$i][$a]; ?> </strong>
+                                                            <br> <br>
+                                                            Silahkan Tambah bukti dukung baru
+                                                        </p>
+                                                    <?php endif; ?>
+                                                <?php endfor; ?>
+                                                <div class="input-group w-100">
+                                                    <div class="custom-file w-100">
+                                                        <div id="resp<?= $i + 1; ?>"></div>
+                                                        <input type="file" name="field_bukti<?= $i + 1; ?>[]" class="custom-file-input w-100" id="formFileMultiple" accept=".png, .jpg, .jpeg, .pdf, .xlsx, .docx, .ppt, .txt, .rar, .zip" multiple />
+                                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                        <p class="file-tip d-none">
+                                                            <strong class="mt-2 d-flex align-items-center">
+                                                                <i class="fas fa-exclamation-circle fa-2x text-yellow mr-2"></i>
+                                                                Jenis file :
+                                                            </strong> <br>
+                                                            .png, .jpg, .jpeg, .pdf, .xlsx, .docx, .ppt, .txt, .rar, .zip, .csv <br><br>
+                                                            <strong>
+                                                                Ukuran File Maks : 200kb
+                                                            </strong>
+                                                        </p>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                <?php endfor; ?>
-                            <?php endif; ?>
                                 </div>
-                                <!-- baru -->
-                                <div class="row mt-5">
-                                    <div class="col-5">
-                                        <hr>
-                                    </div>
-                                    <div class="col-2 text-center">
-                                        <em><strong>Tugas Tambahan</strong></em>
-                                    </div>
-                                    <div class="col-5">
-                                        <hr>
-                                    </div>
-                                </div>
-                                <div id="baru2">
+                            </div>
+                        <?php endfor; ?>
+                    <?php endif; ?>
+                </div>
 
-                                </div>
-                                <!-- tombol -->
-                                <div class="row ">
-                                    <div class="col-12 py-3 px-0">
-                                        <button id="tambah-baris2" type="button" class="btn btn-default w-100 font-weight-bold">
-                                            <i class="fas fa-plus mr-2"></i>Tambah
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer justify-content-between">
-                                <a href="<?= base_url('/listLaporan'); ?>" type="button" class="btn btn-default">Tutup</a>
-                                <button id="tombol-edit" type="submit" class="btn btn-info tombol" style="background-color: #3c4b64; border:none;">Update</button>
-                            </div>
+                <div id="baru2">
+
+                </div>
+                <!-- tombol -->
+                <div class="row ">
+                    <div class="col-12 py-3 px-0">
+                        <button id="tambah-baris2" type="button" class="btn btn-default w-100 font-weight-bold">
+                            <i class="fas fa-plus mr-2"></i>Tambah
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <a href="<?= base_url('/listLaporan'); ?>" type="button" class="btn btn-default">Tutup</a>
+                <button id="tombol-edit" type="submit" class="btn btn-info tombol" style="background-color: #3c4b64; border:none;">Update</button>
+            </div>
         </form>
         <!-- /.modal-content -->
     </div>
@@ -961,6 +991,12 @@
                 $(this).parent().parent().parent().addClass('col-xl-11').removeClass('col-xl-5')
             }
         })
+    })
+</script>
+
+<script>
+    $('.open-modal-hapus').on('click', function() {
+        $('.hapus-kegiatan').attr('href', $(this).data('link'))
     })
 </script>
 

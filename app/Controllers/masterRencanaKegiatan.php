@@ -18,7 +18,9 @@ class masterRencanaKegiatan extends BaseController
     public function rencanaKegiatan()
     {
         $list_kegiatan = $this->masterKegiatanModel->getAllByUserId(session('user_id'));
-        $start_date = (date('Y') . '-01-01');
+
+        /////////////////////UBAHHH START DATE KE 1 JANUARI
+        $start_date = (date('Y') . '-11-01');
         $end_date = date('Y-m-d');
         //MENGHITUNG HARI-HARI DIMULAI 1 JANUARI SAMPAI HARI INI DENGAN IRISAN KONDISI
         $rangArray = [];
@@ -58,9 +60,11 @@ class masterRencanaKegiatan extends BaseController
                 $rangArray3[] = $rang2;  //SELURUH HARI MULAI 1 JANUARI SAMPAI HARI INI TANPA SABTU DAN MINGGU DAN LIBUR NASIONAL
             }
         }
+
         //BATAS MENGHITUNG HARI-HARI DIMULAI 1 JANUARI SAMPAI HARI INI DENGAN IRISAN KONDISI
 
-        $jumlah['total_hari_harus_input'] = count($rangArray3); //TOTAL HARI HARUS INPUT LAPORAN TAHUN IN
+        $jumlah['total_hari_harus_input'] = count($rangArray3); //TOTAL HARI HARUS INPUT LAPORAN TAHUN INI
+
 
         //MENGHITUNG SELURUH LAPORAN HARI KERJA YANG TELAH DIINPUTKAN DENGAN BATASAN IRISAN (SELURUH HARI MULAI 1 JANUARI SAMPAI HARI INI TANPA SABTU DAN MINGGU DAN LIBUR NASIONAL)
         $list_laporan = $this->masterLaporanHarianModel->getTotalByUserDate($start_date, $end_date, session('user_id'));
@@ -109,6 +113,7 @@ class masterRencanaKegiatan extends BaseController
                 $tanggal = explode('-', $list3['tgl_kegiatan']);
                 if ($tanggal[0] == date('Y')) {
                     foreach ($list_tipe as $tipe) {
+                        $cek_tipe[] = $tipe;
                         if ($tipe == '3') {
                             $jam[] = intval($list_durasi_jam[$ke_lembur]);
                             $menit[] = intval($list_durasi_menit[$ke_lembur]);
@@ -118,16 +123,17 @@ class masterRencanaKegiatan extends BaseController
                     }
                 }
             }
+            if (in_array('3', $cek_tipe) == true) {
+                $jumlah_menit = array_sum($menit);
+                while ($jumlah_menit >= 60) {
+                    $jumlah_menit = $jumlah_menit - 60;
+                    $jam[] = 1;
+                }
 
-            $jumlah_menit = array_sum($menit);
-            while ($jumlah_menit >= 60) {
-                $jumlah_menit = $jumlah_menit - 60;
-                $jam[] = 1;
+                $jumlah_jam = array_sum($jam);
+                $jumlah['jumlah_jam_lembur'] = $jumlah_jam;
+                $jumlah['jumlah_menit_lembur'] = $jumlah_menit;
             }
-
-            $jumlah_jam = array_sum($jam);
-            $jumlah['jumlah_jam_lembur'] = $jumlah_jam;
-            $jumlah['jumlah_menit_lembur'] = $jumlah_menit;
         } else {
             $jumlah['jumlah_jam_lembur'] = 0;
             $jumlah['jumlah_menit_lembur'] = 0;
@@ -178,24 +184,65 @@ class masterRencanaKegiatan extends BaseController
         //UNTUK MENGHITUNG RATA-RATA JAM KERJA HARIAN PRIBADI
         if ($list_laporan2 != null) {
             foreach ($list_laporan2 as $list4) {
+                $ke_harian = 0;
                 $laporan = $list4['uraian_kegiatan'];
                 $data = json_decode($laporan);
                 $list_tipe = $data->kode_tipe;
+                $list_uraian = $data->uraian;
+                $list_durasi_jam = $data->durasi_jam;
+                $list_durasi_menit = $data->durasi_menit;
                 foreach ($list_tipe as $tipe3) {
-                    if ($tipe3 != '4') {
-                        $list_laporan4[] = $list4;
+                    if ($tipe3 != '4' ) {
+                        $list_laporan4[] = [
+                            'uraian' => $list_uraian[$ke_harian],
+                            'durasi_jam' => $list_durasi_jam[$ke_harian],
+                            'durasi_menit' => $list_durasi_menit[$ke_harian]
+                        ]; //LIST LAPORAN TANPA CUTI dan TANPA LEMBUR
+
                     }
+                    $ke_harian++;
                 }
             }
         } else {
             $list_laporan4 = null;
         }
+        if ($list_laporan4 != null) {
+            foreach ($list_laporan4 as $list5) {
+                $jam_harian[] = intval($list5['durasi_jam']);
+                $menit_harian[] = intval($list5['durasi_menit']);
+            }
+            $jumlah_jam_harian = array_sum($jam_harian);
+            $jumlah_menit_harian = array_sum($menit_harian);
+            $total_detik = (($jumlah_jam_harian * 3600) + ($jumlah_menit_harian * 60));
+            $bagi_detik = ($total_detik /  $jumlah['total_hari_harus_input']);
+
+            $jml_jam_harian = 0;
+            while ($bagi_detik >= 3600) {
+                $bagi_detik = $bagi_detik - 3600;
+                $jml_jam_harian++;
+            }
+            $jml_menit_harian = 0;
+            while ($bagi_detik >= 60) {
+                $bagi_detik = $bagi_detik - 60;
+                $jml_menit_harian++;
+            }
+            $jumlah['rata_rata_jam'] = $jml_jam_harian;
+            $jumlah['rata_rata_menit'] = $jml_menit_harian;
+        } else {
+            $jumlah['rata_rata_jam'] = 0;
+            $jumlah['rata_rata_menit'] = 0;
+        }
+        //BATAS MENGHITUNG RATA-RATA JAM KERJA HARIAN PRIBADI
 
 
+        //MENGHITUNG RATA-RATA KEGIATAN PERHARI PRIBADI
 
-
-        //BATAS MENGHITUNG RATA-RATA JAM KERJA HARIAN
-
+        // if ($list_laporan2 != null) {
+        //     foreach ($list_laporan2 as $list6) {
+        //         $laporan = $list6('uraian_kegiatan');
+        //     }
+        // }
+        //BATAS MENGHITUNG RATA-RATA KEGIATAN PERHARI PRIBADI
 
         // UNTUK DAFTAR LIST KEGIATAN
         if ($list_kegiatan != null) {

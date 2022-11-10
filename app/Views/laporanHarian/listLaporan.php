@@ -434,43 +434,40 @@
                                             <div class="row"><strong>NO</strong></div>
                                             <div class="row">1</div>
                                         </div>
-
                                         <?php $list_tipe = $data->kode_tipe; ?>
+
                                         <div class="<?= ($list_tipe[$i] != 1) ? 'col-xl-11' : 'col-xl-5' ?>  baris-kegiatan">
                                             <div class="row"><strong>Tipe Kegiatan</strong></div>
                                             <div class="row w-100">
                                                 <div class="input-group w-100">
                                                     <select class="form-control w-100 tipe-kegiatan" name="field_tipe[]" required>
-                                                        <?php if ($list_tipe[$i] == 1) {
+
+                                                        <?php if ($list_tipe[$i] == '1') {
                                                             echo '<option value="1">Berdasarkan Rencana</option>';
-                                                        } elseif ($list_tipe[$i] == 2) {
+                                                        } elseif ($list_tipe[$i] == '2') {
                                                             echo '<option value="2">Umum</option>';
-                                                        } elseif ($list_tipe[$i] == 3) {
-                                                            '<option value="3">Lembur</option>';
+                                                        } elseif ($list_tipe[$i] == '3') {
+                                                            echo '<option value="3">Lembur</option>';
                                                         } ?>
-                                                        <?php if ($list_tipe[$i] == 1) {
+                                                        <?php if ($list_tipe[$i] == '1') {
                                                             echo '<option value="2">Umum</option><option value="3">Lembur</option>';
-                                                        } elseif ($list_tipe[$i] == 2) {
+                                                        } elseif ($list_tipe[$i] == '2') {
                                                             echo '<option value="1">Berdasarkan Rencana</option><option value="3">Lembur</option>';
-                                                        } elseif ($list_tipe[$i] == 3) {
-                                                            '<option value="1">Berdasarkan Rencana</option><option value="2">Umum</option';
+                                                        } elseif ($list_tipe[$i] == '3') {
+                                                            echo '<option value="1">Berdasarkan Rencana</option><option value="2">Umum</option';
                                                         } ?>
-
-
-
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6 baris-kegiatan pilih-kegiatan  <?php if ($list_tipe[$i] != 1) {
+                                        <?php $list_rencana2 = $data->kd_rencana; ?>
+                                        <div class="col-xl-6 baris-kegiatan pilih-kegiatan <?php if ($list_tipe[$i] != 1) {
                                                                                                 echo 'd-none';
                                                                                             }  ?>">
                                             <div class="row"><strong>Pilih Kegiatan</strong></div>
                                             <div class="row w-100">
                                                 <div class="input-group w-100">
-                                                    <?php $list_rencana2 = $data->kd_rencana; ?>
                                                     <select class="form-control w-100 pilih-rencana" name="field_rencana[]" required>
-
                                                         <option value="<?= $list_rencana2[$i]; ?>"><?php if ($list_rencana != null) {
                                                                                                         foreach ($list_rencana as $rencana) {
                                                                                                             if ($rencana['id'] == $list_rencana2[$i]) {
@@ -485,7 +482,7 @@
                                                                 <?php endif; ?>
                                                             <?php endforeach; ?>
                                                         <?php endif; ?>
-                                                        <option value="0">-</option>
+                                                        <!-- <option value="0">-</option> -->
                                                     </select>
                                                 </div>
                                             </div>
@@ -687,6 +684,7 @@
                                             <td>
                                                 <?= $i + 1; ?>
                                             </td>
+
                                             <td>
                                                 <?= $list_uraian[$i]; ?>
                                             </td>
@@ -711,10 +709,22 @@
                                             </td>
                                             <td>
                                                 <?php $list_bukti_dukung = $data->bukti_dukung; ?>
+                                                <?php $list_tipe = $data->kode_tipe; ?>
                                                 <?php for ($a = 0; $a < count($list_bukti_dukung[$i]); $a++) : ?>
-                                                    <div title="<?= $list_bukti_dukung[$i][$a]; ?>" class="file-list">
-                                                        <a title="<?= $list_bukti_dukung[$i][$a]; ?>" href="<?= base_url('berkas/' . $folderNIP . '/' . $laporan_harian_tertentu['tgl_kegiatan'] . '/' . $list_bukti_dukung[$i][$a]) ?>"> <?= $list_bukti_dukung[$i][$a]; ?></a>
-                                                    </div>
+                                                    <?php foreach ($list_tipe as $tipe) : ?>
+                                                        <?php if ($tipe != 4) : ?>
+                                                            <div title="<?= $list_bukti_dukung[$i][$a]; ?>" class="file-list">
+                                                                <a title="<?= $list_bukti_dukung[$i][$a]; ?>" href="<?= base_url('berkas/' . $folderNIP . '/' . $laporan_harian_tertentu['tgl_kegiatan'] . '/' . $list_bukti_dukung[$i][$a]) ?>"> <?= $list_bukti_dukung[$i][$a]; ?></a>
+                                                            </div>
+                                                        <?php endif; ?>
+                                                        <?php if ($tipe == 4) : ?>
+                                                            <?php $fullbukti = explode('_', $list_bukti_dukung[$i][$a]) ?>
+                                                            <div title="<?= $list_bukti_dukung[$i][$a]; ?>" class="file-list">
+                                                                <a title="<?= $list_bukti_dukung[$i][$a]; ?>" href="<?= base_url('berkas/' . $folderNIP . '/' . $fullbukti[0] . '/' . $list_bukti_dukung[$i][$a]) ?>"> <?= $list_bukti_dukung[$i][$a]; ?></a>
+                                                            </div>
+                                                            <?php break; ?>
+                                                        <?php endif ?>
+                                                    <?php endforeach; ?>
                                                 <?php endfor; ?>
 
                                             </td>
@@ -916,7 +926,10 @@
     <?php endif; ?>
     <?php if ($list_rencana != NULL) : ?>
         const rencana = [
-            <?php foreach ($list_rencana as $rencana) : ?> "<?= $rencana['rincian_kegiatan']; ?>",
+            <?php foreach ($list_rencana as $rencana) : ?> {
+                    "id": "<?= $rencana['id']; ?>",
+                    "rincian": "<?= $rencana['rincian_kegiatan']; ?>"
+                },
             <?php endforeach; ?>
         ]
     <?php else : ?>

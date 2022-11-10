@@ -238,7 +238,8 @@
                                             <?php if ($list_kegiatan != null) : ?>
                                                 <?php $ke = 1; ?>
                                                 <?php foreach ($list_kegiatan as $list) : ?>
-                                                    <?php if ($list['tipe_kegiatan'] == 'U') : ?>
+                                                    <?php $tahun = explode('-', $list['tgl_input']) ?>
+                                                    <?php if ($list['tipe_kegiatan'] == 'U' && $tahun[0] == date('Y')) : ?>
                                                         <tr>
                                                             <td><?= $ke++; ?></td>
                                                             <td><?= $list['rincian_kegiatan']; ?></td>
@@ -256,7 +257,7 @@
                                                                 } ?></td>
 
                                                             <td>
-                                                                <a href="<?= base_url('/detailRencanaKegiatan') ?>" class="btn btn-sm btn-warning">Detail</a>
+                                                                <a href="<?= base_url('/detailRencanaKegiatan/' . $list['id']) ?>" class="btn btn-sm btn-warning">Detail</a>
                                                                 <a href="<?= base_url('/hapusStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-danger">Hapus</a>
                                                                 <a href="<?= base_url('/updateStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-success">Selesai</a>
                                                             </td>
@@ -290,7 +291,9 @@
                                             <?php if ($list_kegiatan != null) : ?>
                                                 <?php $ke = 1; ?>
                                                 <?php foreach ($list_kegiatan as $list) : ?>
-                                                    <?php if ($list['tipe_kegiatan'] == 'T') : ?>
+                                                    <?php $tahun = explode('-', $list['tgl_input']) ?>
+
+                                                    <?php if ($list['tipe_kegiatan'] == 'T' && $tahun[0] == date('Y')) : ?>
                                                         <tr>
                                                             <td><?= $ke++; ?></td>
                                                             <td><?= $list['rincian_kegiatan']; ?></td>
@@ -307,7 +310,7 @@
                                                                     echo 'sudah diverifikasi';
                                                                 } ?></td>
                                                             <td>
-                                                                <a href="#" class="btn btn-sm btn-warning">Detail</a>
+                                                                <a href="<?= base_url('/detailRencanaKegiatan/' . $list['id']) ?>" class="btn btn-sm btn-warning">Detail</a>
                                                                 <a href="<?= base_url('/hapusStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-danger">Hapus</a>
                                                                 <a href="<?= base_url('/updateStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-success">Selesai</a>
                                                             </td>

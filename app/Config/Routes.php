@@ -53,7 +53,7 @@ $routes->post('/tambahRencanaKegiatan', 'masterRencanaKegiatan::tambahRencanaKeg
 $routes->get('/updateStatusRincian/(:segment)', 'masterRencanaKegiatan::updateStatusRincian/$1');
 $routes->get('/hapusStatusRincian/(:segment)', 'masterRencanaKegiatan::hapusStatusRincian/$1');
 $routes->get('/riwayatRencanaKegiatan', 'masterRencanaKegiatan::riwayatRencanaKegiatan');
-$routes->get('/detailRencanaKegiatan', 'masterRencanaKegiatan::detailRencanaKegiatan');
+$routes->get('/detailRencanaKegiatan/(:segment)', 'masterRencanaKegiatan::detailRencanaKegiatan/$1');
 
 //Routes Ke method Catatan
 $routes->post('/tambahCatatan', 'masterDashboard::tambahCatatan');

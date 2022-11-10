@@ -91,6 +91,7 @@ class masterLaporanHarian extends BaseController
             'keyword' => $keyword,
             'list_rencana' => $this->masterKegiatanModel->getAllByUserId(session('user_id'))
         ];
+        // dd($data);
         return view('laporanHarian/listLaporan', $data);
     }
 
@@ -103,6 +104,8 @@ class masterLaporanHarian extends BaseController
         $field_hasil = $this->request->getVar('field_hasil');
         $field_tipe = $this->request->getVar('field_tipe');
         $field_rencana = $this->request->getVar('field_rencana');
+
+
         $field_jam = $this->request->getVar('field_jam');
         $field_menit = $this->request->getVar('field_menit');
 
@@ -145,6 +148,17 @@ class masterLaporanHarian extends BaseController
             'tgl_kegiatan' => $tanggal,
             'uraian_kegiatan' => $json_laporan,
         ]);
+
+
+        foreach ($field_rencana as $rencana) {
+            if ($rencana != 0) {
+                $this->masterKegiatanModel->save([
+                    'id' => $rencana,
+                    'status_rincian' => 'T',
+                    'tgl_update' => $tanggal
+                ]);
+            }
+        }
         session()->setFlashdata('pesan', 'Kegiatan Berhasil Ditambahkan');
         session()->setFlashdata('icon', 'success');
         return redirect()->to('/listLaporan');
@@ -273,7 +287,7 @@ class masterLaporanHarian extends BaseController
         $field_rencana = $this->request->getVar('field_rencana');
         $field_jam = $this->request->getVar('field_jam');
         $field_menit = $this->request->getVar('field_menit');
-
+        dd($field_rencana);
 
         $data_user = session('data_user');
         $folderNIP = $data_user['nip_lama_user'];
@@ -348,6 +362,16 @@ class masterLaporanHarian extends BaseController
             'tgl_kegiatan' => $tanggal,
             'uraian_kegiatan' => $encode_laporan,
         ]);
+
+        foreach ($field_rencana as $rencana) {
+            if ($rencana != 0) {
+                $this->masterKegiatanModel->save([
+                    'id' => $rencana,
+                    'status_rincian' => 'T',
+                    'tgl_update' => $tanggal
+                ]);
+            }
+        }
         session()->setFlashdata('pesan', 'Kegiatan Berhasil Diupdate');
         session()->setFlashdata('icon', 'success');
         return redirect()->to('/listLaporan');

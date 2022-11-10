@@ -364,8 +364,7 @@
                                             <tr>
                                                 <td><?= $no_peg++; ?></td>
                                                 <td><?= $list_peg['nama_pegawai']; ?></td>
-                                                <td>tombol</td>
-
+                                                <td><?= $list_peg['id']; ?></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     <?php endif; ?>

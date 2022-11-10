@@ -63,6 +63,7 @@ class masterAkses extends BaseController
                     'list_menu'  => $list_menu,
                     'list_submenu' => $list_submenu,
                     'fullname' => $user['fullname'],
+                    'nip_lama' => $user['nip_lama_user'],
                     'data_user' => $user,
                     'es3_kd' => $data_pegawai_user['es3_kd'],
                     'jabatan' => $jabatan

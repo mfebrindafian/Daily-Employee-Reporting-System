@@ -52,13 +52,15 @@ class masterRencanaKegiatan extends BaseController
     }
 
 
-    public function APIRencanaKegiatan($user_id)
+    public function APIRencanaKegiatan($nip_lama)
     {
 
-        $data_user = $this->masterUserModel->getNipLamaByUserId($user_id);
+        $user_id = $this->masterUserModel->getUserId($nip_lama);
+
+        $data_user = $this->masterUserModel->getNipLamaByUserId($user_id['id']);
 
 
-        $list_kegiatan = $this->masterKegiatanModel->getAllByUserId($user_id);
+        $list_kegiatan = $this->masterKegiatanModel->getAllByUserId($user_id['id']);
 
         /////////////////////UBAHHH START DATE KE 1 JANUARI
         $start_date = (date('Y') . '-11-01');
@@ -108,7 +110,7 @@ class masterRencanaKegiatan extends BaseController
 
 
         //MENGHITUNG SELURUH LAPORAN HARI KERJA YANG TELAH DIINPUTKAN DENGAN BATASAN IRISAN (SELURUH HARI MULAI 1 JANUARI SAMPAI HARI INI TANPA SABTU DAN MINGGU DAN LIBUR NASIONAL)
-        $list_laporan = $this->masterLaporanHarianModel->getTotalByUserDate($start_date, $end_date, $user_id);
+        $list_laporan = $this->masterLaporanHarianModel->getTotalByUserDate($start_date, $end_date, $user_id['id']);
         if ($list_laporan != null) {
             foreach ($list_laporan as $listlap) {
                 if (in_array($listlap['tgl_kegiatan'], $rangArray3) == true) {

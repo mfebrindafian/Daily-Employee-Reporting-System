@@ -354,13 +354,21 @@
                                     <tr>
                                         <th>No.</th>
                                         <th>Nama</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Joni</td>
-                                    </tr>
+                                    <?php if ($list_pegawai != null) : ?>
+                                        <?php $no_peg = 1; ?>
+                                        <?php foreach ($list_pegawai as $list_peg) : ?>
+                                            <tr>
+                                                <td><?= $no_peg++; ?></td>
+                                                <td><?= $list_peg['nama_pegawai']; ?></td>
+                                                <td>tombol</td>
+
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                         </div>

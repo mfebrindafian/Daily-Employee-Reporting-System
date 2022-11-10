@@ -25,6 +25,8 @@ class masterRencanaKegiatan extends BaseController
     {
         $list_kegiatan = $this->masterKegiatanModel->getAllByUserId(session('user_id'));
 
+        $list_pegawai = $this->masterPegawaiModel->getAllPegawaiOnDashboard();
+
         if ($list_kegiatan != null) {
             foreach ($list_kegiatan as $list) {
                 $kegiatan = explode('-', $list['tgl_input']);
@@ -44,6 +46,7 @@ class masterRencanaKegiatan extends BaseController
             'menu' => 'Dashboard',
             'subMenu' => '',
             'list_kegiatan' => $daftar_kegiatan,
+            'list_pegawai' => $list_pegawai
         ];
         return view('Dashboard/rencanaKegiatan', $data);
     }
@@ -505,11 +508,11 @@ class masterRencanaKegiatan extends BaseController
         return view('Dashboard/riwayatKegiatan', $data);
     }
 
-    public function detailRencanaKegiatan($id_kegiatan)
+    public function detailRencanaKegiatan($id_kegiatan, $user_id)
     {
         $data_kegiatan = $this->masterKegiatanModel->getDataById($id_kegiatan);
 
-        $list_laporan = $this->masterLaporanHarianModel->getAllLaporanByUserId(session('user_id'));
+        $list_laporan = $this->masterLaporanHarianModel->getAllLaporanByUserId($user_id);
 
         foreach ($list_laporan as $list) {
             $laporan = $list['uraian_kegiatan'];

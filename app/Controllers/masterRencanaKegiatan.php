@@ -162,20 +162,28 @@ class masterRencanaKegiatan extends BaseController
                 }
             }
             if (in_array('3', $cek_tipe) == true) {
+                $jumlah['jumlah_kegiatan_lembur'] = count($jam);
                 $jumlah_menit = array_sum($menit);
                 while ($jumlah_menit >= 60) {
                     $jumlah_menit = $jumlah_menit - 60;
                     $jam[] = 1;
                 }
-
                 $jumlah_jam = array_sum($jam);
+
                 $jumlah['jumlah_jam_lembur'] = $jumlah_jam;
                 $jumlah['jumlah_menit_lembur'] = $jumlah_menit;
+            } else {
+                $jumlah['jumlah_kegiatan_lembur'] = 0;
+                $jumlah['jumlah_jam_lembur'] = 0;
+                $jumlah['jumlah_menit_lembur'] = 0;
             }
         } else {
+            $jumlah['jumlah_kegiatan_lembur'] = 0;
             $jumlah['jumlah_jam_lembur'] = 0;
             $jumlah['jumlah_menit_lembur'] = 0;
         };
+
+
 
         //BATAS MENGHITUNG JUMLAH KEGIATAN LEMBUR
 

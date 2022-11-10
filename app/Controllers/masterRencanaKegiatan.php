@@ -4,20 +4,57 @@ namespace App\Controllers;
 
 use App\Models\MasterKegiatanModel;
 use App\Models\MasterLaporanHarianModel;
+use App\Models\MasterPegawaiModel;
+use App\Models\MasterUserModel;
 use DateTime;
 
 class masterRencanaKegiatan extends BaseController
 {
     protected $masterKegiatanModel;
     protected $masterLaporanHarianModel;
+    protected $masterPegawaiModel;
+    protected $masterUserModel;
     public function __construct()
     {
         $this->masterKegiatanModel = new masterKegiatanModel();
         $this->masterLaporanHarianModel = new masterLaporanHarianModel();
+        $this->masterPegawaiModel = new masterPegawaiModel();
+        $this->masterUserModel = new masterUserModel();
     }
     public function rencanaKegiatan()
     {
         $list_kegiatan = $this->masterKegiatanModel->getAllByUserId(session('user_id'));
+
+        if ($list_kegiatan != null) {
+            foreach ($list_kegiatan as $list) {
+                $kegiatan = explode('-', $list['tgl_input']);
+                if ($kegiatan[0] == date('Y')) {
+                    $daftar_kegiatan[] = $list;
+                } else {
+                    $daftar_kegiatan = null;
+                }
+            }
+        } else {
+            $daftar_kegiatan = null;
+        }
+
+
+        $data = [
+            'title' => 'Rincian Kegiatan',
+            'menu' => 'Dashboard',
+            'subMenu' => '',
+            'list_kegiatan' => $daftar_kegiatan,
+        ];
+        return view('Dashboard/rencanaKegiatan', $data);
+    }
+
+
+    public function APIRencanaKegiatan($user_id)
+    {
+
+        $data_user = $this->masterUserModel->getNipLamaByUserId($user_id);
+
+        $list_kegiatan = $this->masterKegiatanModel->getAllByUserId($user_id);
 
         /////////////////////UBAHHH START DATE KE 1 JANUARI
         $start_date = (date('Y') . '-11-01');
@@ -67,7 +104,7 @@ class masterRencanaKegiatan extends BaseController
 
 
         //MENGHITUNG SELURUH LAPORAN HARI KERJA YANG TELAH DIINPUTKAN DENGAN BATASAN IRISAN (SELURUH HARI MULAI 1 JANUARI SAMPAI HARI INI TANPA SABTU DAN MINGGU DAN LIBUR NASIONAL)
-        $list_laporan = $this->masterLaporanHarianModel->getTotalByUserDate($start_date, $end_date, session('user_id'));
+        $list_laporan = $this->masterLaporanHarianModel->getTotalByUserDate($start_date, $end_date, $user_id);
         if ($list_laporan != null) {
             foreach ($list_laporan as $listlap) {
                 if (in_array($listlap['tgl_kegiatan'], $rangArray3) == true) {
@@ -143,16 +180,18 @@ class masterRencanaKegiatan extends BaseController
 
 
         //UNTUK MENGHITUNG JUMLAH STATUS RINCIAN BELUM, SEDANG DAN SELESAI DITINDAKLANJUTI
+
         if ($list_kegiatan != null) {
             foreach ($list_kegiatan as $list) {
                 $cek_status_rincian[] = $list['status_rincian'];
                 $tipe_status = ['B', 'T', 'S'];
                 foreach ($tipe_status as $tipe) {
                     if ($list['status_rincian'] == $tipe) {
-                        $array[$tipe][] = $list;
-                        $jumlah['rincian'][$tipe] = count($array[$tipe]);
+                        $array1[$tipe][] = $list;
+                        $jumlah['rincian'][$tipe] = count($array1[$tipe]);
                     }
                 }
+
                 foreach ($tipe_status as $tipe) {
                     if (in_array($tipe, $cek_status_rincian) == false) {
                         $jumlah['rincian'][$tipe] = 0;
@@ -165,8 +204,8 @@ class masterRencanaKegiatan extends BaseController
                 $cek_status_verifikasi[] = $list['status_verifikasi'];
                 foreach ($tipe_status2 as $tipe2) {
                     if ($list['status_verifikasi'] == $tipe2) {
-                        $array[$tipe2][] = $list;
-                        $jumlah['verif'][$tipe2] = count($array[$tipe2]);
+                        $array2[$tipe2][] = $list;
+                        $jumlah['verif'][$tipe2] = count($array2[$tipe2]);
                     }
                 }
                 foreach ($tipe_status2 as $tipe2) {
@@ -176,6 +215,15 @@ class masterRencanaKegiatan extends BaseController
                 }
                 // BATAS UNTUK MENGHITUNG JUMLAH STATUS RINCIAN BELUM DAN SELESAI DIVERIFIKASI KOORDINATOR
 
+            }
+        } else {
+            $tipe_status = ['B', 'T', 'S'];
+            foreach ($tipe_status as $tipe) {
+                $jumlah['rincian'][$tipe] = 0;
+            }
+            $tipe_status2 = ['B', 'S'];
+            foreach ($tipe_status2 as $tipe2) {
+                $jumlah['verif'][$tipe2] = 0;
             }
         }
 
@@ -192,7 +240,7 @@ class masterRencanaKegiatan extends BaseController
                 $list_durasi_jam = $data->durasi_jam;
                 $list_durasi_menit = $data->durasi_menit;
                 foreach ($list_tipe as $tipe3) {
-                    if ($tipe3 != '4' ) {
+                    if ($tipe3 != '4' && $tipe3 != '3') {
                         $list_laporan4[] = [
                             'uraian' => $list_uraian[$ke_harian],
                             'durasi_jam' => $list_durasi_jam[$ke_harian],
@@ -206,6 +254,7 @@ class masterRencanaKegiatan extends BaseController
         } else {
             $list_laporan4 = null;
         }
+
         if ($list_laporan4 != null) {
             foreach ($list_laporan4 as $list5) {
                 $jam_harian[] = intval($list5['durasi_jam']);
@@ -236,37 +285,160 @@ class masterRencanaKegiatan extends BaseController
 
 
         //MENGHITUNG RATA-RATA KEGIATAN PERHARI PRIBADI
-
-        // if ($list_laporan2 != null) {
-        //     foreach ($list_laporan2 as $list6) {
-        //         $laporan = $list6('uraian_kegiatan');
-        //     }
-        // }
+        if ($list_laporan4 != null) {
+            $rata_rata_kegiatan = (count($list_laporan4) / $jumlah['total_hari_harus_input']);
+            $jumlah['rata_rata_kegiatan_pribadi'] = floor($rata_rata_kegiatan);
+        } else {
+            $jumlah['rata_rata_kegiatan_pribadi'] = 0;
+        }
         //BATAS MENGHITUNG RATA-RATA KEGIATAN PERHARI PRIBADI
+
+        //MENGHITUNG JUMLAH CUTI
+        if ($list_laporan2 != null) {
+            foreach ($list_laporan2 as $list4) {
+                $ke_harian = 0;
+                $laporan = $list4['uraian_kegiatan'];
+                $data = json_decode($laporan);
+                $list_tipe = $data->kode_tipe;
+                $list_uraian = $data->uraian;
+                $list_durasi_jam = $data->durasi_jam;
+                $list_durasi_menit = $data->durasi_menit;
+                foreach ($list_tipe as $tipe4) {
+                    $cek_tipe2[] = $tipe4;
+                    if ($tipe4 == '4') {
+                        $list_laporan5[] = [
+                            'uraian' => $list_uraian[$ke_harian],
+
+                        ]; //LIST LAPORAN TANPA CUTI dan TANPA LEMBUR
+
+                    }
+                    $ke_harian++;
+                }
+            }
+            if (in_array('4', $cek_tipe2) == false) {
+                $list_laporan5 = null;
+            }
+        } else {
+            $list_laporan5 = null;
+        }
+
+
+        if ($list_laporan5 != null) {
+            $jumlah['jumlah_cuti'] = count($list_laporan5);
+        } else {
+            $jumlah['jumlah_cuti'] = 0;
+        }
+        //BATAS MENGHITUNG JUMLAH CUTI
+
+        //MENGHITUNG RATA-RATA JAM KERJA HARIAN PEGAWAI DI BIDANG YANG SAMA
+        $kd = $this->masterPegawaiModel->getProfilCetak($data_user['nip_lama_user']);
+
+        $list_pegawai_bidang = $this->masterPegawaiModel->getAllPegawaiOnBidang($kd['satker_kd'], $kd['es3_kd']);
+        $ke = 0;
+        if ($list_pegawai_bidang != null) {
+            foreach ($list_pegawai_bidang as $pegawai) {
+                $nip_lama_pegawai = $this->masterPegawaiModel->getNipLama($pegawai['id']);
+                $user_id_pegawai_laporan = $this->masterUserModel->getUserId($nip_lama_pegawai['nip_lama']);
+                if ($user_id_pegawai_laporan != null) {
+                    $total_laporan_masing[$ke] = $this->masterLaporanHarianModel->getAllLaporanByUserId($user_id_pegawai_laporan['id']);
+                } else {
+                    $total_laporan_masing[$ke] = [];
+                }
+                $ke++;
+            }
+
+            foreach ($total_laporan_masing as $lap_mas) {
+                if (count($lap_mas) != 0) {
+                    foreach ($lap_mas as $lap) {
+                        $ke_bid = 0;
+                        $laporan = $lap['uraian_kegiatan'];
+                        $data = json_decode($laporan);
+                        $list_tipe = $data->kode_tipe;
+                        $list_uraian = $data->uraian;
+                        $list_durasi_jam = $data->durasi_jam;
+                        $list_durasi_menit = $data->durasi_menit;
+                        foreach ($list_tipe as $tipe4) {
+                            $cek_tipe2[] = $tipe4;
+                            if ($tipe4 != '4' && $tipe3 != '3') {
+                                $list_laporan6[] = [
+                                    'uraian' => $list_uraian[$ke_bid],
+                                    'durasi_jam' => $list_durasi_jam[$ke_bid],
+                                    'durasi_menit' => $list_durasi_menit[$ke_bid]
+                                ];
+                            }
+                            $ke_bid++;
+                        }
+                    }
+                } else {
+                    $list_laporan6 = null;
+                }
+            }
+
+            if ($list_laporan6 != null) {
+                foreach ($list_laporan6 as $list7) {
+                    $jam_bid[] = intval($list7['durasi_jam']);
+                    $menit_bid[] = intval($list7['durasi_menit']);
+                }
+
+                $jumlah_jam_bid = array_sum($jam_bid);
+                $jumlah_menit_bid = array_sum($menit_bid);
+                $total_detik_bid = (($jumlah_jam_bid * 3600) + ($jumlah_menit_bid * 60));
+                $bagi_detik_bid = ($total_detik_bid /  $jumlah['total_hari_harus_input'] / count($list_pegawai_bidang));
+                $jml_jam_bid = 0;
+                while ($bagi_detik_bid >= 3600) {
+                    $bagi_detik_bid = $bagi_detik_bid - 3600;
+                    $jml_jam_bid++;
+                }
+                $jml_menit_bid = 0;
+                while ($bagi_detik_bid >= 60) {
+                    $bagi_detik_bid = $bagi_detik_bid - 60;
+                    $jml_menit_bid++;
+                }
+                $jumlah['rata_rata_jam_bidang'] = $jml_jam_bid;
+                $jumlah['rata_rata_menit_bidang'] = $jml_menit_bid;
+            } else {
+                $jumlah['rata_rata_jam_bidang'] = 0;
+                $jumlah['rata_rata_menit_bidang'] = 0;
+            }
+        } else {
+            $jumlah['rata_rata_jam_bidang'] = 0;
+            $jumlah['rata_rata_menit_bidang'] = 0;
+        }
+        //BATAS MENGHITUNG RATA JAM KERJA HARIA PEGAWAI DI BIDANG YANG SAMA 
+
+        //MENGHITUNG JUMLAH KEGIATAN YANG DIKERJAKAN BIDANG YANG SAMA
+        if ($list_pegawai_bidang != null) {
+            if ($list_laporan6 != null) {
+                $jumlah['jumlah_kegiatan_bidang'] = count($list_laporan6);
+            } else {
+                $jumlah['jumlah_kegiatan_bidang'] = 0;
+            }
+        } else {
+            $jumlah['jumlah_kegiatan_bidang'] = 0;
+        }
+        //BATAS MENGHITUNG JUMLAH KEGIATAN YANG DIKERJAKAN BIDANG YANG SAMA
 
         // UNTUK DAFTAR LIST KEGIATAN
         if ($list_kegiatan != null) {
             foreach ($list_kegiatan as $list) {
                 $kegiatan = explode('-', $list['tgl_input']);
                 if ($kegiatan[0] == date('Y')) {
-                    $daftar_kegiatan[] = $list;
+                    $jumlah['daftar_kegiatan'][] = $list;
                 } else {
-                    $daftar_kegiatan = null;
+                    $jumlah['daftar_kegiatan'] = null;
                 }
             }
         } else {
-            $daftar_kegiatan = null;
+            $jumlah['daftar_kegiatan'] = null;
         }
         //BATAS UNTUK DAFTAR LIST KEGIATAN
-        // dd($jumlah);
-        $data = [
-            'title' => 'Rincian Kegiatan',
-            'menu' => 'Dashboard',
-            'subMenu' => '',
-            'list_kegiatan' => $daftar_kegiatan
-        ];
-        return view('Dashboard/rencanaKegiatan', $data);
+
+        $jumlah['periode_awal'] = $start_date;
+        $jumlah['periode_akhir'] = $end_date;
+
+        echo (json_encode($jumlah));
     }
+
 
     public function tambahRencanaKegiatan()
     {

@@ -136,8 +136,6 @@ class masterDashboard extends BaseController
             $ke++;
         }
 
-
-
         if ($list_pegawai != NULL) {
             foreach ($list_pegawai as $pegawai) {
 

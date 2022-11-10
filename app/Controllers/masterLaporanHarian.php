@@ -287,7 +287,7 @@ class masterLaporanHarian extends BaseController
         $field_rencana = $this->request->getVar('field_rencana');
         $field_jam = $this->request->getVar('field_jam');
         $field_menit = $this->request->getVar('field_menit');
-        dd($field_rencana);
+        // dd($field_rencana);
 
         $data_user = session('data_user');
         $folderNIP = $data_user['nip_lama_user'];

@@ -1,6 +1,8 @@
 <?= $this->extend('layout/template'); ?>
 
 <?= $this->section('content'); ?>
+<link rel="stylesheet" href="<?= base_url('/css/aos.css') ?>">
+<link rel="stylesheet" href="<?= base_url('/css/progresscircle.css') ?>">
 <div class="content-wrapper">
     <section class="content-header">
         <div class="container-fluid">
@@ -20,7 +22,183 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div id="kiri" class="col-md-12">
+                <div class="col-md-5 ">
+                    <div class="small-box bg-white" data-aos-once="true" data-aos="fade-right" data-aos-delay="100" data-aos-duration="500">
+                        <div class="row px-1">
+                            <div class="col-12 py-1 text-center text-truncate ">
+                                <span class="text-bold">
+                                    Pekerjaan
+                                </span>
+                            </div>
+                        </div>
+
+                        <hr class="m-0">
+                        <div class="row ">
+                            <div class="col-6 text-center py-2">
+                                <span class="fa-5x text-bold counter text-red">64</span>
+                                <p class="text-sm text-gray">Belum ditindaklanjuti</p>
+                            </div>
+                            <div class="col-6 text-center py-2">
+                                <span class="fa-5x text-bold counter text-warning">124</span>
+                                <p class="text-sm text-gray">Sedang ditindak</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 text-center py-2">
+                                <span class="fa-5x text-bold counter text-primary">12</span>
+                                <p class="text-sm text-gray">Selesai Ditindak</p>
+                            </div>
+                            <div class="col-6 text-center py-2">
+                                <span class="fa-5x text-bold counter text-success">45</span>
+                                <p class="text-sm text-gray">Telah diverifikasi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="small-box bg-white p-4" data-aos-once="true" data-aos="fade-left" data-aos-delay="200" data-aos-duration="500">
+                                <div class="row">
+                                    <div class="col-4 d-flex justify-content-center align-items-center">
+                                        <span class="dicon hijau fa-2x rounded">
+                                            <i class="far fa-clock"></i>
+                                        </span>
+                                    </div>
+                                    <div class="col-8">
+                                        <span class="text-bold fa-4x">7 Jam</span>
+                                        <p class="text-gray">Rata-rata jam kerja</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="small-box bg-white p-4" data-aos-once="true" data-aos="fade-left" data-aos-delay="200" data-aos-duration="500">
+                                <div class="row">
+                                    <div class="col-7 text-center">
+                                        <div class="circles">
+                                            <div class="second circle"><strong style=" width: 120px;"></strong></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-5 d-flex align-items-center">
+                                        <p class="text-gray">Jam kerja tebuang</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="small-box bg-white p-2" data-aos-once="true" data-aos="fade-left" data-aos-delay="300" data-aos-duration="500">
+                                <span class="text-sm ml-2 text-gray"><strong>Periode 1 Januari - Februari 2022</strong></span>
+                                <div class="row">
+                                    <div class="col-6 text-center">
+                                        <span class="text-bold fa-4x counter">25</span>
+                                        <p class="text-gray">Jumlah laporan diinputkan</p>
+                                    </div>
+                                    <div class="col-6 text-center">
+                                        <span class="text-bold fa-4x counter">77</span>
+                                        <p class="text-gray">Jumlah laporan Seharusnya</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 col-6 rounded-lg " style="cursor: pointer;">
+                    <div class="small-box bg-white rincian-2 " data-aos-once="true" data-aos="fade-down" data-aos-duration="500">
+                        <div class="row px-1">
+                            <div class="col-12 py-2 text-center text-truncate ">
+                                <span class="text-sm text-white">
+                                    Rata-rata kegiatan perhari
+                                </span>
+                            </div>
+                        </div>
+                        <hr class="m-0">
+                        <div class="row px-3">
+                            <div class="col-12 d-flex justify-content-center align-items-center">
+                                <h3 class="my-2 text-white counter">97</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-6 rounded-lg" style="cursor: pointer;">
+                    <div class="small-box bg-white rincian-2" data-aos-once="true" data-aos="fade-down" data-aos-delay="100" data-aos-duration="500">
+                        <div class="row px-1">
+                            <div class="col-6 py-2 text-center text-truncate ">
+                                <span class="text-sm text-white">
+                                    Jumlah Kegiatan Lembur
+                                </span>
+                            </div>
+                            <div class="col-6 py-2 text-center text-truncate ">
+                                <span class="text-sm text-white">
+                                    Durasi Lembur
+                                </span>
+                            </div>
+                        </div>
+                        <hr class="m-0">
+                        <div class="row px-3">
+                            <div class="col-6 d-flex justify-content-center align-items-center">
+                                <h3 class="my-2 counter text-white">12</h3>
+                            </div>
+                            <div class="col-6 d-flex justify-content-center align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <h3 class="my-2 counter text-white">30 </h3> <span class="ml-1 text-white">Jam</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6 rounded-lg" style="cursor: pointer;">
+                    <div class="small-box bg-white rincian-2" data-aos-once="true" data-aos="fade-down" data-aos-delay="200" data-aos-duration="500">
+                        <div class="row px-1">
+                            <div class="col-12 py-2 text-center text-truncate ">
+                                <span class="text-sm text-white">
+                                    Jumlah Cuti
+                                </span>
+                            </div>
+                        </div>
+                        <hr class="m-0">
+                        <div class="row px-3">
+                            <div class="col-12 d-flex justify-content-center align-items-center">
+                                <h3 class="my-2 counter text-white">7</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-6 rounded-lg" style="cursor: pointer;">
+                    <div class="small-box bg-white rincian-2" data-aos-once="true" data-aos="fade-down" data-aos-delay="300" data-aos-duration="500">
+                        <div class="row px-1">
+                            <div class="col-6 py-2 text-center text-truncate ">
+                                <span class="text-sm text-white">
+                                    Rata-rata jam kerja bidang
+                                </span>
+                            </div>
+                            <div class="col-6 py-2 text-center text-truncate ">
+                                <span class="text-sm text-white">
+                                    Jumlah Laporan Bidang
+                                </span>
+                            </div>
+                        </div>
+                        <hr class="m-0">
+                        <div class="row px-3">
+                            <div class="col-6 d-flex justify-content-center align-items-center">
+                                <h3 class="my-2 counter text-white">12</h3>
+                            </div>
+                            <div class="col-6 d-flex justify-content-center align-items-center">
+                                <h3 class="my-2 counter text-white">30 </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-8">
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Rencana Kegiatan</h3>
@@ -144,6 +322,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -225,7 +408,11 @@
     </div>
 </div>
 
-
+<script src="<?= base_url('/js/aos.js') ?>"></script>
+<script src="<?= base_url('/js/progresscircle.js') ?>"></script>
+<script>
+    AOS.init();
+</script>
 <script>
     function appendBaris(modal, noBaris) {
         $(modal).append(
@@ -287,6 +474,52 @@
             $('#baru2').children().last().find('#hapus-baris').removeClass('d-none');
         }
     });
+
+    $('.counter').each(function() {
+        $(this).prop('Counter', 0).animate({
+            Counter: $(this).text()
+        }, {
+            duration: 1000,
+            easing: 'swing',
+            step: function(now) {
+                $(this).text(Math.ceil(now));
+            }
+        });
+    });
 </script>
+
+<script src="<?= base_url('/js/circle-progress.js') ?>"></script>
+<script>
+    var isi = 0.6;
+
+    function perc2color(perc) {
+        var r, g, b = 0;
+        if (perc * 100 < 50) {
+            g = 255;
+            r = Math.round(5.1 * perc * 100);
+        } else {
+            r = 255;
+            g = Math.round(510 - 5.10 * perc * 100);
+        }
+        var h = r * 0x10000 + g * 0x100 + b * 0x1;
+        return '#' + ('000000' + h.toString(16)).slice(-6);
+    }
+    $('.second.circle')
+        .circleProgress({
+            value: isi,
+            thickness: 10,
+            size: 120,
+            fill: {
+                gradient: [perc2color(isi)],
+            },
+        })
+        .on('circle-animation-progress', function(event, progress) {
+            $(this)
+                .find('strong')
+                .html(Math.round(isi * 100 * progress) + '<span class="text-xs">Jam</span>');
+        });
+</script>
+
+
 
 <?= $this->endSection(); ?>

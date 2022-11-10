@@ -578,3 +578,75 @@ label {
      z-index: 20;
      background-color: #ff8282;
 }
+
+/*  */
+.dicon {
+     width: 70px;
+     height: 70px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+}
+.ungu {
+     background-color: #f1e0ff;
+     color: #4c0c85;
+}
+.merah {
+     background-color: #ffdbe1;
+     color: #850c26;
+}
+.hijau {
+     background-color: #e0ffe8;
+     color: #008a22;
+}
+
+.rincian-1 {
+     background: rgb(231, 108, 108);
+     background: linear-gradient(124deg, rgba(255, 195, 110, 1) 0%, rgba(231, 108, 108, 1) 100%);
+     color: white;
+}
+.rincian-2 {
+     background: rgb(114, 108, 231);
+     background: linear-gradient(319deg, rgba(114, 108, 231, 1) 0%, rgba(110, 208, 255, 1) 100%);
+}
+.rincian-3 {
+     background: rgb(0, 144, 67);
+     background: linear-gradient(319deg, rgba(0, 144, 67, 1) 0%, rgba(110, 255, 158, 1) 100%);
+}
+.rincian-4 {
+     background: rgb(118, 0, 144);
+     background: linear-gradient(319deg, rgba(118, 0, 144, 1) 0%, rgba(204, 110, 255, 1) 100%);
+}
+
+.circles {
+     margin-bottom: -10px;
+}
+
+.circle {
+     width: 100px;
+     margin: 6px 6px 20px;
+     display: inline-block;
+     position: relative;
+     text-align: center;
+     line-height: 1.2;
+}
+
+.circle canvas {
+     vertical-align: top;
+}
+
+.circle strong {
+     position: absolute;
+     top: 36px;
+     left: 0;
+     width: 100%;
+     text-align: center;
+     line-height: 40px;
+     font-size: 45px;
+}
+
+.circle strong i {
+     font-style: normal;
+     font-size: 0.6em;
+     font-weight: normal;
+}

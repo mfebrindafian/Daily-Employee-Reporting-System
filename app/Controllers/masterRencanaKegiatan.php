@@ -510,11 +510,13 @@ class masterRencanaKegiatan extends BaseController
         return view('Dashboard/riwayatKegiatan', $data);
     }
 
-    public function detailRencanaKegiatan($id_kegiatan, $user_id)
+    public function detailRencanaKegiatan($id_kegiatan, $nip_lama)
     {
+
+        $user_id = $this->masterUserModel->getUserId($nip_lama);
         $data_kegiatan = $this->masterKegiatanModel->getDataById($id_kegiatan);
 
-        $list_laporan = $this->masterLaporanHarianModel->getAllLaporanByUserId($user_id);
+        $list_laporan = $this->masterLaporanHarianModel->getAllLaporanByUserId($user_id['id']);
 
         foreach ($list_laporan as $list) {
             $laporan = $list['uraian_kegiatan'];

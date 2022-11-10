@@ -54,6 +54,7 @@ class masterRencanaKegiatan extends BaseController
 
         $data_user = $this->masterUserModel->getNipLamaByUserId($user_id);
 
+
         $list_kegiatan = $this->masterKegiatanModel->getAllByUserId($user_id);
 
         /////////////////////UBAHHH START DATE KE 1 JANUARI
@@ -433,6 +434,8 @@ class masterRencanaKegiatan extends BaseController
         }
         //BATAS UNTUK DAFTAR LIST KEGIATAN
 
+        $nama_pegawai = $this->masterPegawaiModel->getProfilCetak($data_user['nip_lama_user']);
+        $jumlah['nama_pegawai'] = $nama_pegawai['nama_pegawai'];
         $jumlah['periode_awal'] = $start_date;
         $jumlah['periode_akhir'] = $end_date;
 

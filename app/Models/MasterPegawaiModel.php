@@ -121,6 +121,8 @@ class MasterPegawaiModel extends Model
             ->getResultArray();
     }
 
+    
+
 
     public function getAllPegawaiOnBidang($satker_kd, $es3_kd)
     {

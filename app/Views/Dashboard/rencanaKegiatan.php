@@ -22,6 +22,30 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                <div class="col-12">
+                    <div class="small-box rincian-1 p-4 " data-aos-once="true" data-aos="fade-down" data-aos-duration="500">
+                        <div class="row">
+                            <div class="col-6 d-flex align-items-center">
+
+                                <span>Periode</span>
+                                <strong class="ml-2">
+                                    1 Januari 2022 - 10 November 2022
+                                </strong>
+
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-4 d-flex align-items-center">
+                                <div class="input-group">
+                                    <select name="" id="" class="form-control">
+                                        <option value="w">2022</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-5 ">
                     <div class="small-box bg-white" data-aos-once="true" data-aos="fade-right" data-aos-delay="100" data-aos-duration="500">
                         <div class="row px-1">
@@ -201,7 +225,7 @@
 
             </div>
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-7">
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Rencana Kegiatan</h3>
@@ -261,7 +285,7 @@
 
                                                             <td>
                                                                 <a href="<?= base_url('/detailRencanaKegiatan/' . $list['id']) ?>" class="btn btn-sm btn-warning">Detail</a>
-                                                                <a href="<?= base_url('/hapusStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-danger">Hapus</a>
+                                                                <button class="border-0 btn btn-sm btn-danger open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="<?= base_url('/hapusStatusRincian/' . $list['id']); ?>">Hapus</button>
                                                                 <a href="<?= base_url('/updateStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-success">Selesai</a>
                                                             </td>
                                                         </tr>
@@ -272,10 +296,6 @@
                                     </table>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
                                     <i>Tambahan</i>
@@ -314,7 +334,7 @@
                                                                 } ?></td>
                                                             <td>
                                                                 <a href="<?= base_url('/detailRencanaKegiatan/' . $list['id']) ?>" class="btn btn-sm btn-warning">Detail</a>
-                                                                <a href="<?= base_url('/hapusStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-danger">Hapus</a>
+                                                                <button class="border-0 btn btn-sm btn-danger open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="<?= base_url('/hapusStatusRincian/' . $list['id']); ?>">Hapus</button>
                                                                 <a href="<?= base_url('/updateStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-success">Selesai</a>
                                                             </td>
                                                         </tr>
@@ -328,9 +348,25 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <div class="card">
-                        <div class="card-body"></div>
+                        <div class="card-body">
+                            <h5>Daftar Pegawai</h5>
+                            <table class="table table-hover mt-2">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Nama</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Joni</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -339,7 +375,32 @@
 </div>
 
 
-
+<!-- MODAL HAPUS KEGIATAN -->
+<div class="modal fade" id="modal-hapus" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-md" style="top: 18%;">
+        <form action="<?= base_url('/hapusBuktiDukung') ?>" method="POST">
+            <div class="modal-content">
+                <div class="modal-header pt-3" style="border: none;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body px-5 py-3 ">
+                    <div class="row mb-2">
+                        <div class="col-md-12 p-0 d-flex flex-column justify-content-center align-content-center">
+                            <h3 class=" mb-3 text-center">Yakin Hapus Rencana Kegiatan ini?</h3>
+                            <i id="nama_bukti_dukung" class="text-center"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center border-0">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <a class="btn btn-danger hapus-kegiatan">Hapus</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 <!-- MODAL TAMBAH KEGIATAN -->
 <div class="modal fade" id="modal-tambah">
@@ -525,7 +586,11 @@
                 .html(Math.round(isi * 100 * progress) + '<span class="text-xs">Jam</span>');
         });
 </script>
-
+<script>
+    $('.open-modal-hapus').on('click', function() {
+        $('.hapus-kegiatan').attr('href', $(this).data('link'))
+    })
+</script>
 
 
 <?= $this->endSection(); ?>

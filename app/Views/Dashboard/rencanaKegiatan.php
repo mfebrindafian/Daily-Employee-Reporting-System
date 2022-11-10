@@ -265,31 +265,28 @@
                                             <?php if ($list_kegiatan != null) : ?>
                                                 <?php $ke = 1; ?>
                                                 <?php foreach ($list_kegiatan as $list) : ?>
-                                                    <?php $tahun = explode('-', $list['tgl_input']) ?>
-                                                    <?php if ($list['tipe_kegiatan'] == 'U' && $tahun[0] == date('Y')) : ?>
-                                                        <tr>
-                                                            <td><?= $ke++; ?></td>
-                                                            <td><?= $list['rincian_kegiatan']; ?></td>
-                                                            <td><?php if ($list['status_rincian'] == 'B') {
-                                                                    echo 'Belum ditindaklanjuti';
-                                                                } elseif ($list['status_rincian'] == 'T') {
-                                                                    echo 'Sedang ditindaklanjuti';
-                                                                } else {
-                                                                    echo 'Selesai ditindaklanjuti';
-                                                                } ?></td>
-                                                            <td><?php if ($list['status_verifikasi'] == 'B') {
-                                                                    echo 'Belum diverifikasi';
-                                                                } else {
-                                                                    echo 'sudah diverifikasi';
-                                                                } ?></td>
+                                                    <tr>
+                                                        <td><?= $ke++; ?></td>
+                                                        <td><?= $list['rincian_kegiatan']; ?></td>
+                                                        <td><?php if ($list['status_rincian'] == 'B') {
+                                                                echo 'Belum ditindaklanjuti';
+                                                            } elseif ($list['status_rincian'] == 'T') {
+                                                                echo 'Sedang ditindaklanjuti';
+                                                            } else {
+                                                                echo 'Selesai ditindaklanjuti';
+                                                            } ?></td>
+                                                        <td><?php if ($list['status_verifikasi'] == 'B') {
+                                                                echo 'Belum diverifikasi';
+                                                            } else {
+                                                                echo 'sudah diverifikasi';
+                                                            } ?></td>
 
-                                                            <td>
-                                                                <a href="<?= base_url('/detailRencanaKegiatan/' . $list['id']) ?>" class="btn btn-sm btn-warning">Detail</a>
-                                                                <button class="border-0 btn btn-sm btn-danger open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="<?= base_url('/hapusStatusRincian/' . $list['id']); ?>">Hapus</button>
-                                                                <a href="<?= base_url('/updateStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-success">Selesai</a>
-                                                            </td>
-                                                        </tr>
-                                                    <?php endif ?>
+                                                        <td>
+                                                            <a href="<?= base_url('/detailRencanaKegiatan/' . $list['id']) ?>" class="btn btn-sm btn-warning">Detail</a>
+                                                            <button class="border-0 btn btn-sm btn-danger open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="<?= base_url('/hapusStatusRincian/' . $list['id']); ?>">Hapus</button>
+                                                            <a href="<?= base_url('/updateStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-success">Selesai</a>
+                                                        </td>
+                                                    </tr>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
                                         </tbody>

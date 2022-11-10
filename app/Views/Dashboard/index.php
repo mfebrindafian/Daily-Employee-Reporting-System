@@ -1012,9 +1012,15 @@
         var pilih = document.getElementsByClassName("pilih-kegiatan");
         var pilihRencana = document.getElementsByClassName("pilih-rencana");
         $(document).on('change', '.tipe-kegiatan', function() {
-          if ($(this).val() == '1') {
+          if ($(this).val() == '1' && pilihRencana[$('.tipe-kegiatan').index(this)].childElementCount > 1) {
             pilih[$('.tipe-kegiatan').index(this)].classList.remove('d-none')
             $(this).parent().parent().parent().removeClass('col-xl-11').addClass('col-xl-5')
+          } else if ($(this).val() == '1' && pilihRencana[$('.tipe-kegiatan').index(this)].childElementCount <= 1) {
+            Toast.fire({
+              icon: 'warning',
+              title: 'Anda Belum Menginputkan Rencana Kegiatan!',
+            });
+            $(this).prop('selectedIndex', 0)
           } else {
             pilihRencana[$('.tipe-kegiatan').index(this)].value = '0'
             pilih[$('.tipe-kegiatan').index(this)].classList.add('d-none')

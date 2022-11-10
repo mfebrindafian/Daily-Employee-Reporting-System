@@ -182,7 +182,7 @@
                                                             <?php break; ?>
                                                         <?php endif ?>
                                                     <?php endforeach; ?>
-                                                    <button class="border-0 btn btn-xs btn-danger open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="<?= base_url('/deleteLaporanKegiatan/' . $list['id']); ?>"><i class="fas fa-trash"></i></button>
+                                                    <button class="border-0 btn btn-xs btn-danger" id="open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="<?= base_url('/deleteLaporanKegiatan/' . $list['id']); ?>"><i class="fas fa-trash"></i></button>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
@@ -982,9 +982,15 @@
         var pilih = document.getElementsByClassName("pilih-kegiatan");
         var pilihRencana = document.getElementsByClassName("pilih-rencana");
         $(document).on('change', '.tipe-kegiatan', function() {
-            if ($(this).val() == '1') {
+            if ($(this).val() == '1' && pilihRencana[$('.tipe-kegiatan').index(this)].childElementCount > 1) {
                 pilih[$('.tipe-kegiatan').index(this)].classList.remove('d-none')
                 $(this).parent().parent().parent().removeClass('col-xl-11').addClass('col-xl-5')
+            } else if ($(this).val() == '1' && pilihRencana[$('.tipe-kegiatan').index(this)].childElementCount <= 1) {
+                Toast.fire({
+                    icon: 'warning',
+                    title: 'Anda Belum Menginputkan Rencana Kegiatan!',
+                });
+                $(this).prop('selectedIndex', 0)
             } else {
                 pilihRencana[$('.tipe-kegiatan').index(this)].value = '0'
                 pilih[$('.tipe-kegiatan').index(this)].classList.add('d-none')
@@ -995,7 +1001,7 @@
 </script>
 
 <script>
-    $('.open-modal-hapus').on('click', function() {
+    $(document).on('click', '#open-modal-hapus', function() {
         $('.hapus-kegiatan').attr('href', $(this).data('link'))
     })
 </script>

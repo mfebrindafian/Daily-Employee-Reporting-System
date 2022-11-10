@@ -117,7 +117,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="small-box bg-white p-2" data-aos-once="true" data-aos="fade-left" data-aos-delay="300" data-aos-duration="500">
-                                <span class="text-sm ml-2 text-gray"><strong>Periode 1 Januari - Februari 2022</strong></span>
+                                <span class="text-sm ml-2 text-gray"><strong>Laporan</strong></span>
                                 <div class="row">
                                     <div class="col-6 text-center">
                                         <span class="text-bold fa-4x counter">25</span>
@@ -285,7 +285,7 @@
 
                                                             <td>
                                                                 <a href="<?= base_url('/detailRencanaKegiatan/' . $list['id']) ?>" class="btn btn-sm btn-warning">Detail</a>
-                                                                <button class="border-0 btn btn-sm btn-danger open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="<?= base_url('/hapusStatusRincian/' . $list['id']); ?>">Hapus</button>
+                                                                <button class="border-0 btn btn-sm btn-danger" id="open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="<?= base_url('/hapusStatusRincian/' . $list['id']); ?>">Hapus</button>
                                                                 <a href="<?= base_url('/updateStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-success">Selesai</a>
                                                             </td>
                                                         </tr>
@@ -334,7 +334,7 @@
                                                                 } ?></td>
                                                             <td>
                                                                 <a href="<?= base_url('/detailRencanaKegiatan/' . $list['id']) ?>" class="btn btn-sm btn-warning">Detail</a>
-                                                                <button class="border-0 btn btn-sm btn-danger open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="<?= base_url('/hapusStatusRincian/' . $list['id']); ?>">Hapus</button>
+                                                                <button class="border-0 btn btn-sm btn-danger" id="open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="<?= base_url('/hapusStatusRincian/' . $list['id']); ?>">Hapus</button>
                                                                 <a href="<?= base_url('/updateStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-success">Selesai</a>
                                                             </td>
                                                         </tr>
@@ -542,17 +542,24 @@
         }
     });
 
-    $('.counter').each(function() {
-        $(this).prop('Counter', 0).animate({
-            Counter: $(this).text()
-        }, {
-            duration: 1000,
-            easing: 'swing',
-            step: function(now) {
-                $(this).text(Math.ceil(now));
-            }
+    function counter() {
+        $('.counter').each(function() {
+            $(this).prop('Counter', 0).animate({
+                Counter: $(this).text()
+            }, {
+                duration: 1000,
+                easing: 'swing',
+                step: function(now) {
+                    $(this).text(Math.ceil(now));
+                }
+            });
         });
-    });
+    }
+
+    counter()
+    $(document).on('click', '.rincian-1', function() {
+        counter()
+    })
 </script>
 
 <script src="<?= base_url('/js/circle-progress.js') ?>"></script>
@@ -587,7 +594,7 @@
         });
 </script>
 <script>
-    $('.open-modal-hapus').on('click', function() {
+    $(document).on('click', '#open-modal-hapus', function() {
         $('.hapus-kegiatan').attr('href', $(this).data('link'))
     })
 </script>

@@ -44,7 +44,7 @@ class masterRencanaKegiatan extends BaseController
         $data = [
             'title' => 'Rincian Kegiatan',
             'menu' => 'Dashboard',
-            'subMenu' => '',
+            'subMenu' => 'Kegiatan Pegawai',
             'list_kegiatan' => $daftar_kegiatan,
             'list_pegawai' => $list_pegawai
         ];

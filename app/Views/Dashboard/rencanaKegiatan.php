@@ -3,7 +3,11 @@
 <?= $this->section('content'); ?>
 <link rel="stylesheet" href="<?= base_url('/css/aos.css') ?>">
 <link rel="stylesheet" href="<?= base_url('/css/progresscircle.css') ?>">
+<div class="loader-api">
+    <div class="container chase"></div>
+</div>
 <div class="content-wrapper">
+
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -25,20 +29,16 @@
                 <div class="col-12">
                     <div class="small-box rincian-1 p-4 " data-aos-once="true" data-aos="fade-down" data-aos-duration="500">
                         <div class="row">
-                            <div class="col-6 d-flex align-items-center">
-
-                                <span>Periode</span>
-                                <strong class="ml-2">
-                                    1 Januari 2022 - 10 November 2022
-                                </strong>
-
+                            <div class="col-6 p-0 d-flex flex-column">
+                                <h5>Menampilkan Rincian Kegiatan <strong class="nama-pegawai"></strong></h5>
                             </div>
-                            <div class="col-2"></div>
-                            <div class="col-4 d-flex align-items-center">
-                                <div class="input-group">
-                                    <select name="" id="" class="form-control">
-                                        <option value="w">2022</option>
-                                    </select>
+                            <div class="col-2 p-0"></div>
+                            <div class="col-4 p-0 text-right">
+                                <div>
+                                    <span>Periode</span>
+                                    <strong class="ml-2">
+                                        1 Januari 2022 - 10 November 2022
+                                    </strong>
                                 </div>
                             </div>
                         </div>
@@ -59,21 +59,21 @@
                         <hr class="m-0">
                         <div class="row ">
                             <div class="col-6 text-center py-2">
-                                <span class="fa-5x text-bold counter text-red">64</span>
+                                <span class="fa-5x text-bold counter text-red belum-tindak"></span>
                                 <p class="text-sm text-gray">Belum ditindaklanjuti</p>
                             </div>
                             <div class="col-6 text-center py-2">
-                                <span class="fa-5x text-bold counter text-warning">124</span>
+                                <span class="fa-5x text-bold counter text-warning sedang-tindak"></span>
                                 <p class="text-sm text-gray">Sedang ditindak</p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6 text-center py-2">
-                                <span class="fa-5x text-bold counter text-primary">12</span>
+                                <span class="fa-5x text-bold counter text-primary selesai-tindak"></span>
                                 <p class="text-sm text-gray">Selesai Ditindak</p>
                             </div>
                             <div class="col-6 text-center py-2">
-                                <span class="fa-5x text-bold counter text-success">45</span>
+                                <span class="fa-5x text-bold counter text-success telah-verif"></span>
                                 <p class="text-sm text-gray">Telah diverifikasi</p>
                             </div>
                         </div>
@@ -81,25 +81,25 @@
                 </div>
                 <div class="col-md-7">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="small-box bg-white p-4" data-aos-once="true" data-aos="fade-left" data-aos-delay="200" data-aos-duration="500">
                                 <div class="row">
-                                    <div class="col-3 d-flex justify-content-center align-items-center">
+                                    <div class="col-6 d-flex justify-content-center align-items-center">
                                         <span class="dicon hijau fa-2x rounded">
                                             <i class="far fa-clock"></i>
                                         </span>
                                     </div>
-                                    <div class="col-9">
-                                        <span class="text-bold fa-4x counter">7</span>jam
+                                    <div class="col-6">
+                                        <span class="text-bold fa-4x counter rata-jam"></span>jam
 
-                                        <span class="text-bold fa-4x counter ml-3">12</span>menit
+                                        <span class="text-bold fa-4x counter ml-3 rata-menit"></span>menit
                                         <p class="text-gray">Rata-rata jam kerja</p>
 
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <div class="small-box bg-white p-4" data-aos-once="true" data-aos="fade-left" data-aos-delay="200" data-aos-duration="500">
                                 <div class="row">
                                     <div class="col-7 text-center">
@@ -108,11 +108,11 @@
                                         </div>
                                     </div>
                                     <div class="col-5 d-flex align-items-center">
-                                        <p class="text-gray">Jam kerja tebuang</p>
+                                        <p class="text-gray">Jam kerja terbuang</p>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="row">
                         <div class="col-12">
@@ -120,11 +120,11 @@
                                 <span class="text-sm ml-2 text-gray"><strong>Laporan</strong></span>
                                 <div class="row">
                                     <div class="col-6 text-center">
-                                        <span class="text-bold fa-4x counter">25</span>
+                                        <span class="text-bold fa-4x counter hari-kerja-input"></span>
                                         <p class="text-gray">Jumlah laporan diinputkan</p>
                                     </div>
                                     <div class="col-6 text-center">
-                                        <span class="text-bold fa-4x counter">77</span>
+                                        <span class="text-bold fa-4x counter hari-harus-input"></span>
                                         <p class="text-gray">Jumlah laporan Seharusnya</p>
                                     </div>
                                 </div>
@@ -146,7 +146,7 @@
                         <hr class="m-0">
                         <div class="row px-3">
                             <div class="col-12 d-flex justify-content-center align-items-center">
-                                <h3 class="my-2 text-white counter">97</h3>
+                                <h3 class="my-2 text-white counter kegiatan-pribadi"></h3>
                             </div>
                         </div>
                     </div>
@@ -168,11 +168,12 @@
                         <hr class="m-0">
                         <div class="row px-3">
                             <div class="col-6 d-flex justify-content-center align-items-center">
-                                <h3 class="my-2 counter text-white">12</h3>
+                                <h3 class="my-2 counter text-white kegiatan-lembur"></h3>
                             </div>
                             <div class="col-6 d-flex justify-content-center align-items-center">
                                 <div class="d-flex align-items-center">
-                                    <h3 class="my-2 counter text-white">30 </h3> <span class="ml-1 text-white">Jam</span>
+                                    <h3 class="my-2 counter text-white jam-lembur"></h3> <span class="ml-1 text-white">Jam</span>
+                                    <h3 class="my-2 counter text-white menit-lembur ml-2"></h3> <span class="ml-1 text-white">Menit</span>
                                 </div>
 
                             </div>
@@ -191,7 +192,7 @@
                         <hr class="m-0">
                         <div class="row px-3">
                             <div class="col-12 d-flex justify-content-center align-items-center">
-                                <h3 class="my-2 counter text-white">7</h3>
+                                <h3 class="my-2 counter text-white jumlah-cuti"></h3>
                             </div>
                         </div>
                     </div>
@@ -214,10 +215,11 @@
                         <hr class="m-0">
                         <div class="row px-3">
                             <div class="col-6 d-flex justify-content-center align-items-center">
-                                <h3 class="my-2 counter text-white">12</h3>
+                                <h3 class="my-2 counter text-white rata-jam-bidang"></h3> <span class="ml-1 text-white">Jam</span>
+                                <h3 class="my-2 counter text-white rata-menit-bidang ml-2"></h3> <span class="ml-1 text-white">Menit</span>
                             </div>
                             <div class="col-6 d-flex justify-content-center align-items-center">
-                                <h3 class="my-2 counter text-white">30 </h3>
+                                <h3 class="my-2 counter text-white kegiatan-bidang"></h3>
                             </div>
                         </div>
                     </div>
@@ -226,7 +228,7 @@
             </div>
             <div class="row">
                 <div class="col-md-7">
-                    <div class="card">
+                    <div class="card header-rencana">
                         <div class="card-header">
                             <h3 class="card-title">Rencana Kegiatan</h3>
                         </div>
@@ -261,8 +263,8 @@
                                             </tr>
 
                                         </thead>
-                                        <tbody>
-                                            <?php if ($list_kegiatan != null) : ?>
+                                        <tbody id="u">
+                                            <!-- <?php if ($list_kegiatan != null) : ?>
                                                 <?php $ke = 1; ?>
                                                 <?php foreach ($list_kegiatan as $list) : ?>
                                                     <tr>
@@ -288,7 +290,7 @@
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
-                                            <?php endif; ?>
+                                            <?php endif; ?> -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -307,8 +309,8 @@
                                             </tr>
 
                                         </thead>
-                                        <tbody>
-                                            <?php if ($list_kegiatan != null) : ?>
+                                        <tbody id="t">
+                                            <!-- <?php if ($list_kegiatan != null) : ?>
                                                 <?php $ke = 1; ?>
                                                 <?php foreach ($list_kegiatan as $list) : ?>
                                                     <?php $tahun = explode('-', $list['tgl_input']) ?>
@@ -337,7 +339,7 @@
                                                         </tr>
                                                     <?php endif ?>
                                                 <?php endforeach; ?>
-                                            <?php endif; ?>
+                                            <?php endif; ?> -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -348,8 +350,18 @@
                 <div class="col-md-5">
                     <div class="card">
                         <div class="card-body">
-                            <h5>Daftar Pegawai</h5>
-                            <table class="table table-hover mt-2">
+                            <div class="row">
+                                <div class="col-md-6 d-flex align-items-center">
+                                    <h5><strong>Daftar Pegawai</strong></h5>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-md">
+                                        <input type="search" id="pencarian4" name="table_search" class="form-control float-right" placeholder="Search ..." />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table class="table table-hover mt-2" id="tabelData4">
                                 <thead>
                                     <tr>
                                         <th>No.</th>
@@ -364,7 +376,9 @@
                                             <tr>
                                                 <td><?= $no_peg++; ?></td>
                                                 <td><?= $list_peg['nama_pegawai']; ?></td>
-                                                <td><?= $list_peg['nip_lama']; ?></td>
+                                                <td>
+                                                    <button class="btn btn-xs btn-primary lihat" data-nip="<?= $list_peg['nip_lama']; ?>"><i class="fas fa-eye"></i></button>
+                                                </td>
                                             </tr>
                                         <?php endforeach; ?>
                                     <?php endif; ?>
@@ -559,11 +573,6 @@
             });
         });
     }
-
-    counter()
-    $(document).on('click', '.rincian-1', function() {
-        counter()
-    })
 </script>
 
 <script src="<?= base_url('/js/circle-progress.js') ?>"></script>
@@ -601,6 +610,131 @@
     $(document).on('click', '#open-modal-hapus', function() {
         $('.hapus-kegiatan').attr('href', $(this).data('link'))
     })
+</script>
+
+
+<script src="<?= base_url('/plugins/sweetalert2/sweetalert2.min.js') ?>"></script>
+<script src="<?= base_url('/plugins/datatables/jquery.dataTables.min.js') ?>"></script>
+<script src="<?= base_url('/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') ?>"></script>
+<!-- API -->
+<script>
+    $('#tabelData4').DataTable({
+        paging: true,
+        lengthChange: false,
+        searching: true,
+        responsive: true,
+        ordering: false,
+        info: true,
+        autoWidth: false,
+        pageLength: 10,
+    });
+
+    $(document).ready(function() {
+        $('#tabelData4').DataTable().search($('#pencarian4').val()).draw();
+    });
+
+    $('#tabelData4_wrapper').children().first().addClass('d-none');
+    $('.dataTables_paginate').addClass('Pager2').addClass('float-right');
+    $('.dataTables_info').addClass('text-sm text-gray py-2');
+    $('.dataTables_paginate').parent().parent().addClass('card-footer clearfix');
+
+    $(document).on('keyup', '#pencarian4', function() {
+        $('#tabelData4').DataTable().search($('#pencarian4').val()).draw();
+    });
+    // -----
+    const baseUrl = '<?= base_url() ?>';
+    const sessionNip = '<?= session('nip_lama') ?>';
+    $(document).on('click', '.lihat', function() {
+        runApi($(this).data('nip'))
+    })
+    runApi('<?= session('nip_lama') ?>')
+
+    function runApi(nip) {
+        $.ajax({
+            dataType: "json",
+            url: baseUrl + '/APIRencanaKegiatan/' + nip,
+            success: function(data) {
+                // perintilan
+                $('.nama-pegawai').html(data['nama_pegawai'])
+                $('.rata-jam').html(data['rata_rata_jam'])
+                $('.rata-menit').html(data['rata_rata_menit'])
+                $('.kegiatan-pribadi').html(data['rata_rata_kegiatan_pribadi'])
+                $('.kegiatan-lembur').html(data['jumlah_kegiatan_cuti'])
+                $('.jam-lembur').html(data['jumlah_jam_lembur'])
+                $('.menit-lembur').html(data['jumlah_menit_lembur'])
+                $('.jumlah-cuti').html(data['jumlah_cuti'])
+                $('.rata-jam-bidang').html(data['rata_rata_jam_bidang'])
+                $('.rata-menit-bidang').html(data['rata_rata_menit_bidang'])
+                $('.kegiatan-bidang').html(data['jumlah_kegiatan_bidang'])
+                $('.hari-harus-input').html(data['total_hari_harus_input'])
+                $('.hari-kerja-input').html(data['total_hari_kerja_telah_input'])
+
+                $('.belum-tindak').html(data['rincian']['B'])
+                $('.sedang-tindak').html(data['rincian']['T'])
+                $('.selesai-tindak').html(data['rincian']['S'])
+                $('.telah-verif').html(data['verif']['S'])
+
+                // table
+                $('#u,#t').empty()
+                let tombol = '';
+                let no = {
+                    't': 1,
+                    'u': 1
+                };
+                if (nip == sessionNip) {
+                    $('.header-rencana').removeClass('d-none')
+
+                } else if (nip != sessionNip) {
+                    $('.header-rencana').addClass('d-none')
+                }
+                if (data['daftar_kegiatan'] != null) {
+                    $.each(data['daftar_kegiatan'], function(i) {
+                        if (nip == sessionNip) {
+                            tombol = `
+                                    <button class="btn btn-sm btn-danger" id="open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="` + baseUrl + `/hapusStatusRincian/` + data['daftar_kegiatan'][i]['id'] + `">Hapus</button>
+                                    <a href="` + baseUrl + `/updateStatusRincian/` + data['daftar_kegiatan'][i]['id'] + `" class="btn btn-sm btn-success">Selesai</a>
+                            `
+                        }
+
+                        $('#' + data['daftar_kegiatan'][i]['tipe_kegiatan'].toLowerCase()).append(
+                            `
+                            <tr>
+                                <td>` + no[data['daftar_kegiatan'][i]['tipe_kegiatan'].toLowerCase()]++ +
+                            `</td>
+                                <td>` + data['daftar_kegiatan'][i]['rincian_kegiatan'] + `</td>
+                                <td>` + data['daftar_kegiatan'][i]['status_rincian'] + `</td>
+                                <td>` + data['daftar_kegiatan'][i]['status_verifikasi'] + `</td>
+                                <td>
+                                    <a href="` + baseUrl + `/detailRencanaKegiatan/` + data['daftar_kegiatan'][i]['id'] + `/` + nip + `" class="btn btn-sm btn-warning">Detail</a>
+                                    ` + tombol + `
+                                </td>
+                            </tr>
+                            `
+                        )
+                    })
+                }
+                counter();
+            },
+            statusCode: {
+                500: function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal! Periksa kembali koneksi Anda!',
+                        showConfirmButton: false,
+                        timer: 3000
+                    })
+                }
+            },
+        });
+    }
+
+
+    $(document).ajaxStart(function() {
+        $('.loader-api').removeClass('d-none');
+
+    }).ajaxStop(function() {
+        $('.loader-api').addClass('d-none')
+    });
 </script>
 
 

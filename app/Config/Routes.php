@@ -52,7 +52,7 @@ $routes->get('/rincianKegiatanPegawai', 'masterRencanaKegiatan::rencanaKegiatan'
 $routes->post('/tambahRencanaKegiatan', 'masterRencanaKegiatan::tambahRencanaKegiatan');
 $routes->get('/updateStatusRincian/(:segment)', 'masterRencanaKegiatan::updateStatusRincian/$1');
 $routes->get('/hapusStatusRincian/(:segment)', 'masterRencanaKegiatan::hapusStatusRincian/$1');
-$routes->get('/riwayatRencanaKegiatan', 'masterRencanaKegiatan::riwayatRencanaKegiatan');
+$routes->get('/riwayatRencanaKegiatan/(:segment)', 'masterRencanaKegiatan::riwayatRencanaKegiatan/$1');
 $routes->get('/detailRencanaKegiatan/(:segment)/(:segment)', 'masterRencanaKegiatan::detailRencanaKegiatan/$1/$2');
 // $routes->get('/APIRencanaKegiatan', 'masterRencanaKegiatan::APIRencanaKegiatan/' . session('nip_lama'));
 $routes->get('/APIRencanaKegiatan/(:segment)', 'masterRencanaKegiatan::APIRencanaKegiatan/$1');

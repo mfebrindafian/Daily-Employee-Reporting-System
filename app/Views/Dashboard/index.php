@@ -301,8 +301,7 @@
                               <td class="text-center"> <?= $jml_perminggu_pegawai[($no_ke - 1)]; ?></td>
                               <?php $no_ke++ ?>
                               <td>
-
-                                <a href="<?= base_url('/showKegiatanPegawai/' . $pegawai['nip_lama']); ?>" class="btn btn-info btn-xs tombol" style="background-color: #2D95C9; border:none;"><i class="fas fa-search-plus"></i></a>
+                                <a href="<?= base_url('/showKegiatanPegawai/' . $pegawai['nip_lama']); ?>" class="btn btn-sm btn-primary" style="background-color: #2D95C9;"><span>Detail</span></a>
                               </td>
                             </tr>
                           <?php endforeach; ?>
@@ -466,6 +465,7 @@
                       <tr>
                         <th>NO.</th>
                         <th>TANGGAL</th>
+                        <th>TIPE KEGIATAN</th>
                         <th>URAIAN</th>
                         <th>JUMLAH</th>
                         <th>SATUAN</th>
@@ -482,6 +482,19 @@
                               <td id="tgl-kegiatan-tabel"><?= $list['tgl_kegiatan']; ?></td>
                               <?php $laporan = $list['uraian_kegiatan']; ?>
                               <?php $data = json_decode($laporan); ?>
+                              <?php $list_tipe = $data->kode_tipe ?>
+                              <td> <?php foreach ($list_tipe as $tipe) : ?>
+                                  <div class="p-2 mb-1 rounded-sm card-laporan">
+                                    <?php if ($tipe == '1') {
+                                        echo 'Berdasarkan sasaran kegiatan';
+                                      } elseif ($tipe == '2') {
+                                        echo 'Umum';
+                                      } elseif ($tipe == '3') {
+                                        echo 'Lembur';
+                                      } ?>
+                                  </div>
+                                <?php endforeach; ?>
+                              </td>
                               <?php $list_uraian = $data->uraian; ?>
                               <td>
                                 <?php foreach ($list_uraian as $uraian) : ?>
@@ -585,7 +598,7 @@
                           <div class="input-group w-100">
                             <select class="form-control w-100 tipe-kegiatan" name="field_tipe[]" required>
                               <option value=""> - Pilih Tipe -</option>
-                              <option value="1">Berdasarkan Rencana</option>
+                              <option value="1">Berdasarkan sasaran kegiatan</option>
                               <option value="2">Umum</option>
                               <option value="3">Lembur</option>
                             </select>
@@ -780,6 +793,7 @@
                   <thead>
                     <tr>
                       <th>NO.</th>
+                      <th>TIPE KEGIATAN</th>
                       <th>URAIAN</th>
                       <th>JUMLAH</th>
                       <th>SATUAN</th>
@@ -801,6 +815,19 @@
                         <tr>
                           <td>
                             <?= $i + 1; ?>
+                          </td>
+                          <?php $list_tipe = $data->kode_tipe ?>
+                          <td> <?php foreach ($list_tipe as $tipe) : ?>
+                              <div class="p-2 mb-1 rounded-sm card-laporan">
+                                <?php if ($tipe == '1') {
+                                    echo 'Berdasarkan sasaran kegiatan';
+                                  } elseif ($tipe == '2') {
+                                    echo 'Umum';
+                                  } elseif ($tipe == '3') {
+                                    echo 'Lembur';
+                                  } ?>
+                              </div>
+                            <?php endforeach; ?>
                           </td>
                           <td>
                             <?= $list_uraian[$i]; ?>

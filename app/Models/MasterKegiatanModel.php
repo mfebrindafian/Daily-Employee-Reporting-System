@@ -23,7 +23,7 @@ class masterKegiatanModel extends Model
         return $this
             ->table($this->table)
             ->where('user_id', $user_id)
-            ->orderBy('tgl_input', 'ASC')
+            ->orderBy('tgl_input', 'DESC')
             ->get()
             ->getResultArray();
     }

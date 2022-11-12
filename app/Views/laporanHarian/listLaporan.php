@@ -86,6 +86,7 @@
                                     <tr>
                                         <th>NO.</th>
                                         <th>TANGGAL</th>
+                                        <th>TIPE KEGIATAN</th>
                                         <th>URAIAN KEGIATAN</th>
                                         <th>JUMLAH</th>
                                         <th>SATUAN</th>
@@ -108,7 +109,19 @@
                                                 <td id="tgl-kegiatan-tabel"><?= $list['tgl_kegiatan']; ?></td>
                                                 <?php $laporan = $list['uraian_kegiatan']; ?>
                                                 <?php $data = json_decode($laporan); ?>
-
+                                                <?php $list_tipe = $data->kode_tipe ?>
+                                                <td> <?php foreach ($list_tipe as $tipe) : ?>
+                                                        <div class="p-2 mb-1 rounded-sm card-laporan">
+                                                            <?php if ($tipe == '1') {
+                                                                echo 'Berdasarkan sasaran kegiatan';
+                                                            } elseif ($tipe == '2') {
+                                                                echo 'Umum';
+                                                            } elseif ($tipe == '3') {
+                                                                echo 'Lembur';
+                                                            } ?>
+                                                        </div>
+                                                    <?php endforeach; ?>
+                                                </td>
                                                 <?php $list_uraian = $data->uraian; ?>
                                                 <td>
                                                     <?php foreach ($list_uraian as $uraian) : ?>
@@ -171,18 +184,18 @@
 
                                                 </td>
                                                 <td>
-                                                    <a href="<?= base_url('/showDetailLaporanHarian/' . $list['id']) ?>" type="button" id="btn-detail" class="btn btn-info btn-xs tombol" style="background-color: #E18939; border:none;">
-                                                        <i class="fas fa-eye"></i>
+                                                    <a href="<?= base_url('/showDetailLaporanHarian/' . $list['id']) ?>" type="button" id="btn-detail" class="btn btn-sm btn-primary">
+                                                        <span>Detail</span>
                                                     </a>
                                                     <?php foreach ($list_tipe as $tipe) : ?>
                                                         <?php if ($tipe != 4) : ?>
-                                                            <a href="<?= base_url('/showEditLaporanHarian/' . $list['id']) ?>" type="button" id="btn-edit" class="btn btn-info btn-xs tombol" style="background-color: #2D95C9; border:none;">
-                                                                <i class="fas fa-pen"></i>
+                                                            <a href=" <?= base_url('/showEditLaporanHarian/' . $list['id']) ?>" type="button" id="btn-edit" class="btn btn-sm btn-warning">
+                                                                <span>Edit</span>
                                                             </a>
                                                             <?php break; ?>
                                                         <?php endif ?>
                                                     <?php endforeach; ?>
-                                                    <button class="border-0 btn btn-xs btn-danger" id="open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="<?= base_url('/deleteLaporanKegiatan/' . $list['id']); ?>"><i class="fas fa-trash"></i></button>
+                                                    <button class="btn btn-sm btn-danger" id="open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="<?= base_url('/deleteLaporanKegiatan/' . $list['id']); ?>"> <span>Hapus</span></button>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
@@ -265,7 +278,7 @@
                                         <div class="input-group w-100">
                                             <select class="form-control w-100 tipe-kegiatan" name="field_tipe[]" required>
                                                 <option value=""> - Pilih Tipe -</option>
-                                                <option value="1">Berdasarkan Rencana</option>
+                                                <option value="1">Berdasarkan sasaran kegiatan</option>
                                                 <option value="2">Umum</option>
                                                 <option value="3">Lembur</option>
                                             </select>
@@ -473,7 +486,7 @@
                                                     <select class="form-control w-100 tipe-kegiatan" name="field_tipe[]" required>
 
                                                         <?php if ($list_tipe[$i] == '1') {
-                                                            echo '<option value="1">Berdasarkan Rencana</option>';
+                                                            echo '<option value="1">Berdasarkan sasaran kegiatan</option>';
                                                         } elseif ($list_tipe[$i] == '2') {
                                                             echo '<option value="2">Umum</option>';
                                                         } elseif ($list_tipe[$i] == '3') {
@@ -482,9 +495,9 @@
                                                         <?php if ($list_tipe[$i] == '1') {
                                                             echo '<option value="2">Umum</option><option value="3">Lembur</option>';
                                                         } elseif ($list_tipe[$i] == '2') {
-                                                            echo '<option value="1">Berdasarkan Rencana</option><option value="3">Lembur</option>';
+                                                            echo '<option value="1">Berdasarkan sasaran kegiatan</option><option value="3">Lembur</option>';
                                                         } elseif ($list_tipe[$i] == '3') {
-                                                            echo '<option value="1">Berdasarkan Rencana</option><option value="2">Umum</option>';
+                                                            echo '<option value="1">Berdasarkan sasaran kegiatan</option><option value="2">Umum</option>';
                                                         } ?>
                                                     </select>
                                                 </div>
@@ -697,6 +710,7 @@
                             <thead>
                                 <tr>
                                     <th>NO.</th>
+                                    <th>TIPE KEGIATAN</th>
                                     <th>URAIAN</th>
                                     <th>JUMLAH</th>
                                     <th>SATUAN</th>
@@ -713,6 +727,19 @@
                                         <tr>
                                             <td>
                                                 <?= $i + 1; ?>
+                                            </td>
+                                            <?php $list_tipe = $data->kode_tipe ?>
+                                            <td> <?php foreach ($list_tipe as $tipe) : ?>
+                                                    <div class="p-2 mb-1 rounded-sm card-laporan">
+                                                        <?php if ($tipe == '1') {
+                                                            echo 'Berdasarkan sasaran kegiatan';
+                                                        } elseif ($tipe == '2') {
+                                                            echo 'Umum';
+                                                        } elseif ($tipe == '3') {
+                                                            echo 'Lembur';
+                                                        } ?>
+                                                    </div>
+                                                <?php endforeach; ?>
                                             </td>
 
                                             <td>

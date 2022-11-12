@@ -36,8 +36,7 @@
                             <div class="col-4 p-0 text-right">
                                 <div>
                                     <span>Periode</span>
-                                    <strong class="ml-2">
-                                        1 Januari 2022 - 10 November 2022
+                                    <strong class="ml-2 periode" id="tgl-kegiatan-tabel">
                                     </strong>
                                 </div>
                             </div>
@@ -51,7 +50,7 @@
                         <div class="row px-1">
                             <div class="col-12 py-1 text-center text-truncate ">
                                 <span class="text-bold">
-                                    Pekerjaan
+                                    Data sasaran kegiatan
                                 </span>
                             </div>
                         </div>
@@ -64,17 +63,17 @@
                             </div>
                             <div class="col-6 text-center py-2">
                                 <span class="fa-5x text-bold counter text-warning sedang-tindak"></span>
-                                <p class="text-sm text-gray">Sedang ditindak</p>
+                                <p class="text-sm text-gray">Sedang ditindaklanjuti</p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6 text-center py-2">
                                 <span class="fa-5x text-bold counter text-primary selesai-tindak"></span>
-                                <p class="text-sm text-gray">Selesai Ditindak</p>
+                                <p class="text-sm text-gray">Selesai ditindaklanjuti</p>
                             </div>
                             <div class="col-6 text-center py-2">
                                 <span class="fa-5x text-bold counter text-success telah-verif"></span>
-                                <p class="text-sm text-gray">Telah diverifikasi</p>
+                                <p class="text-sm text-gray">Telah diverifikasi koordinator</p>
                             </div>
                         </div>
                     </div>
@@ -93,7 +92,7 @@
                                         <span class="text-bold fa-4x counter rata-jam"></span>jam
 
                                         <span class="text-bold fa-4x counter ml-3 rata-menit"></span>menit
-                                        <p class="text-gray">Rata-rata jam kerja</p>
+                                        <p class="text-gray">Rata-rata jam kerja harian</p>
 
                                     </div>
                                 </div>
@@ -117,7 +116,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="small-box bg-white p-2" data-aos-once="true" data-aos="fade-left" data-aos-delay="300" data-aos-duration="500">
-                                <span class="text-sm ml-2 text-gray"><strong>Laporan</strong></span>
+                                <span class="text-sm ml-2 text-gray"><strong>Laporan kegiatan</strong></span>
                                 <div class="row">
                                     <div class="col-6 text-center">
                                         <span class="text-bold fa-4x counter hari-kerja-input"></span>
@@ -125,7 +124,7 @@
                                     </div>
                                     <div class="col-6 text-center">
                                         <span class="text-bold fa-4x counter hari-harus-input"></span>
-                                        <p class="text-gray">Jumlah laporan Seharusnya</p>
+                                        <p class="text-gray">Jumlah laporan seharusnya</p>
                                     </div>
                                 </div>
                             </div>
@@ -208,7 +207,7 @@
                             </div>
                             <div class="col-6 py-2 text-center text-truncate ">
                                 <span class="text-sm text-white">
-                                    Jumlah Laporan Bidang
+                                    Jumlah Kegiatan Bidang
                                 </span>
                             </div>
                         </div>
@@ -230,7 +229,7 @@
                 <div class="col-md-7">
                     <div class="card header-rencana">
                         <div class="card-header">
-                            <h3 class="card-title">Rencana Kegiatan</h3>
+                            <h3 class="card-title">Sasaran Kegiatan Tahunan</h3>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -264,33 +263,6 @@
 
                                         </thead>
                                         <tbody id="u">
-                                            <!-- <?php if ($list_kegiatan != null) : ?>
-                                                <?php $ke = 1; ?>
-                                                <?php foreach ($list_kegiatan as $list) : ?>
-                                                    <tr>
-                                                        <td><?= $ke++; ?></td>
-                                                        <td><?= $list['rincian_kegiatan']; ?></td>
-                                                        <td><?php if ($list['status_rincian'] == 'B') {
-                                                                echo 'Belum ditindaklanjuti';
-                                                            } elseif ($list['status_rincian'] == 'T') {
-                                                                echo 'Sedang ditindaklanjuti';
-                                                            } else {
-                                                                echo 'Selesai ditindaklanjuti';
-                                                            } ?></td>
-                                                        <td><?php if ($list['status_verifikasi'] == 'B') {
-                                                                echo 'Belum diverifikasi';
-                                                            } else {
-                                                                echo 'sudah diverifikasi';
-                                                            } ?></td>
-
-                                                        <td>
-                                                            <a href="<?= base_url('/detailRencanaKegiatan/' . $list['id']) ?>" class="btn btn-sm btn-warning">Detail</a>
-                                                            <button class="border-0 btn btn-sm btn-danger" id="open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="<?= base_url('/hapusStatusRincian/' . $list['id']); ?>">Hapus</button>
-                                                            <a href="<?= base_url('/updateStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-success">Selesai</a>
-                                                        </td>
-                                                    </tr>
-                                                <?php endforeach; ?>
-                                            <?php endif; ?> -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -310,36 +282,7 @@
 
                                         </thead>
                                         <tbody id="t">
-                                            <!-- <?php if ($list_kegiatan != null) : ?>
-                                                <?php $ke = 1; ?>
-                                                <?php foreach ($list_kegiatan as $list) : ?>
-                                                    <?php $tahun = explode('-', $list['tgl_input']) ?>
 
-                                                    <?php if ($list['tipe_kegiatan'] == 'T' && $tahun[0] == date('Y')) : ?>
-                                                        <tr>
-                                                            <td><?= $ke++; ?></td>
-                                                            <td><?= $list['rincian_kegiatan']; ?></td>
-                                                            <td><?php if ($list['status_rincian'] == 'B') {
-                                                                    echo 'Belum ditindaklanjuti';
-                                                                } elseif ($list['status_rincian'] == 'T') {
-                                                                    echo 'Sedang ditindaklanjuti';
-                                                                } else {
-                                                                    echo 'Selesai ditindaklanjuti';
-                                                                } ?></td>
-                                                            <td><?php if ($list['status_verifikasi'] == 'B') {
-                                                                    echo 'Belum diverifikasi';
-                                                                } else {
-                                                                    echo 'sudah diverifikasi';
-                                                                } ?></td>
-                                                            <td>
-                                                                <a href="<?= base_url('/detailRencanaKegiatan/' . $list['id']) ?>" class="btn btn-sm btn-warning">Detail</a>
-                                                                <button class="border-0 btn btn-sm btn-danger" id="open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="<?= base_url('/hapusStatusRincian/' . $list['id']); ?>">Hapus</button>
-                                                                <a href="<?= base_url('/updateStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-success">Selesai</a>
-                                                            </td>
-                                                        </tr>
-                                                    <?php endif ?>
-                                                <?php endforeach; ?>
-                                            <?php endif; ?> -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -377,7 +320,7 @@
                                                 <td><?= $no_peg++; ?></td>
                                                 <td><?= $list_peg['nama_pegawai']; ?></td>
                                                 <td>
-                                                    <button class="btn btn-xs btn-primary lihat" data-nip="<?= $list_peg['nip_lama']; ?>"><i class="fas fa-eye"></i></button>
+                                                    <button class="btn btn-sm btn-primary lihat" style="background-color: #2D95C9;" data-nip="<?= $list_peg['nip_lama']; ?>"><span>Detail</span></i></button>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
@@ -495,6 +438,8 @@
 
 <script src="<?= base_url('/js/aos.js') ?>"></script>
 <script src="<?= base_url('/js/progresscircle.js') ?>"></script>
+<script src="<?= base_url('/js/tanggal.js') ?>"></script>
+<script src="<?= base_url('/js/laporan.js') ?>"></script>
 <script>
     AOS.init();
 </script>
@@ -656,6 +601,7 @@
             success: function(data) {
                 // perintilan
                 $('.nama-pegawai').html(data['nama_pegawai'])
+                $('.periode').html(data['periode_awal'] + ` - ` + data['periode_akhir'])
                 $('.rata-jam').html(data['rata_rata_jam'])
                 $('.rata-menit').html(data['rata_rata_menit'])
                 $('.kegiatan-pribadi').html(data['rata_rata_kegiatan_pribadi'])
@@ -705,7 +651,7 @@
                                 <td>` + data['daftar_kegiatan'][i]['status_rincian'] + `</td>
                                 <td>` + data['daftar_kegiatan'][i]['status_verifikasi'] + `</td>
                                 <td>
-                                    <a href="` + baseUrl + `/detailRencanaKegiatan/` + data['daftar_kegiatan'][i]['id'] + `/` + nip + `" class="btn btn-sm btn-warning">Detail</a>
+                                    <a href="` + baseUrl + `/detailRencanaKegiatan/` + data['daftar_kegiatan'][i]['id'] + `/` + nip + `" class="btn btn-sm btn-primary">Detail</a>
                                     ` + tombol + `
                                 </td>
                             </tr>
@@ -736,6 +682,7 @@
         $('.loader-api').addClass('d-none')
     });
 </script>
+
 
 
 <?= $this->endSection(); ?>

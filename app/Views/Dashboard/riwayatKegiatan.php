@@ -42,6 +42,7 @@
                                         <thead>
                                             <tr>
                                                 <th>No.</th>
+                                                <th>Tahun</th>
                                                 <th>Kegiatan</th>
                                                 <th>Tipe</th>
                                                 <th>Status</th>
@@ -49,16 +50,35 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1.</td>
-                                                <td>Mencangkul Tanaman</td>
-                                                <td>Petani</td>
-                                                <td>Proses</td>
-                                                <td>
-                                                    <a href="#" class="btn btn-sm btn-danger">Aksi 1</a>
-                                                    <a href="#" class="btn btn-sm btn-success">Aksi 2</a>
-                                                </td>
-                                            </tr>
+                                            <?php if ($list_kegiatan != null) : ?>
+                                                <?php $ke = 1; ?>
+                                                <?php foreach ($list_kegiatan as $list) : ?>
+                                                    <tr>
+                                                        <td><?= $ke++; ?></td>
+                                                        <?php $tahun = explode('-', $list['tgl_input']) ?>
+                                                        <td><?= $tahun[0]; ?></td>
+                                                        <td><?= $list['rincian_kegiatan']; ?></td>
+                                                        <td><?php if ($list['status_rincian'] == 'B') {
+                                                                echo 'Belum ditindaklanjuti';
+                                                            } elseif ($list['status_rincian'] == 'T') {
+                                                                echo 'Sedang ditindaklanjuti';
+                                                            } else {
+                                                                echo 'Selesai ditindaklanjuti';
+                                                            } ?></td>
+                                                        <td><?php if ($list['status_verifikasi'] == 'B') {
+                                                                echo 'Belum diverifikasi';
+                                                            } else {
+                                                                echo 'sudah diverifikasi';
+                                                            } ?></td>
+
+                                                        <td>
+                                                            <a href="<?= base_url('/detailRencanaKegiatan/' . $list['id']) ?>" class="btn btn-sm btn-warning">Detail</a>
+                                                            <button class="border-0 btn btn-sm btn-danger" id="open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="<?= base_url('/hapusStatusRincian/' . $list['id']); ?>">Hapus</button>
+                                                            <a href="<?= base_url('/updateStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-success">Selesai</a>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </div>

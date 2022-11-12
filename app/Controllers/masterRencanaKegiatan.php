@@ -42,7 +42,7 @@ class masterRencanaKegiatan extends BaseController
 
 
         $data = [
-            'title' => 'Rincian Kegiatan',
+            'title' => 'Data Kegiatan',
             'menu' => 'Dashboard',
             'subMenu' => 'Kegiatan Pegawai',
             'list_kegiatan' => $daftar_kegiatan,
@@ -126,6 +126,7 @@ class masterRencanaKegiatan extends BaseController
         } else {
             $jumlah['total_hari_kerja_telah_input'] = 0;
         }
+
         //BATAS MENGHITUNG SELURUH LAPORAN HARI KERJA YANG TELAH DIINPUTKAN DENGAN BATASAN IRISAN (SELURUH HARI MULAI 1 JANUARI SAMPAI HARI INI TANPA SABTU DAN MINGGU DAN LIBUR NASIONAL)
 
         //MENGHITUNG JUMLAH KEGIATAN LEMBUR
@@ -301,6 +302,7 @@ class masterRencanaKegiatan extends BaseController
         //MENGHITUNG RATA-RATA KEGIATAN PERHARI PRIBADI
         if ($list_laporan4 != null) {
             $rata_rata_kegiatan = (count($list_laporan4) / $jumlah['total_hari_harus_input']);
+
             $jumlah['rata_rata_kegiatan_pribadi'] = floor($rata_rata_kegiatan);
         } else {
             $jumlah['rata_rata_kegiatan_pribadi'] = 0;
@@ -373,7 +375,7 @@ class masterRencanaKegiatan extends BaseController
                         $list_durasi_menit = $data->durasi_menit;
                         foreach ($list_tipe as $tipe4) {
                             $cek_tipe2[] = $tipe4;
-                            if ($tipe4 != '4' && $tipe3 != '3') {
+                            if ($tipe4 != '4' && $tipe4 != '3') {
                                 $list_laporan6[] = [
                                     'uraian' => $list_uraian[$ke_bid],
                                     'durasi_jam' => $list_durasi_jam[$ke_bid],
@@ -495,16 +497,16 @@ class masterRencanaKegiatan extends BaseController
         return redirect()->to('/rincianKegiatanPegawai');
     }
 
-    public function riwayatRencanaKegiatan()
+    public function riwayatRencanaKegiatan($nip_lama)
     {
-        $user_id = session('user_id');
-        $list_rencana = $this->masterKegiatanModel->getAllByUserIdOrderYear($user_id);
+        $user_id = $this->masterUserModel->getUserId($nip_lama);
+        $list_kegiatan = $this->masterKegiatanModel->getAllByUserIdOrderYear($user_id['id']);
 
         $data = [
-            'title' => 'Rincian Kegiatan',
+            'title' => 'Data Kegiatan',
             'menu' => 'Dashboard',
             'subMenu' => '',
-            'list_kegiatan' => $list_rencana
+            'list_kegiatan' => $list_kegiatan
         ];
 
         return view('Dashboard/riwayatKegiatan', $data);
@@ -556,7 +558,7 @@ class masterRencanaKegiatan extends BaseController
         }
 
         $data = [
-            'title' => 'Rincian Kegiatan',
+            'title' => 'Data Kegiatan',
             'menu' => 'Dashboard',
             'subMenu' => '',
             'data_kegiatan' => $data_kegiatan,

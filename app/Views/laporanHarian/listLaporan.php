@@ -23,6 +23,15 @@
     </section>
     <section class="content">
         <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body text-right">
+                            <span>Hari ini <strong class="tgl-hari-ini"></strong>, Total Jam Kerja Hari Ini <span class="text-bold p-2 bg-info rounded ml-2 mr-1">2 Jam 30 Menit</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="card card-primary card-outline" style="border: #3c4b64;">
                 <div class="card-body box-profile">
                     <div class="row">
@@ -1030,6 +1039,10 @@
 <script>
     $(document).on('click', '#open-modal-hapus', function() {
         $('.hapus-kegiatan').attr('href', $(this).data('link'))
+    })
+
+    $(document).ready(function() {
+        $('.tgl-hari-ini').html(ubahFormatTanggal(new Date()))
     })
 </script>
 

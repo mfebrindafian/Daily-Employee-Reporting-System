@@ -614,7 +614,7 @@ class masterRencanaKegiatan extends BaseController
         return view('Dashboard/detailKegiatan', $data);
     }
 
-    public function verifkasiKegiatan($id_kegiatan)
+    public function verifikasiKegiatan($id_kegiatan)
     {
         $this->masterKegiatanModel->save([
             'id' => $id_kegiatan,

@@ -349,7 +349,7 @@ class masterRencanaKegiatan extends BaseController
         //MENGHITUNG RATA-RATA JAM KERJA HARIAN PEGAWAI DI BIDANG YANG SAMA
         $kd = $this->masterPegawaiModel->getProfilCetak($data_user['nip_lama_user']);
 
-        $list_pegawai_bidang = $this->masterPegawaiModel->getAllPegawaiOnBidang($kd['satker_kd'], $kd['es3_kd']);
+        $list_pegawai_bidang = $this->masterPegawaiModel->getAllPegawaiBidang($kd['satker_kd'], $kd['es3_kd']);
         $ke = 0;
         if ($list_pegawai_bidang != null) {
             foreach ($list_pegawai_bidang as $pegawai) {
@@ -439,14 +439,47 @@ class masterRencanaKegiatan extends BaseController
             foreach ($list_kegiatan as $list) {
                 $kegiatan = explode('-', $list['tgl_input']);
                 if ($kegiatan[0] == date('Y')) {
-                    $jumlah['daftar_kegiatan'][] = $list;
+                    $allkegiatan[] = $list;
                 } else {
-                    $jumlah['daftar_kegiatan'] = null;
+                    $allkegiatan = null;
                 }
+            }
+        } else {
+            $allkegiatan = null;
+        }
+
+        $status_rincian = null;
+        $status_verifikasi = null;
+        if ($allkegiatan != null) {
+            foreach ($allkegiatan as $all) {
+                if ($all['status_rincian'] == 'B') {
+                    $status_rincian =  'Belum ditindaklanjuti';
+                } elseif ($list['status_rincian'] == 'T') {
+                    $status_rincian =  'Sedang ditindaklanjuti';
+                } else {
+                    $status_rincian =  'Selesai ditindaklanjuti';
+                }
+
+                if ($all['status_verifikasi'] == 'B') {
+                    $status_verifikasi =  'Belum diverifikasi';
+                } else {
+                    $status_verifikasi =  'sudah diverifikasi';
+                }
+                $jumlah['daftar_kegiatan'][] = [
+                    'id' => $all['id'],
+                    'user_id' => $all['user_id'],
+                    'rincian_kegiatan' => $all['rincian_kegiatan'],
+                    'tipe_kegiatan' => $all['tipe_kegiatan'],
+                    'status_rincian' => $status_rincian,
+                    'status_verifikasi' => $status_verifikasi,
+                    'tgl_input' => $all['tgl_input'],
+                    'tgl_update' => $all['tgl_update']
+                ];
             }
         } else {
             $jumlah['daftar_kegiatan'] = null;
         }
+
         //BATAS UNTUK DAFTAR LIST KEGIATAN
 
         $nama_pegawai = $this->masterPegawaiModel->getProfilCetak($data_user['nip_lama_user']);
@@ -567,5 +600,15 @@ class masterRencanaKegiatan extends BaseController
         // dd($data);
 
         return view('Dashboard/detailKegiatan', $data);
+    }
+
+    public function verifkasiKegiatan($id_kegiatan)
+    {
+        $this->masterKegiatanModel->save([
+            'id' => $id_kegiatan,
+            'status_verifikasi' => 'S',
+        ]);
+
+        return redirect()->to('/rincianKegiatanPegawai');
     }
 }

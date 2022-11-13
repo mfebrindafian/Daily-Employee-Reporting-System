@@ -17,7 +17,7 @@ class MasterPegawaiModel extends Model
             ->get()
             ->getResultArray();
     }
-    
+
     public function getProfilCetak($nip_lama_user)
     {
         return $this
@@ -121,7 +121,7 @@ class MasterPegawaiModel extends Model
             ->getResultArray();
     }
 
-    
+
 
 
     public function getAllPegawaiOnBidang($satker_kd, $es3_kd)
@@ -140,5 +140,15 @@ class MasterPegawaiModel extends Model
             $query = ('SELECT * FROM dbsiphp.tbl_user tn join dbsiphp2.mst_pegawai tn1 where tn.nip_lama_user = tn1.nip_lama AND tn1.satker_kd = ' . $satker_kd . ' AND tn1.es3_kd = ' . intval($es3_kd));
             return $this->db->query($query)->getResultArray();
         }
+    }
+
+    public function getAllPegawaiBidang($satker_kd, $es3_kd)
+    {
+        return $this
+            ->table('mst_pegawai')
+            ->where('satker_kd', $satker_kd)
+            ->where('es3_kd', $es3_kd)
+            ->get()
+            ->getResultArray();
     }
 }

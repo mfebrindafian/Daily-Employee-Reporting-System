@@ -23,11 +23,16 @@
     </section>
     <section class="content">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body text-right">
-                            <span>Hari ini <strong class="tgl-hari-ini"></strong>, Total Jam Kerja Hari Ini <span class="text-bold p-2 bg-info rounded ml-2 mr-1">2 Jam 30 Menit</span></span>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <span style="font-size:30px;"><span class="tgl-hari-ini"></span></span>
+                        </div>
+                        <div class="col-6 justify-content-end d-flex align-items-center">
+                            <span class="text-right">
+                                Total Jam Kerja Hari Ini <span class="text-bold p-2 bg-info rounded ml-2 mr-1"><?= $jam; ?> Jam <?= $menit; ?> Menit</span>
+                            </span>
                         </div>
                     </div>
                 </div>

@@ -47,7 +47,7 @@ class masterRencanaKegiatan extends BaseController
         $data = [
             'title' => 'Data Kegiatan',
             'menu' => 'Dashboard',
-            'subMenu' => 'Kegiatan Pegawai',
+            'subMenu' => 'Data Kegiatan',
             'list_kegiatan' => $daftar_kegiatan,
             'list_pegawai' => $list_pegawai,
             'dari_verif' => 'off'
@@ -93,9 +93,19 @@ class masterRencanaKegiatan extends BaseController
                 "verify_peer_name" => false,
             ),
         );
-        $url = ("https://api-harilibur.vercel.app/api");
-        $get_url = file_get_contents($url, false, stream_context_create($arrContextOptions));
-        $libur_nasional = json_decode($get_url);
+
+        $curl_handle = curl_init();
+        curl_setopt($curl_handle, CURLOPT_URL, 'https://api-harilibur.vercel.app/api');
+        curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
+        curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl_handle, CURLOPT_USERAGENT, 'Your application name');
+        $query = curl_exec($curl_handle);
+        curl_close($curl_handle);
+        // dd($query);
+        // $url = ("https://api-harilibur.vercel.app/api");
+        // $get_url = file_get_contents($url, false, stream_context_create($arrContextOptions));
+        // $libur_nasional = json_decode($get_url);
+        $libur_nasional = json_decode($query);
 
         foreach ($libur_nasional as $libur) {
             if ($libur->is_national_holiday == 'true') {
@@ -435,7 +445,7 @@ class masterRencanaKegiatan extends BaseController
         //MENGHITUNG JUMLAH KEGIATAN YANG DIKERJAKAN BIDANG YANG SAMA
         if ($list_pegawai_bidang != null) {
             if ($list_laporan6 != null) {
-                $jumlah['jumlah_kegiatan_bidang'] = round(count($list_laporan6) / count($list_pegawai_bidang));
+                $jumlah['jumlah_kegiatan_bidang'] = round(count($list_laporan6) / $jumlah['total_hari_harus_input'] / count($list_pegawai_bidang));
             } else {
                 $jumlah['jumlah_kegiatan_bidang'] = 0;
             }

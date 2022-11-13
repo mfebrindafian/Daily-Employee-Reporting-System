@@ -464,7 +464,7 @@ class masterRencanaKegiatan extends BaseController
             foreach ($allkegiatan as $all) {
                 if ($all['status_rincian'] == 'B') {
                     $status_rincian =  'Belum ditindaklanjuti';
-                } elseif ($list['status_rincian'] == 'T') {
+                } elseif ($all['status_rincian'] == 'T') {
                     $status_rincian =  'Sedang ditindaklanjuti';
                 } else {
                     $status_rincian =  'Selesai ditindaklanjuti';
@@ -563,7 +563,8 @@ class masterRencanaKegiatan extends BaseController
             'title' => 'Data Kegiatan',
             'menu' => 'Dashboard',
             'subMenu' => '',
-            'list_kegiatan' => $list_kegiatan
+            'list_kegiatan' => $list_kegiatan,
+            'nip_lama' => $nip_lama
         ];
 
         return view('Dashboard/riwayatKegiatan', $data);

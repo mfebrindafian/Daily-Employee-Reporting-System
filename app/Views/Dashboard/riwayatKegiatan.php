@@ -25,7 +25,7 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col-4">
                                     <div class="form-group ">
                                         <select class="form-control" name="" id="">
@@ -34,7 +34,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="row">
                                 <div class="col-12">
 
@@ -72,9 +72,7 @@
                                                             } ?></td>
 
                                                         <td>
-                                                            <a href="<?= base_url('/detailRencanaKegiatan/' . $list['id']) ?>" class="btn btn-sm btn-warning">Detail</a>
-                                                            <button class="border-0 btn btn-sm btn-danger" id="open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="<?= base_url('/hapusStatusRincian/' . $list['id']); ?>">Hapus</button>
-                                                            <a href="<?= base_url('/updateStatusRincian/' . $list['id']); ?>" class="btn btn-sm btn-success">Selesai</a>
+                                                            <a href="<?= base_url('/detailRencanaKegiatan/' . $list['id'] . '/' . $nip_lama) ?>" class="btn btn-sm btn-warning">Detail</a>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>

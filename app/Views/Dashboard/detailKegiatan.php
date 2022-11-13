@@ -79,7 +79,6 @@
                                                 <tr>
                                                     <th>No.</th>
                                                     <th>Tanggal Kegiatan</th>
-                                                    <th>Tipe Kegiatan</th>
                                                     <th>Uraian</th>
                                                     <th>Jumlah</th>
                                                     <th>Satuan</th>

@@ -95,6 +95,7 @@ class masterRencanaKegiatan extends BaseController
         $url = ("https://api-harilibur.vercel.app/api");
         $get_url = file_get_contents($url, false, stream_context_create($arrContextOptions));
         $libur_nasional = json_decode($get_url);
+
         foreach ($libur_nasional as $libur) {
             if ($libur->is_national_holiday == 'true') {
                 $tanggal = new DateTime($libur->holiday_date);

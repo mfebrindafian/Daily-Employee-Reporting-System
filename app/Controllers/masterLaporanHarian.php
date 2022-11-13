@@ -71,6 +71,28 @@ class masterLaporanHarian extends BaseController
             $tanggal_input_terakhir = null;
         }
 
+        $laporan_today = $this->masterLaporanHarianModel->getTotalByUserToday(session('user_id'), date('Y-m-d'));
+        if ($laporan_today != null) {
+            $laporan = $laporan_today['uraian_kegiatan'];
+            $data = json_decode($laporan);
+            $uraian = $data->uraian;
+            $durasi_jam = $data->durasi_jam;
+            $durasi_menit = $data->durasi_menit;
+            foreach ($durasi_jam as $jam) {
+                $alljam[] = $jam;
+            }
+            foreach ($durasi_menit as $menit) {
+                $allmenit[] = $menit;
+            }
+
+            $jumlah_jam = array_sum($alljam);
+            $jumlah_menit = array_sum($allmenit);
+        } else {
+            $jumlah_jam = 0;
+            $jumlah_menit = 0;
+        }
+
+
 
 
 
@@ -89,7 +111,9 @@ class masterLaporanHarian extends BaseController
             'tanggal_input_terakhir' => $tanggal_input_terakhir,
             'tahun_tersedia' => $tahun_tersedia,
             'keyword' => $keyword,
-            'list_rencana' => $this->masterKegiatanModel->getAllByUserId(session('user_id'))
+            'list_rencana' => $this->masterKegiatanModel->getAllByUserId(session('user_id')),
+            'jam' => $jumlah_jam,
+            'menit' => $jumlah_menit
         ];
         // dd($data);
         return view('laporanHarian/listLaporan', $data);
@@ -215,7 +239,9 @@ class masterLaporanHarian extends BaseController
             'tahun_tersedia' => $tahun_tersedia,
             'keyword' => $keyword,
             'list_full_laporan_harian' =>  $this->masterLaporanHarianModel->getTotalByUser(session('user_id')),
-            'list_rencana' => $this->masterKegiatanModel->getAllByUserId(session('user_id'))
+            'list_rencana' => $this->masterKegiatanModel->getAllByUserId(session('user_id')),
+            'jam' => 0,
+            'menit' => 0
         ];
         // dd($data);
         return view('laporanHarian/listLaporan', $data);
@@ -417,7 +443,9 @@ class masterLaporanHarian extends BaseController
             'tahun_tersedia' => $tahun_tersedia,
             'keyword' => $keyword,
             'list_full_laporan_harian' =>  $this->masterLaporanHarianModel->getTotalByUser(session('user_id')),
-            'list_rencana' => $this->masterKegiatanModel->getAllByUserId(session('user_id'))
+            'list_rencana' => $this->masterKegiatanModel->getAllByUserId(session('user_id')),
+            'jam' => 0,
+            'menit' => 0
         ];
         // dd($data);
         return view('laporanHarian/listLaporan', $data);

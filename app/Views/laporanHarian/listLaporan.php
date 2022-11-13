@@ -526,7 +526,7 @@
                                                                                                                 echo $rencana['rincian_kegiatan'];
                                                                                                             }
                                                                                                         }
-                                                                                                    } ?>- pilih kegiatan -</option>
+                                                                                                    } ?></option>
                                                         <?php if ($list_rencana != null) : ?>
                                                             <?php foreach ($list_rencana as $rencana) : ?>
                                                                 <?php if ($list_rencana2[$i] != $rencana['id']) : ?>

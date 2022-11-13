@@ -682,6 +682,10 @@
                                     <button class="btn btn-sm btn-danger" id="open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="` + baseUrl + `/hapusStatusRincian/` + data['daftar_kegiatan'][i]['id'] + `">Hapus</button>
                                     <a href="` + baseUrl + `/updateStatusRincian/` + data['daftar_kegiatan'][i]['id'] + `" class="btn btn-sm btn-success">Selesai</a>
                             `
+                        } else if (nip == sessionNip && data['daftar_kegiatan'][i]['status_rincian'] == 'Sedang ditindaklanjuti' && data['daftar_kegiatan'][i]['status_verifikasi'] == 'Belum diverifikasi') {
+                            tombol = `
+                                    <a href="` + baseUrl + `/updateStatusRincian/` + data['daftar_kegiatan'][i]['id'] + `" class="btn btn-sm btn-success">Selesai</a>
+                            `
                         } else if (nip == sessionNip && data['daftar_kegiatan'][i]['status_rincian'] == 'Selesai ditindaklanjuti' && data['daftar_kegiatan'][i]['status_verifikasi'] == 'Belum diverifikasi') {
                             tombol = `
                             <a href="` + baseUrl + `/batalStatusRincian/` + data['daftar_kegiatan'][i]['id'] + `" class="btn btn-sm btn-danger">Batal</a>

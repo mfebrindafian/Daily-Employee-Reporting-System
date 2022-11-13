@@ -620,6 +620,8 @@
     // -----
     const baseUrl = '<?= base_url() ?>';
     const sessionNip = '<?= session('nip_lama') ?>';
+    const es3kd = '<?= session('es3_kd') ?>'
+    const jabatan = '<?= session('jabatan') ?>'
     $(document).on('click', '.lihat', function() {
         runApi($(this).data('nip'))
     })
@@ -674,11 +676,23 @@
                                     <button class="btn btn-sm btn-danger" id="open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="` + baseUrl + `/hapusStatusRincian/` + data['daftar_kegiatan'][i]['id'] + `">Hapus</button>
                                     <a href="` + baseUrl + `/updateStatusRincian/` + data['daftar_kegiatan'][i]['id'] + `" class="btn btn-sm btn-success">Selesai</a>
                             `
-                        } else if (nip == sessionNip && data['daftar_kegiatan'][i]['status_rincian'] != 'Belum ditindaklanjuti') {
+                        } else if (nip == sessionNip && data['daftar_kegiatan'][i]['status_rincian'] == 'Selesai ditindaklanjuti') {
                             tombol = `
                                     <button class="btn btn-sm btn-danger" id="open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="` + baseUrl + `/hapusStatusRincian/` + data['daftar_kegiatan'][i]['id'] + `">Hapus</button>
                             `
                         }
+
+                        if (es3kd == data['es3_kd'] && jabatan == 'koordinator' && data['daftar_kegiatan'][i]['status_rincian'] == 'Selesai ditindaklanjuti' && data['daftar_kegiatan'][i]['status_verifikasi'] == 'Belum diverifikasi') {
+                            tombol += `
+                            <a href="` + baseUrl + `/verifikasiKegiatan/` + data['daftar_kegiatan'][i]['id'] + `" class="btn btn-sm btn-info">Verifikasi</a>
+                            `
+                        }
+
+                        console.log(es3kd)
+                        console.log(data['es3_kd'])
+                        console.log(jabatan)
+                        console.log(data['daftar_kegiatan'][i]['status_rincian'])
+                        console.log(data['daftar_kegiatan'][i]['status_verifikasi'])
 
                         $('#' + data['daftar_kegiatan'][i]['tipe_kegiatan'].toLowerCase()).append(
                             `

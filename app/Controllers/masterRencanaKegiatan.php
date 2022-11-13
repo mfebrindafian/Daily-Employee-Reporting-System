@@ -495,6 +495,7 @@ class masterRencanaKegiatan extends BaseController
 
         $jumlah['nama_pegawai'] = $nama_pegawai['nama_pegawai'];
         $jumlah['nama_bidang'] = $nama_bidang['deskripsi'];
+        $jumlah['es3_kd'] = $nama_pegawai['es3_kd'];
         $jumlah['periode_awal'] = $start_date;
         $jumlah['periode_akhir'] = $end_date;
 

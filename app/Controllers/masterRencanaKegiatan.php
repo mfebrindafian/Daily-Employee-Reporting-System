@@ -49,7 +49,8 @@ class masterRencanaKegiatan extends BaseController
             'menu' => 'Dashboard',
             'subMenu' => 'Kegiatan Pegawai',
             'list_kegiatan' => $daftar_kegiatan,
-            'list_pegawai' => $list_pegawai
+            'list_pegawai' => $list_pegawai,
+            'dari_verif' => 'off'
         ];
         return view('Dashboard/rencanaKegiatan', $data);
     }
@@ -537,6 +538,16 @@ class masterRencanaKegiatan extends BaseController
         return redirect()->to('/rincianKegiatanPegawai');
     }
 
+    public function batalStatusRincian($id_kegiatan)
+    {
+        $this->masterKegiatanModel->save([
+            'id' => $id_kegiatan,
+            'status_rincian' => 'B',
+        ]);
+
+        return redirect()->to('/rincianKegiatanPegawai');
+    }
+
     public function hapusStatusRincian($id_kegiatan)
     {
         $this->masterKegiatanModel->delete($id_kegiatan);
@@ -565,7 +576,7 @@ class masterRencanaKegiatan extends BaseController
         $data_kegiatan = $this->masterKegiatanModel->getDataById($id_kegiatan);
 
         $list_laporan = $this->masterLaporanHarianModel->getAllLaporanByUserId($user_id['id']);
-
+        $cek = [];
         foreach ($list_laporan as $list) {
             $laporan = $list['uraian_kegiatan'];
             $data = json_decode($laporan);
@@ -622,6 +633,36 @@ class masterRencanaKegiatan extends BaseController
             'status_verifikasi' => 'S',
         ]);
 
-        return redirect()->to('/rincianKegiatanPegawai');
+        $user_id = $this->masterKegiatanModel->getDataById($id_kegiatan);
+        $data_user = $this->masterUserModel->getProfilUser($user_id['user_id']);
+
+
+        $list_kegiatan = $this->masterKegiatanModel->getAllByUserId($user_id['user_id']);
+
+        $list_pegawai = $this->masterPegawaiModel->getAllPegawaiOnDashboard();
+
+
+        if ($list_kegiatan != null) {
+            foreach ($list_kegiatan as $list) {
+                $kegiatan = explode('-', $list['tgl_input']);
+                if ($kegiatan[0] == date('Y')) {
+                    $daftar_kegiatan[] = $list;
+                } else {
+                    $daftar_kegiatan = null;
+                }
+            }
+        } else {
+            $daftar_kegiatan = null;
+        }
+        $data = [
+            'title' => 'Data Kegiatan',
+            'menu' => 'Dashboard',
+            'subMenu' => 'Kegiatan Pegawai',
+            'list_kegiatan' => $daftar_kegiatan,
+            'list_pegawai' => $list_pegawai,
+            'dari_verif' => 'on',
+            'nip_lama_terpilih' => $data_user['nip_lama_user']
+        ];
+        return view('Dashboard/rencanaKegiatan', $data);
     }
 }

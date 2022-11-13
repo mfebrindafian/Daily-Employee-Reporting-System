@@ -6,6 +6,7 @@ use App\Models\MasterKegiatanModel;
 use App\Models\MasterLaporanHarianModel;
 use App\Models\MasterPegawaiModel;
 use App\Models\MasterUserModel;
+use App\Models\MasterEs3Model;
 use DateTime;
 
 class masterRencanaKegiatan extends BaseController
@@ -14,12 +15,14 @@ class masterRencanaKegiatan extends BaseController
     protected $masterLaporanHarianModel;
     protected $masterPegawaiModel;
     protected $masterUserModel;
+    protected $masterEs3Model;
     public function __construct()
     {
         $this->masterKegiatanModel = new masterKegiatanModel();
         $this->masterLaporanHarianModel = new masterLaporanHarianModel();
         $this->masterPegawaiModel = new masterPegawaiModel();
         $this->masterUserModel = new masterUserModel();
+        $this->masterEs3Model = new masterEs3Model();
     }
     public function rencanaKegiatan()
     {
@@ -303,7 +306,7 @@ class masterRencanaKegiatan extends BaseController
         if ($list_laporan4 != null) {
             $rata_rata_kegiatan = (count($list_laporan4) / $jumlah['total_hari_harus_input']);
 
-            $jumlah['rata_rata_kegiatan_pribadi'] = floor($rata_rata_kegiatan);
+            $jumlah['rata_rata_kegiatan_pribadi'] = round($rata_rata_kegiatan);
         } else {
             $jumlah['rata_rata_kegiatan_pribadi'] = 0;
         }
@@ -363,19 +366,21 @@ class masterRencanaKegiatan extends BaseController
                 $ke++;
             }
 
+            $cek_lapmas = 0;
             foreach ($total_laporan_masing as $lap_mas) {
                 if (count($lap_mas) != 0) {
                     foreach ($lap_mas as $lap) {
                         $ke_bid = 0;
-                        $laporan = $lap['uraian_kegiatan'];
-                        $data = json_decode($laporan);
-                        $list_tipe = $data->kode_tipe;
-                        $list_uraian = $data->uraian;
-                        $list_durasi_jam = $data->durasi_jam;
-                        $list_durasi_menit = $data->durasi_menit;
+                        $laporan_mas = $lap['uraian_kegiatan'];
+                        $data_mas = json_decode($laporan_mas);
+                        $list_tipe = $data_mas->kode_tipe;
+                        $list_uraian = $data_mas->uraian;
+                        $list_durasi_jam = $data_mas->durasi_jam;
+                        $list_durasi_menit = $data_mas->durasi_menit;
                         foreach ($list_tipe as $tipe4) {
                             $cek_tipe2[] = $tipe4;
                             if ($tipe4 != '4' && $tipe4 != '3') {
+                                $cek_lapmas++;
                                 $list_laporan6[] = [
                                     'uraian' => $list_uraian[$ke_bid],
                                     'durasi_jam' => $list_durasi_jam[$ke_bid],
@@ -385,10 +390,12 @@ class masterRencanaKegiatan extends BaseController
                             $ke_bid++;
                         }
                     }
-                } else {
-                    $list_laporan6 = null;
                 }
             }
+            if ($cek_lapmas == 0) {
+                $list_laporan6 = null;
+            }
+
 
             if ($list_laporan6 != null) {
                 foreach ($list_laporan6 as $list7) {
@@ -422,10 +429,11 @@ class masterRencanaKegiatan extends BaseController
         }
         //BATAS MENGHITUNG RATA JAM KERJA HARIA PEGAWAI DI BIDANG YANG SAMA 
 
+
         //MENGHITUNG JUMLAH KEGIATAN YANG DIKERJAKAN BIDANG YANG SAMA
         if ($list_pegawai_bidang != null) {
             if ($list_laporan6 != null) {
-                $jumlah['jumlah_kegiatan_bidang'] = count($list_laporan6);
+                $jumlah['jumlah_kegiatan_bidang'] = round(count($list_laporan6) / count($list_pegawai_bidang));
             } else {
                 $jumlah['jumlah_kegiatan_bidang'] = 0;
             }
@@ -483,7 +491,10 @@ class masterRencanaKegiatan extends BaseController
         //BATAS UNTUK DAFTAR LIST KEGIATAN
 
         $nama_pegawai = $this->masterPegawaiModel->getProfilCetak($data_user['nip_lama_user']);
+        $nama_bidang = $this->masterEs3Model->getBidangById($nama_pegawai['es3_kd']);
+
         $jumlah['nama_pegawai'] = $nama_pegawai['nama_pegawai'];
+        $jumlah['nama_bidang'] = $nama_bidang['deskripsi'];
         $jumlah['periode_awal'] = $start_date;
         $jumlah['periode_akhir'] = $end_date;
 

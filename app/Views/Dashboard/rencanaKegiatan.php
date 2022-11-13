@@ -138,7 +138,7 @@
                         <div class="row px-1">
                             <div class="col-12 py-2 text-center text-truncate ">
                                 <span class="text-sm text-white">
-                                    Rata-rata kegiatan perhari
+                                    Rata-rata kegiatan pribadi perhari
                                 </span>
                             </div>
                         </div>
@@ -207,7 +207,15 @@
                             </div>
                             <div class="col-6 py-2 text-center text-truncate ">
                                 <span class="text-sm text-white">
-                                    Jumlah Kegiatan Bidang
+                                    Rata-rata kegiatan bidang perhari
+                                </span>
+                            </div>
+                        </div>
+                        <hr class="m-0">
+                        <div class="row px-1 mb-1">
+                            <div class="col text-center text-truncate">
+                                <span class="text-sm text-white nama-bidang">
+                                    Bidang ipds
                                 </span>
                             </div>
                         </div>
@@ -601,6 +609,7 @@
             success: function(data) {
                 // perintilan
                 $('.nama-pegawai').html(data['nama_pegawai'])
+                $('.nama-bidang').html(data['nama_bidang'])
                 $('.periode').html(data['periode_awal'] + ` - ` + data['periode_akhir'])
                 $('.rata-jam').html(data['rata_rata_jam'])
                 $('.rata-menit').html(data['rata_rata_menit'])

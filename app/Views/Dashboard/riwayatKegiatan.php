@@ -25,16 +25,6 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <!-- <div class="row">
-                                <div class="col-4">
-                                    <div class="form-group ">
-                                        <select class="form-control" name="" id="">
-                                            <option value="">- Pilih Tahun -</option>
-                                            <option value="2022">2022</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div> -->
                             <div class="row">
                                 <div class="col-12">
 

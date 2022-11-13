@@ -542,7 +542,7 @@ class masterRencanaKegiatan extends BaseController
     {
         $this->masterKegiatanModel->save([
             'id' => $id_kegiatan,
-            'status_rincian' => 'B',
+            'status_rincian' => 'T',
         ]);
 
         return redirect()->to('/rincianKegiatanPegawai');

@@ -48,6 +48,18 @@ class MasterLaporanHarianModel extends Model
             ->get()
             ->getResultArray();
     }
+
+
+    public function getTotalByUserToday($user_id, $tgl_kegiatan)
+    {
+        return $this
+            ->table($this->table)
+            ->where('user_id', $user_id)
+            ->where('tgl_kegiatan', $tgl_kegiatan)
+            ->get()
+            ->getRowArray();
+    }
+
     public function getAllByUser($user_id)
     {
 

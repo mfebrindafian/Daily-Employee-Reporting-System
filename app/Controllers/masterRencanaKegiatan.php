@@ -98,7 +98,7 @@ class masterRencanaKegiatan extends BaseController
         curl_setopt($curl_handle, CURLOPT_URL, 'https://api-harilibur.vercel.app/api');
         curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
         curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl_handle, CURLOPT_USERAGENT, 'Your application name');
+        curl_setopt($curl_handle, CURLOPT_USERAGENT, 'siphp-skripsi');
         $query = curl_exec($curl_handle);
         curl_close($curl_handle);
         // dd($query);
@@ -443,6 +443,7 @@ class masterRencanaKegiatan extends BaseController
 
 
         //MENGHITUNG JUMLAH KEGIATAN YANG DIKERJAKAN BIDANG YANG SAMA
+
         if ($list_pegawai_bidang != null) {
             if ($list_laporan6 != null) {
                 $jumlah['jumlah_kegiatan_bidang'] = round(count($list_laporan6) / $jumlah['total_hari_harus_input'] / count($list_pegawai_bidang));

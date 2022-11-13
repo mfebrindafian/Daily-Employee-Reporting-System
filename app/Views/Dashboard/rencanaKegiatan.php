@@ -90,10 +90,8 @@
                                     </div>
                                     <div class="col-6">
                                         <span class="text-bold fa-4x counter rata-jam"></span>jam
-
                                         <span class="text-bold fa-4x counter ml-3 rata-menit"></span>menit
                                         <p class="text-gray">Rata-rata jam kerja harian</p>
-
                                     </div>
                                 </div>
                             </div>
@@ -135,6 +133,14 @@
             <div class="row">
                 <div class="col-md-2 col-6 rounded-lg " style="cursor: pointer;">
                     <div class="small-box bg-white rincian-2 " data-aos-once="true" data-aos="fade-down" data-aos-duration="500">
+                        <div class="row px-1 mb-1">
+                            <div class="col-12 py-2 text-center text-truncate">
+                                <span class="text-sm text-white">
+                                    <strong>Kegiatan</strong>
+                                </span>
+                            </div>
+                        </div>
+                        <hr class="m-0">
                         <div class="row px-1">
                             <div class="col-12 py-2 text-center text-truncate ">
                                 <span class="text-sm text-white">
@@ -152,6 +158,14 @@
                 </div>
                 <div class="col-md-4 col-6 rounded-lg" style="cursor: pointer;">
                     <div class="small-box bg-white rincian-2" data-aos-once="true" data-aos="fade-down" data-aos-delay="100" data-aos-duration="500">
+                        <div class="row px-1 mb-1">
+                            <div class="col-12 py-2 text-center text-truncate">
+                                <span class="text-sm text-white">
+                                    <strong>Lembur</strong>
+                                </span>
+                            </div>
+                        </div>
+                        <hr class="m-0">
                         <div class="row px-1">
                             <div class="col-6 py-2 text-center text-truncate ">
                                 <span class="text-sm text-white">
@@ -181,6 +195,14 @@
                 </div>
                 <div class="col-md-2 col-6 rounded-lg" style="cursor: pointer;">
                     <div class="small-box bg-white rincian-2" data-aos-once="true" data-aos="fade-down" data-aos-delay="200" data-aos-duration="500">
+                        <div class="row px-1 mb-1">
+                            <div class="col-12 py-2 text-center text-truncate">
+                                <span class="text-sm text-white">
+                                    <strong>Cuti</strong>
+                                </span>
+                            </div>
+                        </div>
+                        <hr class="m-0">
                         <div class="row px-1">
                             <div class="col-12 py-2 text-center text-truncate ">
                                 <span class="text-sm text-white">
@@ -199,6 +221,14 @@
 
                 <div class="col-md-4 col-6 rounded-lg" style="cursor: pointer;">
                     <div class="small-box bg-white rincian-2" data-aos-once="true" data-aos="fade-down" data-aos-delay="300" data-aos-duration="500">
+                        <div class="row px-1 mb-1">
+                            <div class="col-12 py-2 text-center text-truncate">
+                                <span class="text-sm text-white">
+                                    <strong class="nama-bidang"></strong>
+                                </span>
+                            </div>
+                        </div>
+                        <hr class="m-0">
                         <div class="row px-1">
                             <div class="col-6 py-2 text-center text-truncate ">
                                 <span class="text-sm text-white">
@@ -208,14 +238,6 @@
                             <div class="col-6 py-2 text-center text-truncate ">
                                 <span class="text-sm text-white">
                                     Rata-rata kegiatan bidang perhari
-                                </span>
-                            </div>
-                        </div>
-                        <hr class="m-0">
-                        <div class="row px-1 mb-1">
-                            <div class="col text-center text-truncate">
-                                <span class="text-sm text-white nama-bidang">
-                                    Bidang ipds
                                 </span>
                             </div>
                         </div>
@@ -235,19 +257,19 @@
             </div>
             <div class="row">
                 <div class="col-md-7">
-                    <div class="card header-rencana">
+                    <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Sasaran Kegiatan Tahunan</h3>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <button data-toggle="modal" data-target="#modal-tambah" class="btn btn-success tombol mr-2" style="background-color: #3c4b64; border: none;">Tambah</button>
-                                    <a href="<?= base_url('/riwayatRencanaKegiatan'); ?>" class="btn btn-outline-secondary">Riwayat</a>
+                                    <button data-toggle="modal" data-target="#modal-tambah" class="btn btn-success tombol mr-2 tombol-rencana" style="background-color: #3c4b64; border: none;">Tambah</button>
+                                    <a class="btn btn-outline-secondary tombol-riwayat">Riwayat</a>
                                 </div>
                                 <div class="col-md-6 text-right">
                                     <h5>
-                                        tahun: <strong>2022</strong>
+                                        tahun: <strong><?= date('Y') ?></strong>
                                     </h5>
                                 </div>
                             </div>
@@ -569,6 +591,7 @@
 <script src="<?= base_url('/plugins/sweetalert2/sweetalert2.min.js') ?>"></script>
 <script src="<?= base_url('/plugins/datatables/jquery.dataTables.min.js') ?>"></script>
 <script src="<?= base_url('/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') ?>"></script>
+<script src="<?= base_url('/js/tanggal.js') ?>"></script>
 <!-- API -->
 <script>
     $('#tabelData4').DataTable({
@@ -610,7 +633,7 @@
                 // perintilan
                 $('.nama-pegawai').html(data['nama_pegawai'])
                 $('.nama-bidang').html(data['nama_bidang'])
-                $('.periode').html(data['periode_awal'] + ` - ` + data['periode_akhir'])
+                $('.periode').html(ubahFormatTanggal2(data['periode_awal']) + ` - ` + ubahFormatTanggal2(data['periode_akhir']))
                 $('.rata-jam').html(data['rata_rata_jam'])
                 $('.rata-menit').html(data['rata_rata_menit'])
                 $('.kegiatan-pribadi').html(data['rata_rata_kegiatan_pribadi'])
@@ -629,6 +652,8 @@
                 $('.selesai-tindak').html(data['rincian']['S'])
                 $('.telah-verif').html(data['verif']['S'])
 
+                $('.tombol-riwayat').attr('href', baseUrl + '/riwayatRencanaKegiatan/' + nip)
+
                 // table
                 $('#u,#t').empty()
                 let tombol = '';
@@ -637,17 +662,21 @@
                     'u': 1
                 };
                 if (nip == sessionNip) {
-                    $('.header-rencana').removeClass('d-none')
+                    $('.tombol-rencana').removeClass('d-none')
 
                 } else if (nip != sessionNip) {
-                    $('.header-rencana').addClass('d-none')
+                    $('.tombol-rencana').addClass('d-none')
                 }
                 if (data['daftar_kegiatan'] != null) {
                     $.each(data['daftar_kegiatan'], function(i) {
-                        if (nip == sessionNip) {
+                        if (nip == sessionNip && data['daftar_kegiatan'][i]['status_rincian'] == 'Belum ditindaklanjuti') {
                             tombol = `
                                     <button class="btn btn-sm btn-danger" id="open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="` + baseUrl + `/hapusStatusRincian/` + data['daftar_kegiatan'][i]['id'] + `">Hapus</button>
                                     <a href="` + baseUrl + `/updateStatusRincian/` + data['daftar_kegiatan'][i]['id'] + `" class="btn btn-sm btn-success">Selesai</a>
+                            `
+                        } else if (nip == sessionNip && data['daftar_kegiatan'][i]['status_rincian'] != 'Belum ditindaklanjuti') {
+                            tombol = `
+                                    <button class="btn btn-sm btn-danger" id="open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="` + baseUrl + `/hapusStatusRincian/` + data['daftar_kegiatan'][i]['id'] + `">Hapus</button>
                             `
                         }
 

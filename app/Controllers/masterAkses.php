@@ -150,6 +150,12 @@ class masterAkses extends BaseController
             $level_id = $list_user_level[count($list_user_level) - 1]['level_id'];
             $list_menu = $this->masterAksesUserLevelModel->getAksesMenu($level_id, $user['id']);
             $list_submenu = $this->masterAksesUserLevelModel->getAksesSubmenu($level_id, $user['id']);
+            $data_pegawai_user = $this->masterPegawaiModel->getProfilCetak($user['nip_lama_user']);
+            if ($data_pegawai_user['jabatan_kd'] == '1' || $data_pegawai_user['jabatan_kd'] == '3' || $data_pegawai_user['jabatan_kd'] == '5') {
+                $jabatan = 'koordinator';
+            } else {
+                $jabatan = 'pegawai';
+            }
             if ($user['is_active'] == 'Y') {
                 $data = [
                     'log' => TRUE,
@@ -159,7 +165,11 @@ class masterAkses extends BaseController
                     'list_menu'  => $list_menu,
                     'list_submenu' => $list_submenu,
                     'fullname' => $user['fullname'],
-                    'data_user' => $user
+                    'data_user' => $user,
+                    'nip_lama' => $user['nip_lama_user'],
+                    'data_user' => $user,
+                    'es3_kd' => $data_pegawai_user['es3_kd'],
+                    'jabatan' => $jabatan
                 ];
             } else {
                 session()->setFlashdata('pesan', 'Akun Tidak Aktif');

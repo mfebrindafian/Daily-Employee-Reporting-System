@@ -104,7 +104,7 @@
                                         <th>URAIAN KEGIATAN</th>
                                         <th>JUMLAH</th>
                                         <th>SATUAN</th>
-                                        <th>Durasi Kerja</th>
+                                        <th>DURASI KEGIATAN</th>
                                         <th>BUKTI DUKUNG</th>
                                         <th>AKSI</th>
                                     </tr>
@@ -377,7 +377,7 @@
                                     </div>
                                 </div>
                                 <div class="col-xl-2 baris-kegiatan">
-                                    <div class="row"><strong>Waktu</strong></div>
+                                    <div class="row"><strong>Durasi Kegiatan</strong></div>
                                     <div class="row">
                                         <div class="col-6 input-group">
                                             <input class="form-control" required type="number" name="field_jam[]" value="0">
@@ -602,7 +602,7 @@
                                         <div class="col-xl-2 baris-kegiatan">
                                             <?php $list_jam = $data->durasi_jam; ?>
                                             <?php $list_menit = $data->durasi_menit; ?>
-                                            <div class="row"><strong>Waktu</strong></div>
+                                            <div class="row"><strong>Durasi Kegiatan</strong></div>
                                             <div class="row">
                                                 <div class="col-6 input-group">
                                                     <input class="form-control" required type="number" name="field_jam[]" value="<?= $list_jam[$i] ?>">
@@ -728,6 +728,7 @@
                                     <th>URAIAN</th>
                                     <th>JUMLAH</th>
                                     <th>SATUAN</th>
+                                    <th>DURASI KEGIATAN</th>
                                     <th>HASIL KEGIATAN</th>
                                     <th>BUKTI DUKUNG</th>
                                 </tr>
@@ -735,35 +736,35 @@
                             <tbody>
                                 <?php if ($laporan_harian_tertentu != NULL) : ?>
                                     <input type="hidden" name="id_laporan_harian_tertentu" value="<?= $laporan_harian_tertentu['id']; ?>">
-                                    <?php $laporan = $laporan_harian_tertentu['uraian_kegiatan']; ?>
-                                    <?php $data = json_decode($laporan); ?>
-                                    <?php for ($i = 0; $i < count($list_uraian = $data->uraian); $i++) : ?>
+                                    <?php $laporan2 = $laporan_harian_tertentu['uraian_kegiatan']; ?>
+                                    <?php $data2 = json_decode($laporan2); ?>
+                                    <?php for ($i = 0; $i < count($list_uraian = $data2->uraian); $i++) : ?>
                                         <tr>
                                             <td>
                                                 <?= $i + 1; ?>
                                             </td>
-                                            <?php $list_tipe = $data->kode_tipe ?>
-                                            <td> <?php foreach ($list_tipe as $tipe) : ?>
-                                                    <div class="p-2 mb-1 rounded-sm card-laporan">
-                                                        <?php if ($tipe == '1') {
-                                                            echo 'Berdasarkan sasaran kegiatan';
-                                                        } elseif ($tipe == '2') {
-                                                            echo 'Umum';
-                                                        } elseif ($tipe == '3') {
-                                                            echo 'Lembur';
-                                                        } ?>
-                                                    </div>
-                                                <?php endforeach; ?>
+                                            <?php $list_tipe2 = $data2->kode_tipe ?>
+                                            <td>
+                                                <div class="p-2 mb-1 rounded-sm card-laporan">
+                                                    <?php if ($list_tipe2[$i] == '1') {
+                                                        echo 'Berdasarkan sasaran kegiatan';
+                                                    } else if ($list_tipe2[$i] == '2') {
+                                                        echo 'Umum';
+                                                    } else if ($list_tipe2[$i] == '3') {
+                                                        echo 'Lembur';
+                                                    } ?>
+                                                </div>
+
                                             </td>
 
                                             <td>
                                                 <?= $list_uraian[$i]; ?>
                                             </td>
                                             <td class="text-center">
-                                                <?php $list_jumlah = $data->jumlah; ?>
+                                                <?php $list_jumlah = $data2->jumlah; ?>
                                                 <?= $list_jumlah[$i]; ?>
                                             </td>
-                                            <?php $list_satuan2 = $data->satuan; ?>
+                                            <?php $list_satuan2 = $data2->satuan; ?>
                                             <td> <?php if ($list_satuan != NULL) : ?>
                                                     <?php foreach ($list_satuan as $satuan) : ?>
                                                         <?php if ($satuan['nama_satuan'] == $list_satuan2[$i]) : ?>
@@ -774,28 +775,35 @@
                                                     <?php endforeach; ?>
                                                 <?php endif; ?>
                                             </td>
+                                            <?php $list_jam = $data2->durasi_jam; ?>
+                                            <?php $list_menit = $data2->durasi_menit ?>
                                             <td>
-                                                <?php $list_hasil = $data->hasil; ?>
+                                                <div class="p-2 mb-1 text-center rounded-sm card-laporan">
+                                                    <?= $list_jam[$i]; ?> Jam : <?= $list_menit[$i]; ?> Menit
+                                                </div>
+
+
+                                            </td>
+                                            <td>
+                                                <?php $list_hasil = $data2->hasil; ?>
                                                 <?= $list_hasil[$i]; ?>
                                             </td>
                                             <td>
-                                                <?php $list_bukti_dukung = $data->bukti_dukung; ?>
-                                                <?php $list_tipe = $data->kode_tipe; ?>
+                                                <?php $list_bukti_dukung = $data2->bukti_dukung; ?>
                                                 <?php for ($a = 0; $a < count($list_bukti_dukung[$i]); $a++) : ?>
-                                                    <?php foreach ($list_tipe as $tipe) : ?>
-                                                        <?php if ($tipe != 4) : ?>
-                                                            <div title="<?= $list_bukti_dukung[$i][$a]; ?>" class="file-list">
-                                                                <a title="<?= $list_bukti_dukung[$i][$a]; ?>" href="<?= base_url('berkas/' . $folderNIP . '/' . $laporan_harian_tertentu['tgl_kegiatan'] . '/' . $list_bukti_dukung[$i][$a]) ?>"> <?= $list_bukti_dukung[$i][$a]; ?></a>
-                                                            </div>
-                                                        <?php endif; ?>
-                                                        <?php if ($tipe == 4) : ?>
-                                                            <?php $fullbukti = explode('_', $list_bukti_dukung[$i][$a]) ?>
-                                                            <div title="<?= $list_bukti_dukung[$i][$a]; ?>" class="file-list">
-                                                                <a title="<?= $list_bukti_dukung[$i][$a]; ?>" href="<?= base_url('berkas/' . $folderNIP . '/' . $fullbukti[0] . '/' . $list_bukti_dukung[$i][$a]) ?>"> <?= $list_bukti_dukung[$i][$a]; ?></a>
-                                                            </div>
-                                                            <?php break; ?>
-                                                        <?php endif ?>
-                                                    <?php endforeach; ?>
+                                                    <?php if ($list_tipe2[$i] != 4) : ?>
+                                                        <div title="<?= $list_bukti_dukung[$i][$a]; ?>" class="file-list">
+                                                            <a title="<?= $list_bukti_dukung[$i][$a]; ?>" href="<?= base_url('berkas/' . $folderNIP . '/' . $laporan_harian_tertentu['tgl_kegiatan'] . '/' . $list_bukti_dukung[$i][$a]) ?>"> <?= $list_bukti_dukung[$i][$a]; ?></a>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                    <?php if ($list_tipe2[$i] == 4) : ?>
+                                                        <?php $fullbukti = explode('_', $list_bukti_dukung[$i][$a]) ?>
+                                                        <div title="<?= $list_bukti_dukung[$i][$a]; ?>" class="file-list">
+                                                            <a title="<?= $list_bukti_dukung[$i][$a]; ?>" href="<?= base_url('berkas/' . $folderNIP . '/' . $fullbukti[0] . '/' . $list_bukti_dukung[$i][$a]) ?>"> <?= $list_bukti_dukung[$i][$a]; ?></a>
+                                                        </div>
+                                                        <?php break; ?>
+                                                    <?php endif ?>
+
                                                 <?php endfor; ?>
 
                                             </td>

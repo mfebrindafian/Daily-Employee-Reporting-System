@@ -80,7 +80,7 @@
                 </div>
                 <div class="col-md-7">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="small-box bg-white p-4" data-aos-once="true" data-aos="fade-left" data-aos-delay="200" data-aos-duration="500">
                                 <div class="row">
                                     <div class="col-6 d-flex justify-content-center align-items-center">
@@ -96,7 +96,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-md-6">
+                        <div class="col-md-6">
                             <div class="small-box bg-white p-4" data-aos-once="true" data-aos="fade-left" data-aos-delay="200" data-aos-duration="500">
                                 <div class="row">
                                     <div class="col-7 text-center">
@@ -105,11 +105,11 @@
                                         </div>
                                     </div>
                                     <div class="col-5 d-flex align-items-center">
-                                        <p class="text-gray">Jam kerja terbuang</p>
+                                        <p class="text-gray">jumlah jam kerja tidak terlaksana</p>
                                     </div>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
@@ -408,8 +408,6 @@
                 <div class="row">
                     <div class="col-12 p-0">
                         <div class="form-group">
-                            <p>Tanggal Kegiatan
-                            </p>
                             <h2 class="mb-3" id="tanggal-tambah"></h2>
                             <input type="date" class="form-control d-none" name="tanggal" id="hari-ini" class="form-control">
                         </div>

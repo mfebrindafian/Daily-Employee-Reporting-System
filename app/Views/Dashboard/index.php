@@ -684,22 +684,13 @@
                       </div>
                       <div class="col-xl-2 baris-kegiatan">
                         <div class="row"><strong>Durasi Kegiatan</strong></div>
-                        <div class="row">
-                          <div class="col-6 input-group">
-                            <input class="form-control" required type="number" name="field_jam[]" value="0">
-                          </div>
 
-                          <div class="col-6 input-group">
-                            <input class="form-control" required type="number" name="field_menit[]" value="0">
-                          </div>
+                        <div class="input-group">
+                          <input class="form-control" disabled required type="time" max="07:30" value="07:30">
+                          <input class="form-control jam_mulai" required type="hidden" name="field_jam_mulai[]" max="07:30" value="07:30">
                         </div>
-                        <div class="row">
-                          <div class="col-6 text-center text-xs">
-                            Jam
-                          </div>
-                          <div class="col-6 text-center text-xs">
-                            Menit
-                          </div>
+                        <div class="input-group">
+                          <input class="form-control jam_akhir" required type="time" name="field_jam_selesai[]" value="16:00">
                         </div>
                       </div>
                     </div>

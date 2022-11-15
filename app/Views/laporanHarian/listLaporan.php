@@ -378,22 +378,13 @@
                                 </div>
                                 <div class="col-xl-2 baris-kegiatan">
                                     <div class="row"><strong>Durasi Kegiatan</strong></div>
-                                    <div class="row">
-                                        <div class="col-6 input-group">
-                                            <input class="form-control" required type="number" name="field_jam[]" value="0">
-                                        </div>
 
-                                        <div class="col-6 input-group">
-                                            <input class="form-control" required type="number" name="field_menit[]" value="0">
-                                        </div>
+                                    <div class="input-group">
+                                        <input class="form-control" disabled required type="time" max="07:30" value="07:30">
+                                        <input class="form-control jam_mulai" required type="hidden" name="field_jam_mulai[]" max="07:30" value="07:30">
                                     </div>
-                                    <div class="row">
-                                        <div class="col-6 text-center text-xs">
-                                            Jam
-                                        </div>
-                                        <div class="col-6 text-center text-xs">
-                                            Menit
-                                        </div>
+                                    <div class="input-group">
+                                        <input class="form-control jam_akhir" required type="time" name="field_jam_selesai[]" value="16:00">
                                     </div>
                                 </div>
                             </div>
@@ -603,22 +594,15 @@
                                             <?php $list_jam = $data->durasi_jam; ?>
                                             <?php $list_menit = $data->durasi_menit; ?>
                                             <div class="row"><strong>Durasi Kegiatan</strong></div>
-                                            <div class="row">
-                                                <div class="col-6 input-group">
-                                                    <input class="form-control" required type="number" name="field_jam[]" value="<?= $list_jam[$i] ?>">
-                                                </div>
 
-                                                <div class="col-6 input-group">
-                                                    <input class="form-control" required type="number" name="field_menit[]" value="<?= $list_menit[$i] ?>">
-                                                </div>
+                                            <div class="input-group">
+                                                <?php if ($i == 0) : ?>
+                                                    <input class="form-control" disabled required type="time" max="07:30" value="<?= $list_jam[$i] ?>">
+                                                <?php endif; ?>
+                                                <input class="form-control jam_mulai" required type="<?= ($i == 0) ? 'hidden' : 'time' ?>" name="field_jam_mulai[]" max="07:30" value="<?= $list_jam[$i] ?>">
                                             </div>
-                                            <div class="row">
-                                                <div class="col-6 text-center text-xs">
-                                                    Jam
-                                                </div>
-                                                <div class="col-6 text-center text-xs">
-                                                    Menit
-                                                </div>
+                                            <div class="input-group">
+                                                <input class="form-control jam_akhir" required type="time" name="field_jam_selesai[]" value="<?= $list_menit[$i] ?>">
                                             </div>
                                         </div>
                                     </div>
@@ -1058,5 +1042,8 @@
         $('.tgl-hari-ini').html(ubahFormatTanggal(new Date()))
     })
 </script>
+
+
+
 
 <?= $this->endSection(); ?>

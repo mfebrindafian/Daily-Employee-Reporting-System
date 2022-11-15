@@ -117,24 +117,14 @@ $(document).ready(function () {
                                     </div>
                                 </div>
                                 <div class="col-xl-2 baris-kegiatan">
-                                <div class="row"><strong>Waktu</strong></div>
-                                <div class="row">
-                                <div class="col-6 input-group">
-                                    <input class="form-control" required type="number" name="field_jam[]" value="0">
-                                </div>
+                                <div class="row"><strong>Durasi Kegiatan</strong></div>
 
-                                <div class="col-6 input-group">
-                                    <input class="form-control" required type="number" name="field_menit[]" value="0">
+                                <div class="input-group">
+                                    <input class="form-control jam_mulai" required type="time"  name="field_jam_mulai[]" max="07:30" value="">
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6 text-center text-xs">
-                                    Jam
+                                <div class="input-group">
+                                    <input class="form-control jam_akhir" required type="time"  name="field_jam_selesai[]" value="">
                                 </div>
-                                <div class="col-6 text-center text-xs">
-                                    Menit
-                                </div>
-                            </div>
                             </div>
                             </div>
                             <div class="row my-3">
@@ -194,4 +184,43 @@ $(document).ready(function () {
                $(this).val(Math.max(Math.min(value, 60), 0));
           }
      });
+});
+
+var jamMulai = document.querySelectorAll('.jam_mulai');
+var jamAkhir = document.querySelectorAll('.jam_akhir');
+const d = new Date();
+let day = d.getDay();
+let maxJam = '';
+if (day == 5) {
+     maxJam = '16:30';
+} else {
+     maxJam = '16:00';
+}
+$(document).on('change', '.jam_akhir', function () {
+     let index = $('.jam_akhir').index(this);
+     // console.log(jamAkhir[index].value)
+     // console.log(index)
+     if ($(this).val() > maxJam) {
+          $(this).val(maxJam);
+     }
+     if ($(this).val() < jamMulai[index].value) {
+          $(this).val(jamMulai[index].value);
+     }
+
+     if ($(this).val() > jamMulai[index + 1].value) {
+          console.log(jamMulai[index + 1].value);
+     }
+});
+$(document).on('change', '.jam_mulai', function () {
+     let index = $('.jam_mulai').index(this);
+     // console.log(jamAkhir[index].value)
+     if ($(this).val() > maxJam) {
+          $(this).val(maxJam);
+     }
+     if (index > 0) {
+          if ($(this).val() < jamAkhir[index - 1].value) {
+               $(this).val(jamAkhir[index - 1].value);
+               console.log(jamAkhir[index - 1].value);
+          }
+     }
 });

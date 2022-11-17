@@ -57,7 +57,7 @@ $routes->get('/hapusStatusRincian/(:segment)', 'masterRencanaKegiatan::hapusStat
 $routes->get('/riwayatRencanaKegiatan/(:segment)', 'masterRencanaKegiatan::riwayatRencanaKegiatan/$1');
 $routes->get('/detailRencanaKegiatan/(:segment)/(:segment)', 'masterRencanaKegiatan::detailRencanaKegiatan/$1/$2');
 // $routes->get('/APIRencanaKegiatan', 'masterRencanaKegiatan::APIRencanaKegiatan/' . session('nip_lama'));
-$routes->get('/APIRencanaKegiatan/(:segment)', 'masterRencanaKegiatan::APIRencanaKegiatan/$1');
+$routes->get('/APIRencanaKegiatan/(:segment)/(:segment)', 'masterRencanaKegiatan::APIRencanaKegiatan/$1/$2');
 
 //Routes Ke method Catatan
 $routes->post('/tambahCatatan', 'masterDashboard::tambahCatatan');

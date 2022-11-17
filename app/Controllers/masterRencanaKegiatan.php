@@ -56,19 +56,29 @@ class masterRencanaKegiatan extends BaseController
     }
 
 
-    public function APIRencanaKegiatan($nip_lama)
+    public function APIRencanaKegiatan($nip_lama, $date_range)
     {
 
         $user_id = $this->masterUserModel->getUserId($nip_lama);
 
         $data_user = $this->masterUserModel->getNipLamaByUserId($user_id['id']);
 
-
         $list_kegiatan = $this->masterKegiatanModel->getAllByUserId($user_id['id']);
 
         /////////////////////UBAHHH START DATE KE 1 JANUARI
-        $start_date = (date('Y') . '-11-01');
-        $end_date = date('Y-m-d');
+        $exp_date = explode('-', $date_range);
+
+        if ($date_range == 'all') {
+            $start_date = (date('Y') . '-01-01');
+            $end_date = date('Y-m-d');
+        } else {
+            $start_date = $exp_date[2] . '-' . $exp_date[1] . '-' . $exp_date[0];
+            $end_date = $exp_date[5] . '-' . $exp_date[4] . '-' . $exp_date[3];
+        }
+
+        d($start_date);
+        dd($end_date);
+
         //MENGHITUNG HARI-HARI DIMULAI 1 JANUARI SAMPAI HARI INI DENGAN IRISAN KONDISI
         $rangArray = [];
         $startDate = strtotime($start_date);
@@ -267,6 +277,7 @@ class masterRencanaKegiatan extends BaseController
         if ($list_laporan2 != null) {
             foreach ($list_laporan2 as $list4) {
                 $ke_harian = 0;
+                $tgl_kegiatan_harian = $list4['tgl_kegiatan'];
                 $laporan = $list4['uraian_kegiatan'];
                 $data = json_decode($laporan);
                 $list_tipe = $data->kode_tipe;
@@ -276,6 +287,7 @@ class masterRencanaKegiatan extends BaseController
                 foreach ($list_tipe as $tipe3) {
                     if ($tipe3 != '4' && $tipe3 != '3') {
                         $list_laporan4[] = [
+                            'tgl_kegiatan' => $tgl_kegiatan_harian,
                             'uraian' => $list_uraian[$ke_harian],
                             'jam_mulai' => $list_jam_mulai[$ke_harian],
                             'jam_selesai' => $list_jam_selesai[$ke_harian]
@@ -324,7 +336,42 @@ class masterRencanaKegiatan extends BaseController
         //BATAS MENGHITUNG RATA-RATA JAM KERJA HARIAN PRIBADI
 
         //MENGHITUNG JUMLAH JAM KERJA TIDAK TERLAKSANA
+        $all_kurang = [];
+        if ($list_laporan4 != null) {
+            foreach ($list_laporan4 as $list5) {
+                $time1 = new DateTime($list5['jam_mulai']);
+                $time2 = new DateTime($list5['jam_selesai']);
+                $timediff = $time1->diff($time2);
+                $jam_tak = $timediff->format('%h');
+                $menit_tak = $timediff->format('%i');
 
+                $total_detik_tak = (($jam_tak * 3600) + ($menit_tak * 60));
+
+                if ($total_detik_tak < 27000) {
+                    $kurang = 27000 - $total_detik_tak;
+                    $all_kurang[] = $kurang;
+                } else {
+                    $all_kurang[] = 0;
+                }
+
+                $detik_kurang = array_sum($all_kurang);
+                $jam_kurang = [];
+                while ($detik_kurang >= 3600) {
+                    $jam_kurang[] = 1;
+                    $detik_kurang = $detik_kurang - 3600;
+                }
+                $menit_kurang = [];
+                while ($detik_kurang >= 60) {
+                    $menit_kurang[] = 1;
+                    $detik_kurang = $detik_kurang - 60;
+                }
+                $jumlah['jumlah_jam_kerja_terbuang'] = array_sum($jam_kurang);
+                $jumlah['jumlah_menit_kerja_terbuang'] = array_sum($menit_kurang);
+            }
+        } else {
+            $jumlah['jumlah_jam_kerja_terbuang'] = 0;
+            $jumlah['jumlah_menit_kerja_terbuang'] = 0;
+        }
 
         //BATAS MENGHITUNG JUMLAH JAM KERJA TIDAK TERLAKSANA
 

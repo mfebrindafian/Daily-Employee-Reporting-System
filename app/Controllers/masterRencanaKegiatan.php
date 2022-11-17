@@ -313,6 +313,11 @@ class masterRencanaKegiatan extends BaseController
         }
         //BATAS MENGHITUNG RATA-RATA JAM KERJA HARIAN PRIBADI
 
+        //MENGHITUNG JUMLAH JAM KERJA TIDAK TERLAKSANA
+
+        
+        //BATAS MENGHITUNG JUMLAH JAM KERJA TIDAK TERLAKSANA
+
 
         //MENGHITUNG RATA-RATA KEGIATAN PERHARI PRIBADI
         if ($list_laporan4 != null) {

@@ -72,29 +72,36 @@ class masterLaporanHarian extends BaseController
         }
 
         $laporan_today = $this->masterLaporanHarianModel->getTotalByUserToday(session('user_id'), date('Y-m-d'));
+        // dd($laporan_today);
+        $jumlah_jam = [];
+        $jumlah_menit = [];
         if ($laporan_today != null) {
             $laporan = $laporan_today['uraian_kegiatan'];
             $data = json_decode($laporan);
             $uraian = $data->uraian;
-            $durasi_jam = $data->durasi_jam;
-            $durasi_menit = $data->durasi_menit;
-            foreach ($durasi_jam as $jam) {
-                $alljam[] = $jam;
-            }
-            foreach ($durasi_menit as $menit) {
-                $allmenit[] = $menit;
-            }
+            $jam_mulai = $data->jam_mulai;
+            $jam_selesai = $data->jam_selesai;
 
-            $jumlah_jam = array_sum($alljam);
-            $jumlah_menit = array_sum($allmenit);
+            $ke = 0;
+            foreach ($uraian as $u) {
+                $time1 = new DateTime($jam_mulai[$ke]);
+                $time2 = new DateTime($jam_selesai[$ke]);
+                $timediff = $time1->diff($time2);
+                $all_jam[] = $timediff->format('%h');
+                $all_menit[] = $timediff->format('%i');
+                $jumlah_menit = array_sum($all_menit);
+
+                while ($jumlah_menit >= 60) {
+                    $jumlah_menit = $jumlah_menit - 60;
+                    $all_jam[] = 1;
+                }
+                $jumlah_jam = array_sum($all_jam);
+                $ke++;
+            }
         } else {
             $jumlah_jam = 0;
             $jumlah_menit = 0;
         }
-
-
-
-
 
         $data = [
             'title' => 'List Laporan',
@@ -130,8 +137,9 @@ class masterLaporanHarian extends BaseController
         $field_rencana = $this->request->getVar('field_rencana');
 
 
-        $field_jam = $this->request->getVar('field_jam');
-        $field_menit = $this->request->getVar('field_menit');
+        $field_jam_mulai = $this->request->getVar('field_jam_mulai');
+        $field_jam_selesai = $this->request->getVar('field_jam_selesai');
+
 
         for ($i = 1; $i <= count($field_uraian); $i++) {
             $field_bukti[] = $this->request->getFileMultiple('field_bukti' . $i);
@@ -163,7 +171,7 @@ class masterLaporanHarian extends BaseController
             }
         }
 
-        $uraian_laporan = array('kode_tipe' => $field_tipe, 'kd_rencana' => $field_rencana, 'uraian' => $field_uraian, 'jumlah' => $field_jumlah, 'satuan' => $field_satuan, 'hasil' => $field_hasil, 'durasi_jam' => $field_jam, 'durasi_menit' => $field_menit, 'bukti_dukung' => $namaFile);
+        $uraian_laporan = array('kode_tipe' => $field_tipe, 'kd_rencana' => $field_rencana, 'uraian' => $field_uraian, 'jumlah' => $field_jumlah, 'satuan' => $field_satuan, 'hasil' => $field_hasil, 'jam_mulai' => $field_jam_mulai, 'jam_selesai' => $field_jam_selesai, 'bukti_dukung' => $namaFile);
 
         $json_laporan = json_encode($uraian_laporan);
 
@@ -267,6 +275,10 @@ class masterLaporanHarian extends BaseController
         $jumlah = $decode_laporan->jumlah;
         $satuan = $decode_laporan->satuan;
         $uraian = $decode_laporan->uraian;
+        $field_tipe = $decode_laporan->kode_tipe;
+        $field_rencana = $decode_laporan->kd_rencana;
+        $field_jam_mulai = $decode_laporan->jam_mulai;
+        $field_jam_selesai = $decode_laporan->jam_selesai;
 
 
         $nama_file_hapus = $bukti_dukung[$posisi_array][$posisi_dalam_array];
@@ -285,7 +297,7 @@ class masterLaporanHarian extends BaseController
         }
 
 
-        $uraian_laporan = array('uraian' => $uraian, 'jumlah' => $jumlah, 'satuan' => $satuan, 'hasil' => $hasil, 'bukti_dukung' => $namaFile);
+        $uraian_laporan = array('kode_tipe' => $field_tipe, 'kd_rencana' => $field_rencana, 'uraian' => $uraian, 'jumlah' => $jumlah, 'satuan' => $satuan, 'hasil' => $hasil, 'jam_mulai' => $field_jam_mulai, 'jam_selesai' => $field_jam_selesai, 'bukti_dukung' => $namaFile);
         $encode_laporan = json_encode($uraian_laporan);
 
         $this->masterLaporanHarianModel->save([
@@ -311,8 +323,8 @@ class masterLaporanHarian extends BaseController
         $field_hasil = $this->request->getVar('field_hasil');
         $field_tipe = $this->request->getVar('field_tipe');
         $field_rencana = $this->request->getVar('field_rencana');
-        $field_jam = $this->request->getVar('field_jam');
-        $field_menit = $this->request->getVar('field_menit');
+        $field_jam_mulai = $this->request->getVar('field_jam_mulai');
+        $field_jam_selesai = $this->request->getVar('field_jam_selesai');
         // dd($field_rencana);
 
         $data_user = session('data_user');
@@ -377,7 +389,7 @@ class masterLaporanHarian extends BaseController
 
 
 
-        $uraian_laporan = array('kode_tipe' => $field_tipe, 'kd_rencana' => $field_rencana, 'uraian' => $field_uraian, 'jumlah' => $field_jumlah, 'satuan' => $field_satuan, 'hasil' => $field_hasil, 'durasi_jam' => $field_jam, 'durasi_menit' => $field_menit, 'bukti_dukung' => $field_bukti_baru);
+        $uraian_laporan = array('kode_tipe' => $field_tipe, 'kd_rencana' => $field_rencana, 'uraian' => $field_uraian, 'jumlah' => $field_jumlah, 'satuan' => $field_satuan, 'hasil' => $field_hasil, 'jam_mulai' => $field_jam_mulai, 'jam_selesai' => $field_jam_selesai, 'bukti_dukung' => $field_bukti_baru);
 
         $encode_laporan = json_encode($uraian_laporan);
 
@@ -531,9 +543,9 @@ class masterLaporanHarian extends BaseController
                     $sheet->setCellValue(('E' . $column), $list_jumlah[$i]);
                     $list_hasil = $data->hasil;
                     $sheet->setCellValue(('F' . $column), $list_hasil[$i]);
-                    $list_jam = $data->durasi_jam;
-                    $list_menit = $data->durasi_menit;
-                    $sheet->setCellValue(('G' . $column), $list_jam[$i] . ' Jam ' . $list_menit[$i] . ' Menit');
+                    $jam_mulai = $data->jam_mulai;
+                    $jam_selesai = $data->jam_selesai;
+                    $sheet->setCellValue(('G' . $column), $jam_mulai[$i] . ' - ' . $jam_selesai[$i]);
 
 
 
@@ -691,9 +703,9 @@ class masterLaporanHarian extends BaseController
                     $sheet->setCellValue(('E' . $column), $list_jumlah[$i]);
                     $list_hasil = $data->hasil;
                     $sheet->setCellValue(('F' . $column), $list_hasil[$i]);
-                    $list_jam = $data->durasi_jam;
-                    $list_menit = $data->durasi_menit;
-                    $sheet->setCellValue(('G' . $column), $list_jam[$i] . ' Jam ' . $list_menit[$i] . ' Menit');
+                    $jam_mulai = $data->jam_mulai;
+                    $jam_selesai = $data->jam_selesai;
+                    $sheet->setCellValue(('G' . $column), $jam_mulai[$i] . ' - ' . $jam_selesai[$i]);
 
 
                     if (session('jabatan') == 'koordinator' && $data_pegawai_user['es3_kd'] == session('es3_kd') || session('jabatan') == 'koordinator' && session('es3_kd') == 0) {
@@ -890,9 +902,9 @@ class masterLaporanHarian extends BaseController
                             $sheet->setCellValue(('E' . $column), $list_jumlah[$i]);
                             $list_hasil = $data->hasil;
                             $sheet->setCellValue(('F' . $column), $list_hasil[$i]);
-                            $list_jam = $data->durasi_jam;
-                            $list_menit = $data->durasi_menit;
-                            $sheet->setCellValue(('G' . $column), $list_jam[$i] . ' Jam ' . $list_menit[$i] . ' Menit');
+                            $jam_mulai = $data->jam_mulai;
+                            $jam_selesai = $data->jam_selesai;
+                            $sheet->setCellValue(('G' . $column), $jam_mulai[$i] . ' - ' . $jam_selesai[$i]);
 
 
 
@@ -1087,22 +1099,35 @@ class masterLaporanHarian extends BaseController
         $field_jumlah[] = '1';
         $field_satuan[] = 'Dokumen';
         $field_hasil[] = $keterangan;
-        $field_jam[] = '0';
-        $field_menit[] = '0';
+        $field_jam_mulai[] = '07:30';
+        $field_jam_selesai[] = '16:00';
+        $field_jam_selesai2[] = '16:30';
         $namaFileSimpan[][] = $namaFile;
 
 
-        $uraian_laporan = array('kode_tipe' => $field_tipe, 'kd_rencana' => $field_rencana, 'uraian' => $field_uraian, 'jumlah' => $field_jumlah, 'satuan' => $field_satuan, 'hasil' => $field_hasil, 'durasi_jam' => $field_jam, 'durasi_menit' => $field_menit, 'bukti_dukung' => $namaFileSimpan);
+        $uraian_laporan1 = array('kode_tipe' => $field_tipe, 'kd_rencana' => $field_rencana, 'uraian' => $field_uraian, 'jumlah' => $field_jumlah, 'satuan' => $field_satuan, 'hasil' => $field_hasil, 'jam_mulai' => $field_jam_mulai, 'jam_selesai' => $field_jam_selesai, 'bukti_dukung' => $namaFileSimpan);
+        $uraian_laporan2 = array('kode_tipe' => $field_tipe, 'kd_rencana' => $field_rencana, 'uraian' => $field_uraian, 'jumlah' => $field_jumlah, 'satuan' => $field_satuan, 'hasil' => $field_hasil, 'jam_mulai' => $field_jam_mulai, 'jam_selesai' => $field_jam_selesai2, 'bukti_dukung' => $namaFileSimpan);
 
 
-        $json_laporan = json_encode($uraian_laporan);
+        $json_laporan1 = json_encode($uraian_laporan1);
+        $json_laporan2 = json_encode($uraian_laporan2);
+
 
         foreach ($rangArray4 as $rang4) {
-            $this->masterLaporanHarianModel->save([
-                'user_id' => session('user_id'),
-                'tgl_kegiatan' => $rang4,
-                'uraian_kegiatan' => $json_laporan,
-            ]);
+
+            if (date('N', strtotime($rang4)) == '5') {
+                $this->masterLaporanHarianModel->save([
+                    'user_id' => session('user_id'),
+                    'tgl_kegiatan' => $rang4,
+                    'uraian_kegiatan' => $json_laporan2,
+                ]);
+            } else {
+                $this->masterLaporanHarianModel->save([
+                    'user_id' => session('user_id'),
+                    'tgl_kegiatan' => $rang4,
+                    'uraian_kegiatan' => $json_laporan1,
+                ]);
+            }
         }
         session()->setFlashdata('pesan', 'Kegiatan Cuti Berhasil Ditambahkan');
         session()->setFlashdata('icon', 'success');

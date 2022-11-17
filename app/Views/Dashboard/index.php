@@ -683,7 +683,7 @@
                         </div>
                       </div>
                       <div class="col-xl-2 baris-kegiatan">
-                        <div class="row"><strong>Durasi Kegiatan</strong></div>
+                        <div class="row"><strong>Waktu Kegiatan</strong></div>
 
                         <div class="input-group">
                           <input class="form-control" disabled required type="time" max="07:30" value="07:30">
@@ -788,7 +788,7 @@
                       <th>URAIAN</th>
                       <th>JUMLAH</th>
                       <th>SATUAN</th>
-                      <th>DURASI KEGIATAN</th>
+                      <th>WAKTU KEGIATAN</th>
                       <th>HASIL KEGIATAN</th>
                       <?php if ($laporan_harian_tertentu != NULL) : ?>
                         <?php if ($laporan_harian_tertentu['user_id'] == session('user_id') || session('jabatan') == 'koordinator' && session('es3_kd') == 0 || session('jabatan') == 'koordinator' && $user_dipilih['es3_kd'] == session('es3_kd')) : ?>
@@ -802,7 +802,8 @@
                     <?php if ($laporan_harian_tertentu != NULL) : ?>
                       <input type="hidden" name="id_laporan_harian_tertentu" value="<?= $laporan_harian_tertentu['id']; ?>">
                       <?php $laporan2 = $laporan_harian_tertentu['uraian_kegiatan']; ?>
-                      <?php $data2 = json_decode($laporan); ?>
+                      <?php $data2 = json_decode($laporan2); ?>
+
                       <?php for ($i = 0; $i < count($list_uraian = $data2->uraian); $i++) : ?>
                         <tr>
                           <td>
@@ -817,6 +818,8 @@
                                 echo 'Umum';
                               } else if ($list_tipe2[$i] == '3') {
                                 echo 'Lembur';
+                              } else if ($list_tipe2[$i] == '4') {
+                                echo 'Cuti';
                               } ?>
                             </div>
                           </td>
@@ -838,11 +841,11 @@
                               <?php endforeach; ?>
                             <?php endif; ?>
                           </td>
-                          <?php $list_jam = $data2->durasi_jam; ?>
-                          <?php $list_menit = $data2->durasi_menit ?>
+                          <?php $jam_mulai2 = $data2->jam_mulai; ?>
+                          <?php $jam_selesai2 = $data2->jam_selesai ?>
                           <td>
                             <div class="p-2 mb-1 text-center rounded-sm card-laporan">
-                              <?= $list_jam[$i]; ?> Jam : <?= $list_menit[$i]; ?> Menit
+                              <?= $jam_mulai2[$i]; ?> - <?= $jam_selesai2[$i]; ?>
                             </div>
                           </td>
                           <td>

@@ -104,7 +104,7 @@
                                         <th>URAIAN KEGIATAN</th>
                                         <th>JUMLAH</th>
                                         <th>SATUAN</th>
-                                        <th>DURASI KEGIATAN</th>
+                                        <th>WAKTU KEGIATAN</th>
                                         <th>BUKTI DUKUNG</th>
                                         <th>AKSI</th>
                                     </tr>
@@ -132,6 +132,8 @@
                                                                 echo 'Umum';
                                                             } elseif ($tipe == '3') {
                                                                 echo 'Lembur';
+                                                            } elseif ($tipe == '4') {
+                                                                echo 'Cuti';
                                                             } ?>
                                                         </div>
                                                     <?php endforeach; ?>
@@ -158,14 +160,14 @@
                                                         </div>
                                                     <?php endforeach; ?>
                                                 </td>
-                                                <?php $list_jam = $data->durasi_jam; ?>
-                                                <?php $list_menit = $data->durasi_menit ?>
-                                                <?php $jammenit = 0; ?>
-                                                <td><?php foreach ($list_jam as $jam) : ?>
+                                                <?php $jam_mulai = $data->jam_mulai; ?>
+                                                <?php $jam_selesai = $data->jam_selesai ?>
+                                                <?php $jamMul = 0; ?>
+                                                <td><?php foreach ($jam_mulai as $jam) : ?>
                                                         <div class="p-2 mb-1 text-center rounded-sm card-laporan">
-                                                            <?= $list_jam[$jammenit]; ?> Jam : <?= $list_menit[$jammenit]; ?> Menit
+                                                            <?= $jam_mulai[$jamMul]; ?> - <?= $jam_selesai[$jamMul]; ?>
                                                         </div>
-                                                        <?php $jammenit++ ?>
+                                                        <?php $jamMul++ ?>
                                                     <?php endforeach; ?>
                                                 </td>
 
@@ -377,7 +379,7 @@
                                     </div>
                                 </div>
                                 <div class="col-xl-2 baris-kegiatan">
-                                    <div class="row"><strong>Durasi Kegiatan</strong></div>
+                                    <div class="row"><strong>Waktu Kegiatan</strong></div>
 
                                     <div class="input-group">
                                         <input class="form-control" disabled required type="time" max="07:30" value="07:30">
@@ -591,18 +593,18 @@
                                             </div>
                                         </div>
                                         <div class="col-xl-2 baris-kegiatan">
-                                            <?php $list_jam = $data->durasi_jam; ?>
-                                            <?php $list_menit = $data->durasi_menit; ?>
-                                            <div class="row"><strong>Durasi Kegiatan</strong></div>
+                                            <?php $jam_mulai = $data->jam_mulai; ?>
+                                            <?php $jam_selesai = $data->jam_selesai ?>
+                                            <div class="row"><strong>Waktu Kegiatan</strong></div>
 
                                             <div class="input-group">
                                                 <?php if ($i == 0) : ?>
-                                                    <input class="form-control" disabled required type="time" max="07:30" value="<?= $list_jam[$i] ?>">
+                                                    <input class="form-control" disabled required type="time" max="07:30" value="<?= $jam_mulai[$i] ?>">
                                                 <?php endif; ?>
-                                                <input class="form-control jam_mulai" required type="<?= ($i == 0) ? 'hidden' : 'time' ?>" name="field_jam_mulai[]" max="07:30" value="<?= $list_jam[$i] ?>">
+                                                <input class="form-control jam_mulai" required type="<?= ($i == 0) ? 'hidden' : 'time' ?>" name="field_jam_mulai[]" value="<?= $jam_mulai[$i] ?>">
                                             </div>
                                             <div class="input-group">
-                                                <input class="form-control jam_akhir" required type="time" name="field_jam_selesai[]" value="<?= $list_menit[$i] ?>">
+                                                <input class="form-control jam_akhir" required type="time" name="field_jam_selesai[]" value="<?= $jam_selesai[$i] ?>">
                                             </div>
                                         </div>
                                     </div>
@@ -712,7 +714,7 @@
                                     <th>URAIAN</th>
                                     <th>JUMLAH</th>
                                     <th>SATUAN</th>
-                                    <th>DURASI KEGIATAN</th>
+                                    <th>WAKTU KEGIATAN</th>
                                     <th>HASIL KEGIATAN</th>
                                     <th>BUKTI DUKUNG</th>
                                 </tr>
@@ -722,6 +724,7 @@
                                     <input type="hidden" name="id_laporan_harian_tertentu" value="<?= $laporan_harian_tertentu['id']; ?>">
                                     <?php $laporan2 = $laporan_harian_tertentu['uraian_kegiatan']; ?>
                                     <?php $data2 = json_decode($laporan2); ?>
+
                                     <?php for ($i = 0; $i < count($list_uraian = $data2->uraian); $i++) : ?>
                                         <tr>
                                             <td>
@@ -736,7 +739,9 @@
                                                         echo 'Umum';
                                                     } else if ($list_tipe2[$i] == '3') {
                                                         echo 'Lembur';
-                                                    } ?>
+                                                    } elseif ($list_tipe2[$i] == '4') {
+                                                        echo 'Cuti';
+                                                    }  ?>
                                                 </div>
 
                                             </td>
@@ -759,11 +764,11 @@
                                                     <?php endforeach; ?>
                                                 <?php endif; ?>
                                             </td>
-                                            <?php $list_jam = $data2->durasi_jam; ?>
-                                            <?php $list_menit = $data2->durasi_menit ?>
+                                            <?php $jam_mulai = $data->jam_mulai; ?>
+                                            <?php $jam_selesai = $data->jam_selesai ?>
                                             <td>
                                                 <div class="p-2 mb-1 text-center rounded-sm card-laporan">
-                                                    <?= $list_jam[$i]; ?> Jam : <?= $list_menit[$i]; ?> Menit
+                                                    <?= $jam_mulai[$i]; ?> - <?= $jam_selesai[$i]; ?>
                                                 </div>
 
 

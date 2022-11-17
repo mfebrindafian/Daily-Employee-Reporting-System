@@ -143,4 +143,6 @@ class MasterLaporanHarianModel extends Model
             ->get()
             ->getRowArray();
     }
+
+    
 }

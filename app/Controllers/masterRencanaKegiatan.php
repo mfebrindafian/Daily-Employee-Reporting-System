@@ -311,7 +311,9 @@ class masterRencanaKegiatan extends BaseController
             $jumlah_menit_harian = array_sum($menit_harian);
             $total_detik = (($jumlah_jam_harian * 3600) + ($jumlah_menit_harian * 60));
 
+
             $bagi_detik = ($total_detik /  $jumlah['total_hari_harus_input']);
+
 
 
             $jml_jam_harian = 0;
@@ -336,6 +338,8 @@ class masterRencanaKegiatan extends BaseController
         //MENGHITUNG JUMLAH JAM KERJA TIDAK TERLAKSANA
         $all_kurang = [];
         $array_kurang = [];
+        $menit_kurang = [];
+        $jam_kurang = [];
         if ($list_laporan4 != null) {
             foreach ($list_laporan4 as $list5) {
                 $array_kurang[] = $list5['tgl_kegiatan'];
@@ -366,27 +370,30 @@ class masterRencanaKegiatan extends BaseController
                     $detik_kurang = $detik_kurang - 60;
                 }
             }
-            foreach ($rangArray3 as $rang5) {
-                if (in_array($rang5, $array_kurang) == false) {
-                    $jam_kurang[] = 7;
-                    $menit_kurang[] = 30;
-                }
-            }
-
-            $jumlah_menit_terbuang =  array_sum($menit_kurang);
-
-            while ($jumlah_menit_terbuang >= 60) {
-                $jam_kurang[] = 1;
-                $jumlah_menit_terbuang = $jumlah_menit_terbuang - 60;
-            }
-
-            $jumlah['jumlah_jam_kerja_terbuang'] = array_sum($jam_kurang);
-            $jumlah['jumlah_menit_kerja_terbuang'] = $jumlah_menit_terbuang;
         } else {
             $jumlah['jumlah_jam_kerja_terbuang'] = 0;
             $jumlah['jumlah_menit_kerja_terbuang'] = 0;
         }
 
+        foreach ($rangArray3 as $rang5) {
+            if (in_array($rang5, $array_kurang) == false) {
+                $cek_today = $this->masterLaporanHarianModel->getTotalByUserToday($user_id['id'], $rang5);
+                if ($cek_today == null) {
+                    $jam_kurang[] = 7;
+                    $menit_kurang[] = 30;
+                }
+            }
+        }
+
+
+        $jumlah_menit_terbuang =  array_sum($menit_kurang);
+
+        while ($jumlah_menit_terbuang >= 60) {
+            $jam_kurang[] = 1;
+            $jumlah_menit_terbuang = $jumlah_menit_terbuang - 60;
+        }
+        $jumlah['jumlah_jam_kerja_terbuang'] = array_sum($jam_kurang);
+        $jumlah['jumlah_menit_kerja_terbuang'] = $jumlah_menit_terbuang;
 
         //BATAS MENGHITUNG JUMLAH JAM KERJA TIDAK TERLAKSANA
 
@@ -680,8 +687,8 @@ class masterRencanaKegiatan extends BaseController
             $list_jumlah = $data->jumlah;
             $list_satuan = $data->satuan;
             $list_hasil = $data->hasil;
-            $list_durasi_jam = $data->durasi_jam;
-            $list_durasi_menit = $data->durasi_menit;
+            $list_jam_mulai = $data->jam_mulai;
+            $list_jam_selesai = $data->jam_selesai;
             $list_bukti_dukung = $data->bukti_dukung;
             $ke = 0;
             foreach ($list_rencana as $rencana) {
@@ -695,8 +702,8 @@ class masterRencanaKegiatan extends BaseController
                         'jumlah' => $list_jumlah[$ke],
                         'satuan' => $list_satuan[$ke],
                         'hasil' => $list_hasil[$ke],
-                        'durasi_jam' => $list_durasi_jam[$ke],
-                        'durasi_menit' => $list_durasi_menit[$ke],
+                        'jam_mulai' => $list_jam_mulai[$ke],
+                        'jam_selesai' => $list_jam_selesai[$ke],
                         'bukti_dukung' => $list_bukti_dukung[$ke],
                     ];
                 }

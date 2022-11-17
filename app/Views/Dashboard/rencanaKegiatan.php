@@ -102,7 +102,7 @@
                 <div class="col-md-7">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="small-box hijau p-4" data-aos-once="true" data-aos="fade-left" data-aos-delay="200" data-aos-duration="500">
+                            <div class="small-box bg-white p-4" data-aos-once="true" data-aos="fade-left" data-aos-delay="200" data-aos-duration="500">
                                 <div class="row">
                                     <div class="col-6 d-flex justify-content-center align-items-center">
                                         <span class="dicon hijau fa-2x rounded">
@@ -112,7 +112,7 @@
                                     <div class="col-6">
                                         <span class="text-bold fa-4x counter rata-jam"></span>jam
                                         <span class="text-bold fa-4x counter ml-3 rata-menit"></span>menit
-                                        <p class="text-success">Rata-rata jam kerja harian</p>
+                                        <p class="text-gray">Rata-rata jam kerja harian</p>
                                     </div>
                                 </div>
                             </div>
@@ -280,7 +280,7 @@
 
             </div>
             <div class="row">
-                <div class="col-md-7">
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Sasaran Kegiatan Tahunan</h3>
@@ -344,7 +344,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-5">
+                <!-- <div class="col-md-5">
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
@@ -383,7 +383,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>

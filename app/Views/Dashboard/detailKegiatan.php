@@ -82,7 +82,7 @@
                                                     <th>Uraian</th>
                                                     <th>Jumlah</th>
                                                     <th>Satuan</th>
-                                                    <th>Waktu</th>
+                                                    <th>Waktu Kegiatan</th>
                                                     <th>Hasil</th>
                                                     <th>Bukti Dukung</th>
                                                 </tr>
@@ -99,7 +99,7 @@
                                                             <td><?= $list['uraian']; ?></td>
                                                             <td><?= $list['jumlah']; ?></td>
                                                             <td><?= $list['satuan']; ?></td>
-                                                            <td><?= $list['durasi_jam']; ?> Jam <?= $list['durasi_menit']; ?> Menit</td>
+                                                            <td><?= $list['jam_mulai']; ?> - <?= $list['jam_selesai']; ?></td>
                                                             <td><?= $list['hasil']; ?></td>
 
                                                             <td>

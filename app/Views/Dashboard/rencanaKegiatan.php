@@ -102,7 +102,7 @@
                 <div class="col-md-7">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="small-box bg-white p-4" data-aos-once="true" data-aos="fade-left" data-aos-delay="200" data-aos-duration="500">
+                            <div class="small-box hijau p-4" data-aos-once="true" data-aos="fade-left" data-aos-delay="200" data-aos-duration="500">
                                 <div class="row">
                                     <div class="col-6 d-flex justify-content-center align-items-center">
                                         <span class="dicon hijau fa-2x rounded">
@@ -112,25 +112,28 @@
                                     <div class="col-6">
                                         <span class="text-bold fa-4x counter rata-jam"></span>jam
                                         <span class="text-bold fa-4x counter ml-3 rata-menit"></span>menit
-                                        <p class="text-gray">Rata-rata jam kerja harian</p>
+                                        <p class="text-success">Rata-rata jam kerja harian</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="small-box bg-white p-4" data-aos-once="true" data-aos="fade-left" data-aos-delay="200" data-aos-duration="500">
+                            <div class="small-box merah p-4" data-aos-once="true" data-aos="fade-left" data-aos-delay="200" data-aos-duration="500">
                                 <div class="row">
-                                    <div class="col-7 text-center">
-                                        <div class="circles">
-                                            <div class="second circle"><strong style=" width: 120px;"></strong></div>
-                                        </div>
+                                    <div class="col-3 d-flex justify-content-center align-items-center">
+                                        <span class="dicon merah fa-2x rounded">
+                                            <i class="far fa-clock"></i>
+                                        </span>
                                     </div>
-                                    <div class="col-5 d-flex align-items-center">
-                                        <p class="text-gray">jumlah jam kerja tidak terlaksana</p>
+                                    <div class="col-9">
+                                        <span class="text-bold fa-4x counter jam-terbuang"></span>jam
+                                        <span class="text-bold fa-4x counter ml-3 menit-terbuang"></span>menit
+                                        <p class="text-danger">Jumlah jam kerja tidak terlaksana</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                     <div class="row">
                         <div class="col-12">
@@ -629,7 +632,7 @@
 
     $(document).ready(function() {
         $('#tabelData4').DataTable().search($('#pencarian4').val()).draw();
-        $("#rentang").daterangepicker();
+
 
     });
 
@@ -649,6 +652,11 @@
     $(document).on('click', '.lihat', function() {
         runApi($(this).data('nip'))
     })
+    $("#rentang").daterangepicker({
+        startDate: moment().startOf('year'),
+        endDate: moment(),
+    });
+
     $("#rentang").on("change", function() {
         let rentang = $(this).val().replace(/\//g, '-').replace(/\ /g, '')
         runApi('<?= session('nip_lama') ?>', rentang)
@@ -665,9 +673,11 @@
                     // perintilan
                     $('.nama-pegawai').html(data['nama_pegawai'])
                     $('.nama-bidang').html(data['nama_bidang'])
-                    $('.periode').html(data['periode_awal'] + ` - ` + ubahFormatTanggal2(data['periode_akhir']))
+                    $('.periode').html(ubahFormatTanggal2(data['periode_awal']) + ` - ` + ubahFormatTanggal2(data['periode_akhir']))
                     $('.rata-jam').html(data['rata_rata_jam'])
                     $('.rata-menit').html(data['rata_rata_menit'])
+                    $('.jam-terbuang').html(data['jumlah_jam_kerja_terbuang'])
+                    $('.menit-terbuang').html(data['jumlah_menit_kerja_terbuang'])
                     $('.kegiatan-pribadi').html(data['rata_rata_kegiatan_pribadi'])
                     $('.kegiatan-lembur').html(data['jumlah_kegiatan_cuti'])
                     $('.jam-lembur').html(data['jumlah_jam_lembur'])

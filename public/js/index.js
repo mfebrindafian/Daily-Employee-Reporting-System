@@ -487,7 +487,13 @@ function tips() {
 // ----------
 $(document).on('click', '#btn-uncheck', function () {
      $('#hari-ini').val($(this).data('date_click'));
-
+     const d = new Date($(this).data('date_click'));
+     let day = d.getDay();
+     if (day == 5) {
+          $('.jam_akhir_pertama').val('16:30');
+     } else {
+          $('.jam_akhir_pertama').val('16:00');
+     }
      $('#tanggal-tambah').html(ubahFormatTanggal($('#hari-ini').val()));
 });
 $('#tanggal-edit').html(ubahFormatTanggal($('#tanggal-kegiatan').val()));

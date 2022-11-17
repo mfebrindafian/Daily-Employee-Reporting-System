@@ -29,6 +29,8 @@ $(document).ready(function () {
      });
 
      function appendBaris(modal, noBaris) {
+          let jamAkhir = document.querySelectorAll('.jam_akhir');
+          let jamTerbesar = jamAkhir[jamAkhir.length - 1].value;
           $(modal).append(
                `
                <div class="row rounded position-relative pt-2 kegiatan-baru mt-4">
@@ -120,10 +122,14 @@ $(document).ready(function () {
                                 <div class="row"><strong>Durasi Kegiatan</strong></div>
 
                                 <div class="input-group">
-                                    <input class="form-control jam_mulai" required type="time"  name="field_jam_mulai[]" max="07:30" value="">
+                                    <input class="form-control jam_mulai" required type="time"  name="field_jam_mulai[]" min="07:30" value="` +
+                    jamTerbesar +
+                    `">
                                 </div>
                                 <div class="input-group">
-                                    <input class="form-control jam_akhir" required type="time"  name="field_jam_selesai[]" value="">
+                                    <input class="form-control jam_akhir" required type="time"  name="field_jam_selesai[]" value="` +
+                    jamTerbesar +
+                    `">
                                 </div>
                             </div>
                             </div>
@@ -186,41 +192,57 @@ $(document).ready(function () {
      });
 });
 
-var jamMulai = document.querySelectorAll('.jam_mulai');
-var jamAkhir = document.querySelectorAll('.jam_akhir');
-const d = new Date();
-let day = d.getDay();
-let maxJam = '';
-if (day == 5) {
-     maxJam = '16:30';
-} else {
-     maxJam = '16:00';
-}
-$(document).on('change', '.jam_akhir', function () {
-     let index = $('.jam_akhir').index(this);
-     // console.log(jamAkhir[index].value)
-     // console.log(index)
-     if ($(this).val() > maxJam) {
-          $(this).val(maxJam);
-     }
-     if ($(this).val() < jamMulai[index].value) {
-          $(this).val(jamMulai[index].value);
-     }
-
-     if ($(this).val() > jamMulai[index + 1].value) {
-          console.log(jamMulai[index + 1].value);
-     }
-});
-$(document).on('change', '.jam_mulai', function () {
-     let index = $('.jam_mulai').index(this);
-     // console.log(jamAkhir[index].value)
-     if ($(this).val() > maxJam) {
-          $(this).val(maxJam);
-     }
-     if (index > 0) {
-          if ($(this).val() < jamAkhir[index - 1].value) {
-               $(this).val(jamAkhir[index - 1].value);
-               console.log(jamAkhir[index - 1].value);
+$(document).ready(function () {
+     $(document).on('change', '.jam_mulai', function () {
+          const d = new Date($('input[name="tanggal"]').val());
+          let day = d.getDay();
+          let maxJam = '';
+          if (day == 5) {
+               maxJam = '16:30';
+          } else {
+               maxJam = '16:00';
           }
-     }
+          let jamMulai = document.querySelectorAll('.jam_mulai');
+          let jamAkhir = document.querySelectorAll('.jam_akhir');
+          let index = $('.jam_mulai').index(this);
+          // console.log(jamAkhir[index].value)
+          if ($(this).val() > maxJam) {
+               $(this).val(maxJam);
+          }
+          if (index > 0) {
+               if ($(this).val() < jamAkhir[index - 1].value) {
+                    $(this).val(jamAkhir[index - 1].value);
+               }
+          }
+          if ($(this).val() < jamAkhir[index].value) {
+               $(this).val(jamAkhir[index].value);
+          }
+     });
+
+     $(document).on('change', '.jam_akhir', function () {
+          const d = new Date($('input[name="tanggal"]').val());
+          let day = d.getDay();
+          let maxJam = '';
+          if (day == 5) {
+               maxJam = '16:30';
+          } else {
+               maxJam = '16:00';
+          }
+          let jamMulai = document.querySelectorAll('.jam_mulai');
+          let jamAkhir = document.querySelectorAll('.jam_akhir');
+          let index = $('.jam_akhir').index(this);
+          console.log(jamMulai.length);
+
+          if ($(this).val() > maxJam) {
+               $(this).val(maxJam);
+          }
+          if ($(this).val() < jamMulai[index].value) {
+               $(this).val(jamMulai[index].value);
+          }
+          if (jamAkhir.length > index + 1) {
+               if ($(this).val() > jamMulai[index + 1].value) {
+                    $(this).val(jamMulai[index + 1].value);
+               }
+          }
+     });
 });

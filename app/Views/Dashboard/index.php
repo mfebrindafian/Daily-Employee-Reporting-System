@@ -690,7 +690,7 @@
                           <input class="form-control jam_mulai" required type="hidden" name="field_jam_mulai[]" max="07:30" value="07:30">
                         </div>
                         <div class="input-group">
-                          <input class="form-control jam_akhir" required type="time" name="field_jam_selesai[]" value="16:00">
+                          <input class="form-control jam_akhir jam_akhir_pertama" required type="time" name="field_jam_selesai[]" value="16:00">
                         </div>
                       </div>
                     </div>

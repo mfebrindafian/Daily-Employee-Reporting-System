@@ -3,6 +3,7 @@
 <?= $this->section('content'); ?>
 <link rel="stylesheet" href="<?= base_url('/css/aos.css') ?>">
 <link rel="stylesheet" href="<?= base_url('/css/progresscircle.css') ?>">
+<link rel="stylesheet" href="<?= base_url('/plugins/daterangepicker/daterangepicker.css') ?>">
 <div class="loader-api">
     <div class="container chase"></div>
 </div>
@@ -15,6 +16,7 @@
                     <h1>Rincian Kegiatan Pegawai</h1>
                 </div>
                 <div class="col-sm-6">
+
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= base_url('/dashboard') ?>">Home</a></li>
                         <li class="breadcrumb-item active">Rincian Kegiatan</li>
@@ -26,7 +28,25 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                <div class="col-9"></div>
+                <div class="col-3">
+                    <div class="form-group">
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="far fa-calendar-alt"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control float-right" id="reservation" />
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-12">
+
                     <div class="small-box rincian-1 p-4 " data-aos-once="true" data-aos="fade-down" data-aos-duration="500">
                         <div class="row">
                             <div class="col-6 p-0 d-flex flex-column">
@@ -587,6 +607,7 @@
 
 
 <script src="<?= base_url('/plugins/sweetalert2/sweetalert2.min.js') ?>"></script>
+<script src="<?= base_url('/plugins/daterangepicker/daterangepicker.js') ?>"></script>
 <script src="<?= base_url('/plugins/datatables/jquery.dataTables.min.js') ?>"></script>
 <script src="<?= base_url('/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') ?>"></script>
 <script src="<?= base_url('/js/tanggal.js') ?>"></script>
@@ -605,6 +626,7 @@
 
     $(document).ready(function() {
         $('#tabelData4').DataTable().search($('#pencarian4').val()).draw();
+        $("#reservation").daterangepicker();
     });
 
     $('#tabelData4_wrapper').children().first().addClass('d-none');

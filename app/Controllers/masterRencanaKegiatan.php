@@ -167,15 +167,26 @@ class masterRencanaKegiatan extends BaseController
                 $laporan = $list3['uraian_kegiatan'];
                 $data = json_decode($laporan);
                 $list_tipe = $data->kode_tipe;
-                $list_durasi_jam = $data->durasi_jam;
-                $list_durasi_menit = $data->durasi_menit;
+                $jam_mulai = $data->jam_mulai;
+                $jam_selesai = $data->jam_selesai;
                 $tanggal = explode('-', $list3['tgl_kegiatan']);
                 if ($tanggal[0] == date('Y')) {
                     foreach ($list_tipe as $tipe) {
                         $cek_tipe[] = $tipe;
                         if ($tipe == '3') {
-                            $jam[] = intval($list_durasi_jam[$ke_lembur]);
-                            $menit[] = intval($list_durasi_menit[$ke_lembur]);
+                            $time1 = new DateTime($jam_mulai[$ke_lembur]);
+                            $time2 = new DateTime($jam_selesai[$ke_lembur]);
+                            $timediff = $time1->diff($time2);
+                            $jml_kegiatan[] = $jam_mulai[$ke_lembur];
+                            $all_jam[] = $timediff->format('%h');
+                            $all_menit[] = $timediff->format('%i');
+                            $jumlah_menit = array_sum($all_menit);
+
+                            while ($jumlah_menit >= 60) {
+                                $jumlah_menit = $jumlah_menit - 60;
+                                $all_jam[] = 1;
+                            }
+                            $jumlah_jam = array_sum($all_jam);
                             $jml_lembur++;
                         }
                         $ke_lembur++;
@@ -183,14 +194,7 @@ class masterRencanaKegiatan extends BaseController
                 }
             }
             if (in_array('3', $cek_tipe) == true) {
-                $jumlah['jumlah_kegiatan_lembur'] = count($jam);
-                $jumlah_menit = array_sum($menit);
-                while ($jumlah_menit >= 60) {
-                    $jumlah_menit = $jumlah_menit - 60;
-                    $jam[] = 1;
-                }
-                $jumlah_jam = array_sum($jam);
-
+                $jumlah['jumlah_kegiatan_lembur'] = count($jml_kegiatan);
                 $jumlah['jumlah_jam_lembur'] = $jumlah_jam;
                 $jumlah['jumlah_menit_lembur'] = $jumlah_menit;
             } else {
@@ -267,14 +271,14 @@ class masterRencanaKegiatan extends BaseController
                 $data = json_decode($laporan);
                 $list_tipe = $data->kode_tipe;
                 $list_uraian = $data->uraian;
-                $list_durasi_jam = $data->durasi_jam;
-                $list_durasi_menit = $data->durasi_menit;
+                $list_jam_mulai = $data->jam_mulai;
+                $list_jam_selesai = $data->jam_selesai;
                 foreach ($list_tipe as $tipe3) {
                     if ($tipe3 != '4' && $tipe3 != '3') {
                         $list_laporan4[] = [
                             'uraian' => $list_uraian[$ke_harian],
-                            'durasi_jam' => $list_durasi_jam[$ke_harian],
-                            'durasi_menit' => $list_durasi_menit[$ke_harian]
+                            'jam_mulai' => $list_jam_mulai[$ke_harian],
+                            'jam_selesai' => $list_jam_selesai[$ke_harian]
                         ]; //LIST LAPORAN TANPA CUTI dan TANPA LEMBUR
 
                     }
@@ -287,13 +291,18 @@ class masterRencanaKegiatan extends BaseController
 
         if ($list_laporan4 != null) {
             foreach ($list_laporan4 as $list5) {
-                $jam_harian[] = intval($list5['durasi_jam']);
-                $menit_harian[] = intval($list5['durasi_menit']);
+                $time1 = new DateTime($list5['jam_mulai']);
+                $time2 = new DateTime($list5['jam_selesai']);
+                $timediff = $time1->diff($time2);
+                $jam_harian[] = $timediff->format('%h');
+                $menit_harian[] = $timediff->format('%i');
             }
             $jumlah_jam_harian = array_sum($jam_harian);
             $jumlah_menit_harian = array_sum($menit_harian);
             $total_detik = (($jumlah_jam_harian * 3600) + ($jumlah_menit_harian * 60));
+
             $bagi_detik = ($total_detik /  $jumlah['total_hari_harus_input']);
+
 
             $jml_jam_harian = 0;
             while ($bagi_detik >= 3600) {
@@ -305,6 +314,7 @@ class masterRencanaKegiatan extends BaseController
                 $bagi_detik = $bagi_detik - 60;
                 $jml_menit_harian++;
             }
+
             $jumlah['rata_rata_jam'] = $jml_jam_harian;
             $jumlah['rata_rata_menit'] = $jml_menit_harian;
         } else {
@@ -315,7 +325,7 @@ class masterRencanaKegiatan extends BaseController
 
         //MENGHITUNG JUMLAH JAM KERJA TIDAK TERLAKSANA
 
-        
+
         //BATAS MENGHITUNG JUMLAH JAM KERJA TIDAK TERLAKSANA
 
 
@@ -337,8 +347,8 @@ class masterRencanaKegiatan extends BaseController
                 $data = json_decode($laporan);
                 $list_tipe = $data->kode_tipe;
                 $list_uraian = $data->uraian;
-                $list_durasi_jam = $data->durasi_jam;
-                $list_durasi_menit = $data->durasi_menit;
+                $list_jam_mulai = $data->jam_mulai;
+                $list_jam_selesai = $data->jam_selesai;
                 foreach ($list_tipe as $tipe4) {
                     $cek_tipe2[] = $tipe4;
                     if ($tipe4 == '4') {
@@ -392,16 +402,16 @@ class masterRencanaKegiatan extends BaseController
                         $data_mas = json_decode($laporan_mas);
                         $list_tipe = $data_mas->kode_tipe;
                         $list_uraian = $data_mas->uraian;
-                        $list_durasi_jam = $data_mas->durasi_jam;
-                        $list_durasi_menit = $data_mas->durasi_menit;
+                        $list_jam_mulai = $data_mas->jam_mulai;
+                        $list_jam_selesai = $data_mas->jam_selesai;
                         foreach ($list_tipe as $tipe4) {
                             $cek_tipe2[] = $tipe4;
                             if ($tipe4 != '4' && $tipe4 != '3') {
                                 $cek_lapmas++;
                                 $list_laporan6[] = [
                                     'uraian' => $list_uraian[$ke_bid],
-                                    'durasi_jam' => $list_durasi_jam[$ke_bid],
-                                    'durasi_menit' => $list_durasi_menit[$ke_bid]
+                                    'jam_mulai' => $list_jam_mulai[$ke_bid],
+                                    'jam_selesai' => $list_jam_selesai[$ke_bid]
                                 ];
                             }
                             $ke_bid++;
@@ -416,14 +426,19 @@ class masterRencanaKegiatan extends BaseController
 
             if ($list_laporan6 != null) {
                 foreach ($list_laporan6 as $list7) {
-                    $jam_bid[] = intval($list7['durasi_jam']);
-                    $menit_bid[] = intval($list7['durasi_menit']);
+                    $time1 = new DateTime($list5['jam_mulai']);
+                    $time2 = new DateTime($list5['jam_selesai']);
+                    $timediff = $time1->diff($time2);
+                    $jam_bid[] = $timediff->format('%h');
+                    $menit_bid[] = $timediff->format('%i');
                 }
 
                 $jumlah_jam_bid = array_sum($jam_bid);
                 $jumlah_menit_bid = array_sum($menit_bid);
                 $total_detik_bid = (($jumlah_jam_bid * 3600) + ($jumlah_menit_bid * 60));
+
                 $bagi_detik_bid = ($total_detik_bid /  $jumlah['total_hari_harus_input'] / count($list_pegawai_bidang));
+
                 $jml_jam_bid = 0;
                 while ($bagi_detik_bid >= 3600) {
                     $bagi_detik_bid = $bagi_detik_bid - 3600;

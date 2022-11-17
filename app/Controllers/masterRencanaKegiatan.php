@@ -470,8 +470,8 @@ class masterRencanaKegiatan extends BaseController
 
             if ($list_laporan6 != null) {
                 foreach ($list_laporan6 as $list7) {
-                    $time1 = new DateTime($list5['jam_mulai']);
-                    $time2 = new DateTime($list5['jam_selesai']);
+                    $time1 = new DateTime($list7['jam_mulai']);
+                    $time2 = new DateTime($list7['jam_selesai']);
                     $timediff = $time1->diff($time2);
                     $jam_bid[] = $timediff->format('%h');
                     $menit_bid[] = $timediff->format('%i');

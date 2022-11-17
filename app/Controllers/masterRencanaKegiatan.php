@@ -110,10 +110,6 @@ class masterRencanaKegiatan extends BaseController
         curl_setopt($curl_handle, CURLOPT_USERAGENT, 'siphp-skripsi');
         $query = curl_exec($curl_handle);
         curl_close($curl_handle);
-        // dd($query);
-        // $url = ("https://api-harilibur.vercel.app/api");
-        // $get_url = file_get_contents($url, false, stream_context_create($arrContextOptions));
-        // $libur_nasional = json_decode($get_url);
         $libur_nasional = json_decode($query);
 
         foreach ($libur_nasional as $libur) {
@@ -273,6 +269,8 @@ class masterRencanaKegiatan extends BaseController
 
 
         //UNTUK MENGHITUNG RATA-RATA JAM KERJA HARIAN PRIBADI
+
+        $list_laporan4 = null;
         if ($list_laporan2 != null) {
             foreach ($list_laporan2 as $list4) {
                 $ke_harian = 0;
@@ -336,8 +334,10 @@ class masterRencanaKegiatan extends BaseController
 
         //MENGHITUNG JUMLAH JAM KERJA TIDAK TERLAKSANA
         $all_kurang = [];
+        $array_kurang = [];
         if ($list_laporan4 != null) {
             foreach ($list_laporan4 as $list5) {
+                $array_kurang[] = $list5['tgl_kegiatan'];
                 $time1 = new DateTime($list5['jam_mulai']);
                 $time2 = new DateTime($list5['jam_selesai']);
                 $timediff = $time1->diff($time2);
@@ -364,13 +364,28 @@ class masterRencanaKegiatan extends BaseController
                     $menit_kurang[] = 1;
                     $detik_kurang = $detik_kurang - 60;
                 }
-                $jumlah['jumlah_jam_kerja_terbuang'] = array_sum($jam_kurang);
-                $jumlah['jumlah_menit_kerja_terbuang'] = array_sum($menit_kurang);
             }
+            foreach ($rangArray3 as $rang5) {
+                if (in_array($rang5, $array_kurang) == false) {
+                    $jam_kurang[] = 7;
+                    $menit_kurang[] = 30;
+                }
+            }
+
+            $jumlah_menit_terbuang =  array_sum($menit_kurang);
+
+            while ($jumlah_menit_terbuang >= 60) {
+                $jam_kurang[] = 1;
+                $jumlah_menit_terbuang = $jumlah_menit_terbuang - 60;
+            }
+
+            $jumlah['jumlah_jam_kerja_terbuang'] = array_sum($jam_kurang);
+            $jumlah['jumlah_menit_kerja_terbuang'] = $jumlah_menit_terbuang;
         } else {
             $jumlah['jumlah_jam_kerja_terbuang'] = 0;
             $jumlah['jumlah_menit_kerja_terbuang'] = 0;
         }
+
 
         //BATAS MENGHITUNG JUMLAH JAM KERJA TIDAK TERLAKSANA
 

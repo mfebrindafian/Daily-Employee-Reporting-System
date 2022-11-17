@@ -25,7 +25,7 @@ class masterKegiatanModel extends Model
             ->where('user_id', $user_id)
             ->where('user_id', $user_id)
             ->where('tgl_input >=', $start_date)
-            ->where('tgl_input <=', $start_date)
+            ->where('tgl_input <=', $end_date)
             ->get()
             ->getResultArray();
     }

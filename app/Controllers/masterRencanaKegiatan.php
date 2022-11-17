@@ -77,6 +77,7 @@ class masterRencanaKegiatan extends BaseController
         }
 
         $list_kegiatan = $this->masterKegiatanModel->getAllByUserIdDate($user_id['id'], $start_date, $end_date);
+
         //MENGHITUNG HARI-HARI DIMULAI 1 JANUARI SAMPAI HARI INI DENGAN IRISAN KONDISI
         $rangArray = [];
         $startDate = strtotime($start_date);

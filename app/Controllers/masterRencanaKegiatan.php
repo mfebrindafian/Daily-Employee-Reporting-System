@@ -63,7 +63,7 @@ class masterRencanaKegiatan extends BaseController
 
         $data_user = $this->masterUserModel->getNipLamaByUserId($user_id['id']);
 
-        $list_kegiatan = $this->masterKegiatanModel->getAllByUserId($user_id['id']);
+
 
         /////////////////////UBAHHH START DATE KE 1 JANUARI
         $exp_date = explode('-', $date_range);
@@ -72,10 +72,11 @@ class masterRencanaKegiatan extends BaseController
             $start_date = (date('Y') . '-01-01');
             $end_date = date('Y-m-d');
         } else {
-            $start_date = $exp_date[2] . '-' . $exp_date[1] . '-' . $exp_date[0];
-            $end_date = $exp_date[5] . '-' . $exp_date[4] . '-' . $exp_date[3];
+            $start_date = $exp_date[2] . '-' . $exp_date[0] . '-' . $exp_date[1];
+            $end_date = $exp_date[5] . '-' . $exp_date[3] . '-' . $exp_date[4];
         }
 
+        $list_kegiatan = $this->masterKegiatanModel->getAllByUserIdDate($user_id['id'], $start_date, $end_date);
         //MENGHITUNG HARI-HARI DIMULAI 1 JANUARI SAMPAI HARI INI DENGAN IRISAN KONDISI
         $rangArray = [];
         $startDate = strtotime($start_date);

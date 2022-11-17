@@ -18,6 +18,18 @@ class masterKegiatanModel extends Model
             ->getResultArray();
     }
 
+    public function getAllByUserIdDate($user_id, $start_date, $end_date)
+    {
+        return $this
+            ->table($this->table)
+            ->where('user_id', $user_id)
+            ->where('user_id', $user_id)
+            ->where('tgl_input >=', $start_date)
+            ->where('tgl_input <=', $start_date)
+            ->get()
+            ->getResultArray();
+    }
+
     public function getAllByUserIdOrderYear($user_id)
     {
         return $this

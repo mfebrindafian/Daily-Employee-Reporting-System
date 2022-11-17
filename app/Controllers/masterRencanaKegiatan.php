@@ -76,9 +76,6 @@ class masterRencanaKegiatan extends BaseController
             $end_date = $exp_date[5] . '-' . $exp_date[4] . '-' . $exp_date[3];
         }
 
-        d($start_date);
-        dd($end_date);
-
         //MENGHITUNG HARI-HARI DIMULAI 1 JANUARI SAMPAI HARI INI DENGAN IRISAN KONDISI
         $rangArray = [];
         $startDate = strtotime($start_date);

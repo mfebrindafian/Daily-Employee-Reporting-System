@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="<?= base_url('/css/aos.css') ?>">
 <link rel="stylesheet" href="<?= base_url('/css/progresscircle.css') ?>">
 <link rel="stylesheet" href="<?= base_url('/plugins/daterangepicker/daterangepicker.css') ?>">
+<link rel="stylesheet" href="<?= base_url('/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') ?>">
 <div class="loader-api">
     <div class="container chase"></div>
 </div>
@@ -38,7 +39,7 @@
                                     <i class="far fa-calendar-alt"></i>
                                 </span>
                             </div>
-                            <input type="text" class="form-control float-right" id="reservation" />
+                            <input type="text" class="form-control float-right" id="rentang" />
                         </div>
                         <!-- /.input group -->
                     </div>
@@ -607,7 +608,9 @@
 
 
 <script src="<?= base_url('/plugins/sweetalert2/sweetalert2.min.js') ?>"></script>
+<script src="<?= base_url('/plugins/moment/moment.min.js') ?>"></script>
 <script src="<?= base_url('/plugins/daterangepicker/daterangepicker.js') ?>"></script>
+<script src="<?= base_url('/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') ?>"></script>
 <script src="<?= base_url('/plugins/datatables/jquery.dataTables.min.js') ?>"></script>
 <script src="<?= base_url('/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') ?>"></script>
 <script src="<?= base_url('/js/tanggal.js') ?>"></script>
@@ -626,7 +629,8 @@
 
     $(document).ready(function() {
         $('#tabelData4').DataTable().search($('#pencarian4').val()).draw();
-        $("#reservation").daterangepicker();
+        $("#rentang").daterangepicker();
+
     });
 
     $('#tabelData4_wrapper').children().first().addClass('d-none');
@@ -645,87 +649,87 @@
     $(document).on('click', '.lihat', function() {
         runApi($(this).data('nip'))
     })
+    $("#rentang").on("change", function() {
+        let rentang = $(this).val().replace(/\//g, '-').replace(/\ /g, '')
+        runApi('<?= session('nip_lama') ?>', rentang)
+        console.log(rentang)
+    });
 
-    <?php if ($dari_verif == 'off') : ?>
-        runApi('<?= session('nip_lama') ?>')
-    <?php endif; ?>
-    <?php if ($dari_verif == 'on') : ?>
-        runApi('<?= $nip_lama_terpilih ?>')
-    <?php endif; ?>
+    <?php if ($dari_verif == 'off') : ?> runApi('<?= session('nip_lama') ?>', 'all') <?php endif; ?> <?php if ($dari_verif == 'on') : ?> runApi('<?= $nip_lama_terpilih ?>', 'all') <?php endif; ?>
 
-    function runApi(nip) {
-        $.ajax({
-            dataType: "json",
-            url: baseUrl + '/APIRencanaKegiatan/' + nip,
-            success: function(data) {
-                // perintilan
-                $('.nama-pegawai').html(data['nama_pegawai'])
-                $('.nama-bidang').html(data['nama_bidang'])
-                $('.periode').html(ubahFormatTanggal2(data['periode_awal']) + ` - ` + ubahFormatTanggal2(data['periode_akhir']))
-                $('.rata-jam').html(data['rata_rata_jam'])
-                $('.rata-menit').html(data['rata_rata_menit'])
-                $('.kegiatan-pribadi').html(data['rata_rata_kegiatan_pribadi'])
-                $('.kegiatan-lembur').html(data['jumlah_kegiatan_cuti'])
-                $('.jam-lembur').html(data['jumlah_jam_lembur'])
-                $('.menit-lembur').html(data['jumlah_menit_lembur'])
-                $('.jumlah-cuti').html(data['jumlah_cuti'])
-                $('.rata-jam-bidang').html(data['rata_rata_jam_bidang'])
-                $('.rata-menit-bidang').html(data['rata_rata_menit_bidang'])
-                $('.kegiatan-bidang').html(data['jumlah_kegiatan_bidang'])
-                $('.hari-harus-input').html(data['total_hari_harus_input'])
-                $('.hari-kerja-input').html(data['total_hari_kerja_telah_input'])
+        function runApi(nip, rentang) {
+            $.ajax({
+                dataType: "json",
+                url: baseUrl + '/APIRencanaKegiatan/' + nip + '/' + rentang,
+                success: function(data) {
+                    // perintilan
+                    $('.nama-pegawai').html(data['nama_pegawai'])
+                    $('.nama-bidang').html(data['nama_bidang'])
+                    $('.periode').html(data['periode_awal'] + ` - ` + ubahFormatTanggal2(data['periode_akhir']))
+                    $('.rata-jam').html(data['rata_rata_jam'])
+                    $('.rata-menit').html(data['rata_rata_menit'])
+                    $('.kegiatan-pribadi').html(data['rata_rata_kegiatan_pribadi'])
+                    $('.kegiatan-lembur').html(data['jumlah_kegiatan_cuti'])
+                    $('.jam-lembur').html(data['jumlah_jam_lembur'])
+                    $('.menit-lembur').html(data['jumlah_menit_lembur'])
+                    $('.jumlah-cuti').html(data['jumlah_cuti'])
+                    $('.rata-jam-bidang').html(data['rata_rata_jam_bidang'])
+                    $('.rata-menit-bidang').html(data['rata_rata_menit_bidang'])
+                    $('.kegiatan-bidang').html(data['jumlah_kegiatan_bidang'])
+                    $('.hari-harus-input').html(data['total_hari_harus_input'])
+                    $('.hari-kerja-input').html(data['total_hari_kerja_telah_input'])
 
-                $('.belum-tindak').html(data['rincian']['B'])
-                $('.sedang-tindak').html(data['rincian']['T'])
-                $('.selesai-tindak').html(data['rincian']['S'])
-                $('.telah-verif').html(data['verif']['S'])
+                    $('.belum-tindak').html(data['rincian']['B'])
+                    $('.sedang-tindak').html(data['rincian']['T'])
+                    $('.selesai-tindak').html(data['rincian']['S'])
+                    $('.telah-verif').html(data['verif']['S'])
 
-                $('.tombol-riwayat').attr('href', baseUrl + '/riwayatRencanaKegiatan/' + nip)
+                    $('.tombol-riwayat').attr('href', baseUrl + '/riwayatRencanaKegiatan/' + nip)
 
-                // table
-                $('#u,#t').empty()
-                let tombol = '';
-                let tombol2 = '';
-                let no = {
-                    't': 1,
-                    'u': 1
-                };
-                if (nip == sessionNip) {
-                    $('.tombol-rencana').removeClass('d-none')
+                    // table
+                    $('#u,#t').empty()
+                    let tombol = '';
+                    let tombol2 = '';
+                    let no = {
+                        't': 1,
+                        'u': 1
+                    };
+                    if (nip == sessionNip) {
+                        $('.tombol-rencana').removeClass('d-none')
 
-                } else if (nip != sessionNip) {
-                    $('.tombol-rencana').addClass('d-none')
-                }
-                if (data['daftar_kegiatan'] != null) {
-                    $.each(data['daftar_kegiatan'], function(i) {
-                        if (nip == sessionNip && data['daftar_kegiatan'][i]['status_rincian'] == 'Belum ditindaklanjuti' && data['daftar_kegiatan'][i]['status_verifikasi'] == 'Belum diverifikasi') {
-                            tombol = `
+                    } else if (nip != sessionNip) {
+                        $('.tombol-rencana').addClass('d-none')
+                    }
+                    if (data['daftar_kegiatan'] != null) {
+                        $.each(data['daftar_kegiatan'], function(i) {
+                            if (nip == sessionNip && data['daftar_kegiatan'][i]['status_rincian'] == 'Belum ditindaklanjuti' && data['daftar_kegiatan'][i]['status_verifikasi'] == 'Belum diverifikasi') {
+                                tombol = `
                                     <button class="btn btn-sm btn-danger" id="open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="` + baseUrl + `/hapusStatusRincian/` + data['daftar_kegiatan'][i]['id'] + `">Hapus</button>
                                     <a href="` + baseUrl + `/updateStatusRincian/` + data['daftar_kegiatan'][i]['id'] + `" class="btn btn-sm btn-success">Selesai</a>
                             `
-                        } else if (nip == sessionNip && data['daftar_kegiatan'][i]['status_rincian'] == 'Sedang ditindaklanjuti' && data['daftar_kegiatan'][i]['status_verifikasi'] == 'Belum diverifikasi') {
-                            tombol = `
+                            } else if (nip == sessionNip && data['daftar_kegiatan'][i]['status_rincian'] == 'Sedang ditindaklanjuti' && data['daftar_kegiatan'][i]['status_verifikasi'] == 'Belum diverifikasi') {
+                                tombol = `
                                     <a href="` + baseUrl + `/updateStatusRincian/` + data['daftar_kegiatan'][i]['id'] + `" class="btn btn-sm btn-success">Selesai</a>
                             `
-                        } else if (nip == sessionNip && data['daftar_kegiatan'][i]['status_rincian'] == 'Selesai ditindaklanjuti' && data['daftar_kegiatan'][i]['status_verifikasi'] == 'Belum diverifikasi') {
-                            tombol = `
+                            } else if (nip == sessionNip && data['daftar_kegiatan'][i]['status_rincian'] == 'Selesai ditindaklanjuti' && data['daftar_kegiatan'][i]['status_verifikasi'] == 'Belum diverifikasi') {
+                                tombol = `
                             <a href="` + baseUrl + `/batalStatusRincian/` + data['daftar_kegiatan'][i]['id'] + `" class="btn btn-sm btn-danger">Batal</a>
                             `
-                        }
+                            }
 
-                        if (es3kd == data['es3_kd'] && jabatan == 'koordinator' && data['daftar_kegiatan'][i]['status_rincian'] == 'Selesai ditindaklanjuti' && data['daftar_kegiatan'][i]['status_verifikasi'] == 'Belum diverifikasi') {
-                            tombol2 = `
+                            if (es3kd == data['es3_kd'] && jabatan == 'koordinator' && data['daftar_kegiatan'][i]['status_rincian'] == 'Selesai ditindaklanjuti' && data['daftar_kegiatan'][i]['status_verifikasi'] == 'Belum diverifikasi') {
+                                tombol2 = `
                             <a href="` + baseUrl + `/verifikasiKegiatan/` + data['daftar_kegiatan'][i]['id'] + `" class="btn btn-sm btn-info">Verifikasi</a>
                             `
-                        } else {
-                            tombol2 = ''
-                        }
+                            } else {
+                                tombol2 = ''
+                            }
 
-                        $('#' + data['daftar_kegiatan'][i]['tipe_kegiatan'].toLowerCase()).append(
-                            `
+                            $('#' + data['daftar_kegiatan'][i]['tipe_kegiatan'].toLowerCase()).append(
+                                `
                             <tr>
                                 <td>` + no[data['daftar_kegiatan'][i]['tipe_kegiatan'].toLowerCase()]++ +
-                            `</td>
+                                `</td>
                                 <td>` + data['daftar_kegiatan'][i]['rincian_kegiatan'] + `</td>
                                 <td>` + data['daftar_kegiatan'][i]['status_rincian'] + `</td>
                                 <td>` + data['daftar_kegiatan'][i]['status_verifikasi'] + `</td>
@@ -735,31 +739,31 @@
                                 </td>
                             </tr>
                             `
-                        )
-                    })
-                }
-                counter();
-            },
-            statusCode: {
-                500: function() {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Gagal! Periksa kembali koneksi Anda!',
-                        showConfirmButton: false,
-                        timer: 3000
-                    })
-                }
-            },
+                            )
+                        })
+                    }
+                    counter();
+                },
+                statusCode: {
+                    500: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal! Periksa kembali koneksi Anda!',
+                            showConfirmButton: false,
+                            timer: 3000
+                        })
+                    }
+                },
+            });
+        }
+
+
+        $(document).ajaxStart(function() {
+            $('.loader-api').removeClass('d-none');
+
+        }).ajaxStop(function() {
+            $('.loader-api').addClass('d-none')
         });
-    }
-
-
-    $(document).ajaxStart(function() {
-        $('.loader-api').removeClass('d-none');
-
-    }).ajaxStop(function() {
-        $('.loader-api').addClass('d-none')
-    });
 </script>
 
 

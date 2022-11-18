@@ -103,12 +103,16 @@
                                     <tr class="kepala-tabel">
                                         <th style="width: 10px">NO.</th>
                                         <th>MENU</th>
-                                        <th style="width: 60px">VIEW</th>
-                                        <th style="width: 60px">ADD</th>
+                                        <th>
+                                            <div class="col-12 text-center">
+                                                AKSES
+                                            </div>
+                                        </th>
+                                        <!-- <th style="width: 60px">ADD</th>
                                         <th style="width: 60px">EDIT</th>
                                         <th style="width: 60px">DELETE</th>
                                         <th style="width: 60px">PRINT</th>
-                                        <th style="width: 60px">UPLOAD</th>
+                                        <th style="width: 60px">UPLOAD</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -131,7 +135,7 @@
                                                     <i class="far <?= $list_menu[$i]['view_level'] == 'Y' ? 'fa-check-circle text-green' : 'fa-times-circle text-red'; ?>"></i>
                                                 </label>
                                             </td>
-                                            <td class="sel sel-disabled">
+                                            <!-- <td class="sel sel-disabled">
 
                                             </td>
                                             <td class="sel sel-disabled">
@@ -145,7 +149,7 @@
                                             </td>
                                             <td class="sel sel-disabled">
 
-                                            </td>
+                                            </td> -->
                                         </tr>
 
                                         <?php for ($j = 0; $j < count($list_submenu); $j++) : ?>
@@ -164,7 +168,7 @@
                                                             <i class="far <?= $list_submenu[$j]['view_level'] == 'Y' ? 'fa-check-circle text-green' : 'fa-times-circle text-red'; ?>"></i>
                                                         </label>
                                                     </td>
-                                                    <td class="sel">
+                                                    <!-- <td class="sel">
                                                         <label for="add_submenu<?= $j; ?>" class="ikon-sel">
                                                             <input class="d-none" type="checkbox" name="add_submenu<?= $j; ?>" id="add_submenu<?= $j; ?>" <?= $list_submenu[$j]['add_level'] == 'Y' ? 'checked' : ''; ?> />
                                                             <i class="far <?= $list_submenu[$j]['add_level'] == 'Y' ? 'fa-check-circle text-green' : 'fa-times-circle text-red'; ?>"></i>
@@ -193,7 +197,7 @@
                                                             <input class="d-none" type="checkbox" name="upload_submenu<?= $j; ?>" id="upload_submenu<?= $j; ?>" <?= $list_submenu[$j]['upload_level'] == 'Y' ? 'checked' : ''; ?> />
                                                             <i class="far <?= $list_submenu[$j]['upload_level'] == 'Y' ? 'fa-check-circle text-green' : 'fa-times-circle text-red'; ?>"></i>
                                                         </label>
-                                                    </td>
+                                                    </td> -->
                                                 </tr>
                                             <?php endif; ?>
 

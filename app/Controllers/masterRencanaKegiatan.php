@@ -60,11 +60,7 @@ class masterRencanaKegiatan extends BaseController
     {
 
         $user_id = $this->masterUserModel->getUserId($nip_lama);
-
         $data_user = $this->masterUserModel->getNipLamaByUserId($user_id['id']);
-
-
-
         /////////////////////UBAHHH START DATE KE 1 JANUARI
         $exp_date = explode('-', $date_range);
 
@@ -765,5 +761,393 @@ class masterRencanaKegiatan extends BaseController
             'nip_lama_terpilih' => $data_user['nip_lama_user']
         ];
         return view('Dashboard/rencanaKegiatan', $data);
+    }
+
+    public function dataKinerja()
+    {
+        $date_range = 'all';
+
+        $es3kd = session('es3_kd');
+        $data_user = session('data_user');
+        $satker_kd = $this->masterPegawaiModel->getProfilCetak($data_user['nip_lama_user']);
+        $list_pegawai_bidang = $this->masterPegawaiModel->getAllPegawaiBidang($satker_kd['satker_kd'], $es3kd);
+
+        $curl_handle = curl_init();
+        curl_setopt($curl_handle, CURLOPT_URL, 'https://api-harilibur.vercel.app/api');
+        curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
+        curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl_handle, CURLOPT_USERAGENT, 'siphp-skripsi');
+        $query = curl_exec($curl_handle);
+        curl_close($curl_handle);
+        $libur_nasional = json_decode($query);
+
+        foreach ($list_pegawai_bidang as $pegawai) {
+            $cek_pegawai = $this->masterUserModel->getUserId($pegawai['nip_lama']);
+            if ($cek_pegawai != null) {
+                $list_pegawai_bidang2[] = $pegawai;
+            } else {
+                $pegawai_tanpa_user[] = $pegawai;
+            }
+        }
+        $pegbid = 0;
+
+        foreach ($list_pegawai_bidang2 as $litpegbid) {
+            $user_id = $this->masterUserModel->getUserId($litpegbid['nip_lama']);
+
+            $data_user = $this->masterUserModel->getNipLamaByUserId($user_id['id']);
+            $exp_date = explode('-', $date_range);
+            if ($date_range == 'all') {
+                $start_date = (date('Y') . '-01-01');
+                $end_date = date('Y-m-d');
+            } else {
+                $start_date = $exp_date[2] . '-' . $exp_date[0] . '-' . $exp_date[1];
+                $end_date = $exp_date[5] . '-' . $exp_date[3] . '-' . $exp_date[4];
+            }
+
+            $list_kegiatan[$pegbid] = $this->masterKegiatanModel->getAllByUserIdDate($user_id['id'], $start_date, $end_date);
+
+            $rangArray[$pegbid] = [];
+            $startDate = strtotime($start_date);
+            $endDate = strtotime($end_date);
+            for (
+                $currentDate = $startDate;
+                $currentDate <= $endDate;
+                $currentDate += (86400)
+            ) {
+                $date = date('Y-m-d', $currentDate);
+                $rangArray[$pegbid][] = $date;
+            }
+            foreach ($rangArray[$pegbid] as $rang) {
+                if (date('N', strtotime($rang)) < 6) {
+                    $rangArray2[$pegbid][] = $rang;
+                }
+            }
+            foreach ($libur_nasional as $libur) {
+                if ($libur->is_national_holiday == 'true') {
+                    $tanggal = new DateTime($libur->holiday_date);
+                    $libur_nasional2[$pegbid][] = $tanggal->format('Y-m-d');
+                }
+            }
+            foreach ($rangArray2[$pegbid] as $rang2) {
+                if (in_array($rang2, $libur_nasional2[$pegbid]) == false) {
+                    $rangArray3[$pegbid][] = $rang2;
+                }
+            }
+            $jumlah[$pegbid]['total_hari_harus_input'] = count($rangArray3[$pegbid]);
+
+            $list_laporan = $this->masterLaporanHarianModel->getTotalByUserDate($start_date, $end_date, $user_id['id']);
+
+            if ($list_laporan != null) {
+                foreach ($list_laporan as $listlap) {
+                    if (in_array($listlap['tgl_kegiatan'], $rangArray3[$pegbid]) == true) {
+                        $list_laporan2[$pegbid][] = $listlap;
+                    }
+                }
+            } else {
+                $list_laporan2[$pegbid] = null;
+            }
+
+            if ($list_laporan2[$pegbid] != null) {
+                $jumlah[$pegbid]['total_hari_kerja_telah_input'] = count($list_laporan2[$pegbid]);
+            } else {
+                $jumlah[$pegbid]['total_hari_kerja_telah_input'] = 0;
+            }
+
+            foreach ($rangArray[$pegbid] as $rang4) {
+                if (in_array($rang4, $libur_nasional2[$pegbid]) == false) {
+                    $rangArray4[$pegbid][] = $rang4;
+                }
+            }
+            if ($list_laporan != null) {
+                foreach ($list_laporan as $listlap) {
+                    if (in_array($listlap['tgl_kegiatan'], $rangArray4[$pegbid]) == true) {
+                        $list_laporan3[$pegbid][] = $listlap;
+                    }
+                }
+            } else {
+                $list_laporan3[$pegbid] = null;
+            }
+
+            $jml_lembur = 0;
+            if ($list_laporan3[$pegbid] != null) {
+                foreach ($list_laporan3[$pegbid] as $list3) {
+                    $ke_lembur = 0;
+                    $laporan = $list3['uraian_kegiatan'];
+                    $data = json_decode($laporan);
+                    $list_tipe = $data->kode_tipe;
+                    $jam_mulai = $data->jam_mulai;
+                    $jam_selesai = $data->jam_selesai;
+                    $tanggal = explode('-', $list3['tgl_kegiatan']);
+                    if ($tanggal[0] == date('Y')) {
+                        foreach ($list_tipe as $tipe) {
+                            $cek_tipe[$pegbid][] = $tipe;
+                            if ($tipe == '3') {
+                                $time1 = new DateTime($jam_mulai[$ke_lembur]);
+                                $time2 = new DateTime($jam_selesai[$ke_lembur]);
+                                $timediff = $time1->diff($time2);
+                                $jml_kegiatan[$pegbid][] = $jam_mulai[$ke_lembur];
+                                $all_jam[$pegbid][] = $timediff->format('%h');
+                                $all_menit[$pegbid][] = $timediff->format('%i');
+                                $jumlah_menit = array_sum($all_menit[$pegbid]);
+
+                                while ($jumlah_menit >= 60) {
+                                    $jumlah_menit = $jumlah_menit - 60;
+                                    $all_jam[$pegbid][] = 1;
+                                }
+                                $jumlah_jam = array_sum($all_jam[$pegbid]);
+                                $jml_lembur++;
+                            }
+                            $ke_lembur++;
+                        }
+                    }
+                }
+                if (in_array('3', $cek_tipe[$pegbid]) == true) {
+                    $jumlah[$pegbid]['jumlah_kegiatan_lembur'] = count($jml_kegiatan);
+                    $jumlah[$pegbid]['jumlah_jam_lembur'] = $jumlah_jam;
+                    $jumlah[$pegbid]['jumlah_menit_lembur'] = $jumlah_menit;
+                } else {
+                    $jumlah[$pegbid]['jumlah_kegiatan_lembur'] = 0;
+                    $jumlah[$pegbid]['jumlah_jam_lembur'] = 0;
+                    $jumlah[$pegbid]['jumlah_menit_lembur'] = 0;
+                }
+            } else {
+                $jumlah[$pegbid]['jumlah_kegiatan_lembur'] = 0;
+                $jumlah[$pegbid]['jumlah_jam_lembur'] = 0;
+                $jumlah[$pegbid]['jumlah_menit_lembur'] = 0;
+            };
+
+
+
+            if ($list_kegiatan[$pegbid] != null) {
+                foreach ($list_kegiatan[$pegbid] as $list) {
+                    $cek_status_rincian[$pegbid][] = $list['status_rincian'];
+                    $tipe_status = ['B', 'T', 'S'];
+                    foreach ($tipe_status as $tipe) {
+                        if ($list['status_rincian'] == $tipe) {
+                            $array1[$pegbid][$tipe][] = $list;
+                            $jumlah[$pegbid]['rincian'][$tipe] = count($array1[$pegbid][$tipe]);
+                        }
+                    }
+
+
+
+                    foreach ($tipe_status as $tipe) {
+                        if (in_array($tipe, $cek_status_rincian[$pegbid]) == false) {
+                            $jumlah[$pegbid]['rincian'][$tipe] = 0;
+                        }
+                    }
+                    $tipe_status2 = ['B', 'S'];
+                    $cek_status_verifikasi[$pegbid][] = $list['status_verifikasi'];
+                    foreach ($tipe_status2 as $tipe2) {
+                        if ($list['status_verifikasi'] == $tipe2) {
+                            $array2[$pegbid][$tipe2][] = $list;
+                            $jumlah[$pegbid]['verif'][$tipe2] = count($array2[$pegbid][$tipe2]);
+                        }
+                    }
+                    foreach ($tipe_status2 as $tipe2) {
+                        if (in_array($tipe2, $cek_status_verifikasi[$pegbid]) == false) {
+                            $jumlah[$pegbid]['verif'][$tipe2] = 0;
+                        }
+                    }
+                }
+            } else {
+                $tipe_status = ['B', 'T', 'S'];
+                foreach ($tipe_status as $tipe) {
+                    $jumlah[$pegbid]['rincian'][$tipe] = 0;
+                }
+                $tipe_status2 = ['B', 'S'];
+                foreach ($tipe_status2 as $tipe2) {
+                    $jumlah[$pegbid]['verif'][$tipe2] = 0;
+                }
+            }
+
+
+
+            //UNTUK MENGHITUNG RATA-RATA JAM KERJA HARIAN PRIBADI
+
+            $list_laporan4[$pegbid] = null;
+            if ($list_laporan2[$pegbid] != null) {
+                foreach ($list_laporan2[$pegbid] as $list4) {
+                    $ke_harian = 0;
+                    $tgl_kegiatan_harian = $list4['tgl_kegiatan'];
+                    $laporan = $list4['uraian_kegiatan'];
+                    $data = json_decode($laporan);
+                    $list_tipe = $data->kode_tipe;
+                    $list_uraian = $data->uraian;
+                    $list_jam_mulai = $data->jam_mulai;
+                    $list_jam_selesai = $data->jam_selesai;
+                    foreach ($list_tipe as $tipe3) {
+                        if ($tipe3 != '4' && $tipe3 != '3') {
+                            $list_laporan4[$pegbid][] = [
+                                'tgl_kegiatan' => $tgl_kegiatan_harian,
+                                'uraian' => $list_uraian[$ke_harian],
+                                'jam_mulai' => $list_jam_mulai[$ke_harian],
+                                'jam_selesai' => $list_jam_selesai[$ke_harian]
+                            ]; //LIST LAPORAN TANPA CUTI dan TANPA LEMBUR
+
+                        }
+                        $ke_harian++;
+                    }
+                }
+            } else {
+                $list_laporan4[$pegbid] = null;
+            }
+
+            if ($list_laporan4[$pegbid] != null) {
+                foreach ($list_laporan4[$pegbid] as $list5) {
+                    $time1 = new DateTime($list5['jam_mulai']);
+                    $time2 = new DateTime($list5['jam_selesai']);
+                    $timediff = $time1->diff($time2);
+                    $jam_harian[$pegbid][] = $timediff->format('%h');
+                    $menit_harian[$pegbid][] = $timediff->format('%i');
+                }
+                $jumlah_jam_harian = array_sum($jam_harian[$pegbid]);
+                $jumlah_menit_harian = array_sum($menit_harian[$pegbid]);
+                $total_detik = (($jumlah_jam_harian * 3600) + ($jumlah_menit_harian * 60));
+
+
+                $bagi_detik = ($total_detik /  $jumlah[$pegbid]['total_hari_harus_input']);
+
+
+
+                $jml_jam_harian = 0;
+                while ($bagi_detik >= 3600) {
+                    $bagi_detik = $bagi_detik - 3600;
+                    $jml_jam_harian++;
+                }
+                $jml_menit_harian = 0;
+                while ($bagi_detik >= 60) {
+                    $bagi_detik = $bagi_detik - 60;
+                    $jml_menit_harian++;
+                }
+
+                $jumlah[$pegbid]['rata_rata_jam'] = $jml_jam_harian;
+                $jumlah[$pegbid]['rata_rata_menit'] = $jml_menit_harian;
+            } else {
+                $jumlah[$pegbid]['rata_rata_jam'] = 0;
+                $jumlah[$pegbid]['rata_rata_menit'] = 0;
+            }
+            //BATAS MENGHITUNG RATA-RATA JAM KERJA HARIAN PRIBADI
+
+            //MENGHITUNG JUMLAH JAM KERJA TIDAK TERLAKSANA
+            $all_kurang[$pegbid] = [];
+            $array_kurang[$pegbid] = [];
+            $menit_kurang[$pegbid] = [];
+            $jam_kurang[$pegbid] = [];
+            if ($list_laporan4[$pegbid] != null) {
+                foreach ($list_laporan4[$pegbid] as $list5) {
+                    $array_kurang[$pegbid][] = $list5['tgl_kegiatan'];
+                    $time1 = new DateTime($list5['jam_mulai']);
+                    $time2 = new DateTime($list5['jam_selesai']);
+                    $timediff = $time1->diff($time2);
+                    $jam_tak = $timediff->format('%h');
+                    $menit_tak = $timediff->format('%i');
+
+                    $total_detik_tak = (($jam_tak * 3600) + ($menit_tak * 60));
+
+                    if ($total_detik_tak < 27000) {
+                        $kurang = 27000 - $total_detik_tak;
+                        $all_kurang[$pegbid][] = $kurang;
+                    } else {
+                        $all_kurang[$pegbid][] = 0;
+                    }
+
+                    $detik_kurang = array_sum($all_kurang[$pegbid]);
+                    $jam_kurang[$pegbid] = [];
+                    while ($detik_kurang >= 3600) {
+                        $jam_kurang[$pegbid][] = 1;
+                        $detik_kurang = $detik_kurang - 3600;
+                    }
+                    $menit_kurang[$pegbid] = [];
+                    while ($detik_kurang >= 60) {
+                        $menit_kurang[$pegbid][] = 1;
+                        $detik_kurang = $detik_kurang - 60;
+                    }
+                }
+            } else {
+                $jumlah[$pegbid]['jumlah_jam_kerja_terbuang'] = 0;
+                $jumlah[$pegbid]['jumlah_menit_kerja_terbuang'] = 0;
+            }
+
+            foreach ($rangArray3[$pegbid] as $rang5) {
+                if (in_array($rang5, $array_kurang[$pegbid]) == false) {
+                    $cek_today = $this->masterLaporanHarianModel->getTotalByUserToday($user_id['id'], $rang5);
+                    if ($cek_today == null) {
+                        $jam_kurang[$pegbid][] = 7;
+                        $menit_kurang[$pegbid][] = 30;
+                    }
+                }
+            }
+
+
+            $jumlah_menit_terbuang =  array_sum($menit_kurang[$pegbid]);
+
+            while ($jumlah_menit_terbuang >= 60) {
+                $jam_kurang[$pegbid][] = 1;
+                $jumlah_menit_terbuang = $jumlah_menit_terbuang - 60;
+            }
+            $jumlah[$pegbid]['jumlah_jam_kerja_terbuang'] = array_sum($jam_kurang[$pegbid]);
+            $jumlah[$pegbid]['jumlah_menit_kerja_terbuang'] = $jumlah_menit_terbuang;
+
+            if ($list_laporan4[$pegbid] != null) {
+                $rata_rata_kegiatan = (count($list_laporan4) / $jumlah[$pegbid]['total_hari_harus_input']);
+
+                $jumlah[$pegbid]['rata_rata_kegiatan_pribadi'] = round($rata_rata_kegiatan);
+            } else {
+                $jumlah[$pegbid]['rata_rata_kegiatan_pribadi'] = 0;
+            }
+            if ($list_laporan2[$pegbid] != null) {
+                foreach ($list_laporan2[$pegbid] as $list4) {
+                    $ke_harian = 0;
+                    $laporan = $list4['uraian_kegiatan'];
+                    $data = json_decode($laporan);
+                    $list_tipe = $data->kode_tipe;
+                    $list_uraian = $data->uraian;
+                    $list_jam_mulai = $data->jam_mulai;
+                    $list_jam_selesai = $data->jam_selesai;
+                    foreach ($list_tipe as $tipe4) {
+                        $cek_tipe2[$pegbid][] = $tipe4;
+                        if ($tipe4 == '4') {
+                            $list_laporan5[$pegbid][] = [
+                                'uraian' => $list_uraian[$ke_harian],
+
+                            ]; //LIST LAPORAN TANPA CUTI dan TANPA LEMBUR
+
+                        }
+                        $ke_harian++;
+                    }
+                }
+                if (in_array('4', $cek_tipe2[$pegbid]) == false) {
+                    $list_laporan5[$pegbid] = null;
+                }
+            } else {
+                $list_laporan5[$pegbid] = null;
+            }
+
+
+            if ($list_laporan5[$pegbid] != null) {
+                $jumlah[$pegbid]['jumlah_cuti'] = count($list_laporan5[$pegbid]);
+            } else {
+                $jumlah[$pegbid]['jumlah_cuti'] = 0;
+            }
+            $pegbid++;
+        }
+        $jumlah['periode_awal'] = $start_date;
+        $jumlah['periode_akhir'] = $end_date;
+
+
+
+
+        // dd($jumlah);
+
+        $data = [
+            'title' => 'Data Kinerja',
+            'menu' => 'Dashboard',
+            'subMenu' => 'Data Kinerja',
+            'list_pegawai' => $list_pegawai_bidang2,
+            'list_pegawai2' => $pegawai_tanpa_user,
+            'data' => $jumlah
+        ];
+        return view('Dashboard/dataKinerja', $data);
     }
 }

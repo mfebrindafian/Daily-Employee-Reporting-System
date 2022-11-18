@@ -144,12 +144,19 @@
                             <table class="table table-hover " id="tabelData">
                                 <thead>
                                     <tr>
+                                        <th>NO.</th>
+                                        <th>NAMA PEGAWAI</th>
+                                        <th>SASARAN KEGIATAN</th>
+                                        <td>AKSI</td>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     <tr>
-
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
 
                                     </tr>
                                 </tbody>

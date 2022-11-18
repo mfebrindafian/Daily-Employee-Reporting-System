@@ -61,7 +61,6 @@ class masterRencanaKegiatan extends BaseController
 
         $user_id = $this->masterUserModel->getUserId($nip_lama);
         $data_user = $this->masterUserModel->getNipLamaByUserId($user_id['id']);
-        /////////////////////UBAHHH START DATE KE 1 JANUARI
         $exp_date = explode('-', $date_range);
 
         if ($date_range == 'all') {
@@ -74,7 +73,6 @@ class masterRencanaKegiatan extends BaseController
 
         $list_kegiatan = $this->masterKegiatanModel->getAllByUserIdDate($user_id['id'], $start_date, $end_date);
 
-        //MENGHITUNG HARI-HARI DIMULAI 1 JANUARI SAMPAI HARI INI DENGAN IRISAN KONDISI
         $rangArray = [];
         $startDate = strtotime($start_date);
         $endDate = strtotime($end_date);
@@ -92,12 +90,6 @@ class masterRencanaKegiatan extends BaseController
                 $rangArray2[] = $rang; //SELURUH HARI MULAI 1 JANUARI SAMPAI HARI INI TANPA SABTU DAN MINGGU
             }
         }
-        $arrContextOptions = array(
-            "ssl" => array(
-                "verify_peer" => false,
-                "verify_peer_name" => false,
-            ),
-        );
 
         $curl_handle = curl_init();
         curl_setopt($curl_handle, CURLOPT_URL, 'https://api-harilibur.vercel.app/api');
@@ -1135,6 +1127,35 @@ class masterRencanaKegiatan extends BaseController
         $jumlah['periode_awal'] = $start_date;
         $jumlah['periode_akhir'] = $end_date;
 
+
+        $ke_peg = 0;
+        $data_kegiatan_verif = null;
+
+        foreach ($list_pegawai_bidang2 as $pegawai2) {
+            $user_id2 = $this->masterUserModel->getUserId($pegawai2['nip_lama']);
+            $data_user = $this->masterUserModel->getNipLamaByUserId($user_id['id']);
+            $start_date = (date('Y') . '-01-01');
+            $end_date = date('Y-m-d');
+            $list_verif[$ke_peg] = $this->masterKegiatanModel->getAllByUserIdDate($user_id2['id'], $start_date, $end_date);
+
+
+
+            if ($list_verif[$ke_peg] != null) {
+                foreach ($list_verif[$ke_peg] as $all5) {
+                    if ($all5['status_rincian'] == 'S' && $all5['status_verifikasi'] == 'B') {
+                        $data_kegiatan_verif[$ke_peg][] = [
+                            'id' => $all5['id'],
+                            'user_id' => $all5['user_id'],
+                            'rincian_kegiatan' => $all5['rincian_kegiatan'],
+                            'nam_pegawai' => $pegawai2['nama_pegawai']
+                        ];
+                    }
+                }
+            }
+            $ke_peg++;
+        }
+
+        // dd($data_kegiatan_verif);
 
 
 

@@ -1138,8 +1138,6 @@ class masterRencanaKegiatan extends BaseController
             $end_date = date('Y-m-d');
             $list_verif[$ke_peg] = $this->masterKegiatanModel->getAllByUserIdDate($user_id2['id'], $start_date, $end_date);
 
-
-
             if ($list_verif[$ke_peg] != null) {
                 foreach ($list_verif[$ke_peg] as $all5) {
                     if ($all5['status_rincian'] == 'S' && $all5['status_verifikasi'] == 'B') {
@@ -1155,11 +1153,95 @@ class masterRencanaKegiatan extends BaseController
             $ke_peg++;
         }
 
-        // dd($data_kegiatan_verif);
+        //MENGHITUNG RATA-RATA JAM KERJA HARIAN PEGAWAI DI BIDANG YANG SAMA
+        $ke = 0;
+        if ($list_pegawai_bidang2 != null) {
+            foreach ($list_pegawai_bidang2 as $pegawai) {
+                $nip_lama_pegawai = $this->masterPegawaiModel->getNipLama($pegawai['id']);
+                $user_id_pegawai_laporan = $this->masterUserModel->getUserId($nip_lama_pegawai['nip_lama']);
+                if ($user_id_pegawai_laporan != null) {
+                    $total_laporan_masing[$ke] = $this->masterLaporanHarianModel->getTotalByUserDate($start_date, $end_date, $user_id_pegawai_laporan['id']);
+                } else {
+                    $total_laporan_masing[$ke] = [];
+                }
+                $ke++;
+            }
+            $cek_lapmas = 0;
+            foreach ($total_laporan_masing as $lap_mas) {
+                if (count($lap_mas) != 0) {
+                    foreach ($lap_mas as $lap) {
+                        $ke_bid = 0;
+                        $laporan_mas = $lap['uraian_kegiatan'];
+                        $data_mas = json_decode($laporan_mas);
+                        $list_tipe = $data_mas->kode_tipe;
+                        $list_uraian = $data_mas->uraian;
+                        $list_jam_mulai = $data_mas->jam_mulai;
+                        $list_jam_selesai = $data_mas->jam_selesai;
+                        foreach ($list_tipe as $tipe4) {
+                            $cek_tipe2[] = $tipe4;
+                            if ($tipe4 != '4' && $tipe4 != '3') {
+                                $cek_lapmas++;
+                                $list_laporan6[] = [
+                                    'uraian' => $list_uraian[$ke_bid],
+                                    'jam_mulai' => $list_jam_mulai[$ke_bid],
+                                    'jam_selesai' => $list_jam_selesai[$ke_bid]
+                                ];
+                            }
+                            $ke_bid++;
+                        }
+                    }
+                }
+            }
+            if ($cek_lapmas == 0) {
+                $list_laporan6 = null;
+            }
+            if ($list_laporan6 != null) {
+                foreach ($list_laporan6 as $list7) {
+                    $time1 = new DateTime($list7['jam_mulai']);
+                    $time2 = new DateTime($list7['jam_selesai']);
+                    $timediff = $time1->diff($time2);
+                    $jam_bid[] = $timediff->format('%h');
+                    $menit_bid[] = $timediff->format('%i');
+                }
+
+                $jumlah_jam_bid = array_sum($jam_bid);
+                $jumlah_menit_bid = array_sum($menit_bid);
+                $total_detik_bid = (($jumlah_jam_bid * 3600) + ($jumlah_menit_bid * 60));
+
+                $bagi_detik_bid = ($total_detik_bid /  $jumlah[0]['total_hari_harus_input'] / count($list_pegawai_bidang2));
+
+                $jml_jam_bid = 0;
+                while ($bagi_detik_bid >= 3600) {
+                    $bagi_detik_bid = $bagi_detik_bid - 3600;
+                    $jml_jam_bid++;
+                }
+                $jml_menit_bid = 0;
+                while ($bagi_detik_bid >= 60) {
+                    $bagi_detik_bid = $bagi_detik_bid - 60;
+                    $jml_menit_bid++;
+                }
+                $jumlah['rata_rata_jam_bidang'] = $jml_jam_bid;
+                $jumlah['rata_rata_menit_bidang'] = $jml_menit_bid;
+            } else {
+                $jumlah['rata_rata_jam_bidang'] = 0;
+                $jumlah['rata_rata_menit_bidang'] = 0;
+            }
+        } else {
+            $jumlah['rata_rata_jam_bidang'] = 0;
+            $jumlah['rata_rata_menit_bidang'] = 0;
+        }
+        if ($list_pegawai_bidang2 != null) {
+            if ($list_laporan6 != null) {
+                $jumlah['jumlah_kegiatan_bidang'] = round(count($list_laporan6) / $jumlah[0]['total_hari_harus_input'] / count($list_pegawai_bidang2));
+            } else {
+                $jumlah['jumlah_kegiatan_bidang'] = 0;
+            }
+        } else {
+            $jumlah['jumlah_kegiatan_bidang'] = 0;
+        }
 
 
-
-        // dd($jumlah);
+        $nama_bidang = $this->masterEs3Model->getBidangById(session('es3_kd'));
 
         $data = [
             'title' => 'Data Kinerja',
@@ -1167,7 +1249,8 @@ class masterRencanaKegiatan extends BaseController
             'subMenu' => 'Data Kinerja',
             'list_pegawai' => $list_pegawai_bidang2,
             'list_pegawai2' => $pegawai_tanpa_user,
-            'data' => $jumlah
+            'data' => $jumlah,
+            'nama_bidang' => $nama_bidang['deskripsi']
         ];
         return view('Dashboard/dataKinerja', $data);
     }

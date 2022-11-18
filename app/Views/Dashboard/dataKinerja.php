@@ -27,12 +27,48 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6">
-                            <span style="font-size:30px;"><span class="tgl-hari-ini"></span></span>
+                            <h4>Daftar Data Kinerja Pegawai</h4>
                         </div>
                         <div class="col-6 justify-content-end d-flex align-items-center">
                             <span class="text-right">
                                 Periode : <span class="text-bold p-2 bg-info rounded ml-2 mr-1"><?= $data['periode_awal']; ?> - <?= $data['periode_akhir']; ?></span>
                             </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-6 rounded-lg" style="cursor: pointer;">
+                    <div class="small-box bg-white rincian-2">
+                        <div class="row px-1 mb-1">
+                            <div class="col-12 py-2 text-center text-truncate">
+                                <span class="text-white">
+                                    <strong class="nama-bidang">Bagian Umum</strong>
+                                </span>
+                            </div>
+                        </div>
+                        <hr class="m-0">
+                        <div class="row px-1">
+                            <div class="col-6 py-2 text-center text-truncate ">
+                                <span class="text-white">
+                                    Rata-rata jam kerja bidang
+                                </span>
+                            </div>
+                            <div class="col-6 py-2 text-center text-truncate ">
+                                <span class="text-white">
+                                    Rata-rata kegiatan bidang perhari
+                                </span>
+                            </div>
+                        </div>
+                        <hr class="m-0">
+                        <div class="row px-3">
+                            <div class="col-6 d-flex justify-content-center align-items-center">
+                                <h3 class="my-2 counter text-white rata-jam-bidang">10</h3> <span class="ml-1 text-white">Jam</span>
+                                <h3 class="my-2 counter text-white rata-menit-bidang ml-2">15</h3> <span class="ml-1 text-white">Menit</span>
+                            </div>
+                            <div class="col-6 d-flex justify-content-center align-items-center">
+                                <h3 class="my-2 counter text-white kegiatan-bidang">99</h3>
+                            </div>
                         </div>
                     </div>
                 </div>

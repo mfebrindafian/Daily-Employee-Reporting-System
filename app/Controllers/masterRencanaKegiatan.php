@@ -1130,14 +1130,14 @@ class masterRencanaKegiatan extends BaseController
 
         $ke_peg = 0;
         $data_kegiatan_verif = null;
-        
+
         foreach ($list_pegawai_bidang2 as $pegawai2) {
             $user_id2 = $this->masterUserModel->getUserId($pegawai2['nip_lama']);
             $data_user = $this->masterUserModel->getNipLamaByUserId($user_id['id']);
             $start_date = (date('Y') . '-01-01');
             $end_date = date('Y-m-d');
             $list_verif[$ke_peg] = $this->masterKegiatanModel->getAllByUserIdDate($user_id2['id'], $start_date, $end_date);
-            d($list_verif[$ke_peg]);
+
 
 
             if ($list_verif[$ke_peg] != null) {
@@ -1155,7 +1155,7 @@ class masterRencanaKegiatan extends BaseController
             $ke_peg++;
         }
 
-        dd($data_kegiatan_verif);
+        // dd($data_kegiatan_verif);
 
 
 

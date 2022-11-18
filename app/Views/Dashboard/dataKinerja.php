@@ -27,14 +27,14 @@
                 <div class="col-3">
                     <div class="form-group">
 
-                        <form action="" method="" class="input-group rounded">
+                        <form action="" method="GET" class="input-group rounded">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">
                                     <i class="far fa-calendar-alt"></i>
                                 </span>
                             </div>
-                            <input type="text" class="form-control rounded-right" id="rentang" />
-                            <a href="#" class="bek"><i class="fas fa-times"></i></a>
+                            <input type="text" class="form-control rounded-right" id="rentang" name="date_range" />
+                            <a href="<?= base_url('/kinerjaPegawai') ?>" class="bek"><i class="fas fa-times"></i></a>
                             <button type="submit" class="btn btn-danger d-none sumbrit">X</button>
                         </form>
                     </div>

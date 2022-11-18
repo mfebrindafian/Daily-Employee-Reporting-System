@@ -757,7 +757,14 @@ class masterRencanaKegiatan extends BaseController
 
     public function dataKinerja()
     {
-        $date_range = 'all';
+        $tanggal_pilih = $this->request->getVar('date_range');
+        if ($tanggal_pilih) {
+            $tgl1 = str_replace(' ', '', $tanggal_pilih);
+            $tgl2 = str_replace('/', '-', $tgl1);
+            $date_range = $tgl2;
+        } else {
+            $date_range = 'all';
+        }
 
         $es3kd = session('es3_kd');
         $data_user = session('data_user');
@@ -908,8 +915,6 @@ class masterRencanaKegiatan extends BaseController
                 $jumlah[$pegbid]['jumlah_menit_lembur'] = 0;
             };
 
-
-
             if ($list_kegiatan[$pegbid] != null) {
                 foreach ($list_kegiatan[$pegbid] as $list) {
                     $cek_status_rincian[$pegbid][] = $list['status_rincian'];
@@ -920,9 +925,6 @@ class masterRencanaKegiatan extends BaseController
                             $jumlah[$pegbid]['rincian'][$tipe] = count($array1[$pegbid][$tipe]);
                         }
                     }
-
-
-
                     foreach ($tipe_status as $tipe) {
                         if (in_array($tipe, $cek_status_rincian[$pegbid]) == false) {
                             $jumlah[$pegbid]['rincian'][$tipe] = 0;
@@ -953,10 +955,6 @@ class masterRencanaKegiatan extends BaseController
                 }
             }
 
-
-
-            //UNTUK MENGHITUNG RATA-RATA JAM KERJA HARIAN PRIBADI
-
             $list_laporan4[$pegbid] = null;
             if ($list_laporan2[$pegbid] != null) {
                 foreach ($list_laporan2[$pegbid] as $list4) {
@@ -975,8 +973,7 @@ class masterRencanaKegiatan extends BaseController
                                 'uraian' => $list_uraian[$ke_harian],
                                 'jam_mulai' => $list_jam_mulai[$ke_harian],
                                 'jam_selesai' => $list_jam_selesai[$ke_harian]
-                            ]; //LIST LAPORAN TANPA CUTI dan TANPA LEMBUR
-
+                            ];
                         }
                         $ke_harian++;
                     }
@@ -984,7 +981,6 @@ class masterRencanaKegiatan extends BaseController
             } else {
                 $list_laporan4[$pegbid] = null;
             }
-
             if ($list_laporan4[$pegbid] != null) {
                 foreach ($list_laporan4[$pegbid] as $list5) {
                     $time1 = new DateTime($list5['jam_mulai']);
@@ -996,12 +992,7 @@ class masterRencanaKegiatan extends BaseController
                 $jumlah_jam_harian = array_sum($jam_harian[$pegbid]);
                 $jumlah_menit_harian = array_sum($menit_harian[$pegbid]);
                 $total_detik = (($jumlah_jam_harian * 3600) + ($jumlah_menit_harian * 60));
-
-
                 $bagi_detik = ($total_detik /  $jumlah[$pegbid]['total_hari_harus_input']);
-
-
-
                 $jml_jam_harian = 0;
                 while ($bagi_detik >= 3600) {
                     $bagi_detik = $bagi_detik - 3600;
@@ -1012,16 +1003,12 @@ class masterRencanaKegiatan extends BaseController
                     $bagi_detik = $bagi_detik - 60;
                     $jml_menit_harian++;
                 }
-
                 $jumlah[$pegbid]['rata_rata_jam'] = $jml_jam_harian;
                 $jumlah[$pegbid]['rata_rata_menit'] = $jml_menit_harian;
             } else {
                 $jumlah[$pegbid]['rata_rata_jam'] = 0;
                 $jumlah[$pegbid]['rata_rata_menit'] = 0;
             }
-            //BATAS MENGHITUNG RATA-RATA JAM KERJA HARIAN PRIBADI
-
-            //MENGHITUNG JUMLAH JAM KERJA TIDAK TERLAKSANA
             $all_kurang[$pegbid] = [];
             $array_kurang[$pegbid] = [];
             $menit_kurang[$pegbid] = [];
@@ -1034,16 +1021,13 @@ class masterRencanaKegiatan extends BaseController
                     $timediff = $time1->diff($time2);
                     $jam_tak = $timediff->format('%h');
                     $menit_tak = $timediff->format('%i');
-
                     $total_detik_tak = (($jam_tak * 3600) + ($menit_tak * 60));
-
                     if ($total_detik_tak < 27000) {
                         $kurang = 27000 - $total_detik_tak;
                         $all_kurang[$pegbid][] = $kurang;
                     } else {
                         $all_kurang[$pegbid][] = 0;
                     }
-
                     $detik_kurang = array_sum($all_kurang[$pegbid]);
                     $jam_kurang[$pegbid] = [];
                     while ($detik_kurang >= 3600) {
@@ -1060,7 +1044,6 @@ class masterRencanaKegiatan extends BaseController
                 $jumlah[$pegbid]['jumlah_jam_kerja_terbuang'] = 0;
                 $jumlah[$pegbid]['jumlah_menit_kerja_terbuang'] = 0;
             }
-
             foreach ($rangArray3[$pegbid] as $rang5) {
                 if (in_array($rang5, $array_kurang[$pegbid]) == false) {
                     $cek_today = $this->masterLaporanHarianModel->getTotalByUserToday($user_id['id'], $rang5);
@@ -1070,20 +1053,15 @@ class masterRencanaKegiatan extends BaseController
                     }
                 }
             }
-
-
             $jumlah_menit_terbuang =  array_sum($menit_kurang[$pegbid]);
-
             while ($jumlah_menit_terbuang >= 60) {
                 $jam_kurang[$pegbid][] = 1;
                 $jumlah_menit_terbuang = $jumlah_menit_terbuang - 60;
             }
             $jumlah[$pegbid]['jumlah_jam_kerja_terbuang'] = array_sum($jam_kurang[$pegbid]);
             $jumlah[$pegbid]['jumlah_menit_kerja_terbuang'] = $jumlah_menit_terbuang;
-
             if ($list_laporan4[$pegbid] != null) {
                 $rata_rata_kegiatan = (count($list_laporan4) / $jumlah[$pegbid]['total_hari_harus_input']);
-
                 $jumlah[$pegbid]['rata_rata_kegiatan_pribadi'] = round($rata_rata_kegiatan);
             } else {
                 $jumlah[$pegbid]['rata_rata_kegiatan_pribadi'] = 0;
@@ -1102,9 +1080,7 @@ class masterRencanaKegiatan extends BaseController
                         if ($tipe4 == '4') {
                             $list_laporan5[$pegbid][] = [
                                 'uraian' => $list_uraian[$ke_harian],
-
-                            ]; //LIST LAPORAN TANPA CUTI dan TANPA LEMBUR
-
+                            ];
                         }
                         $ke_harian++;
                     }
@@ -1115,8 +1091,6 @@ class masterRencanaKegiatan extends BaseController
             } else {
                 $list_laporan5[$pegbid] = null;
             }
-
-
             if ($list_laporan5[$pegbid] != null) {
                 $jumlah[$pegbid]['jumlah_cuti'] = count($list_laporan5[$pegbid]);
             } else {
@@ -1126,18 +1100,14 @@ class masterRencanaKegiatan extends BaseController
         }
         $jumlah['periode_awal'] = $start_date;
         $jumlah['periode_akhir'] = $end_date;
-
-
         $ke_peg = 0;
         $data_kegiatan_verif = null;
-
         foreach ($list_pegawai_bidang2 as $pegawai2) {
             $user_id2 = $this->masterUserModel->getUserId($pegawai2['nip_lama']);
             $data_user = $this->masterUserModel->getNipLamaByUserId($user_id['id']);
             $start_date = (date('Y') . '-01-01');
             $end_date = date('Y-m-d');
             $list_verif[$ke_peg] = $this->masterKegiatanModel->getAllByUserIdDate($user_id2['id'], $start_date, $end_date);
-
             if ($list_verif[$ke_peg] != null) {
                 foreach ($list_verif[$ke_peg] as $all5) {
                     if ($all5['status_rincian'] == 'S' && $all5['status_verifikasi'] == 'B') {
@@ -1145,15 +1115,14 @@ class masterRencanaKegiatan extends BaseController
                             'id' => $all5['id'],
                             'user_id' => $all5['user_id'],
                             'rincian_kegiatan' => $all5['rincian_kegiatan'],
-                            'nam_pegawai' => $pegawai2['nama_pegawai']
+                            'nama_pegawai' => $pegawai2['nama_pegawai'],
+                            'nip_lama' => $pegawai2['nip_lama']
                         ];
                     }
                 }
             }
             $ke_peg++;
         }
-
-        //MENGHITUNG RATA-RATA JAM KERJA HARIAN PEGAWAI DI BIDANG YANG SAMA
         $ke = 0;
         if ($list_pegawai_bidang2 != null) {
             foreach ($list_pegawai_bidang2 as $pegawai) {
@@ -1207,9 +1176,7 @@ class masterRencanaKegiatan extends BaseController
                 $jumlah_jam_bid = array_sum($jam_bid);
                 $jumlah_menit_bid = array_sum($menit_bid);
                 $total_detik_bid = (($jumlah_jam_bid * 3600) + ($jumlah_menit_bid * 60));
-
                 $bagi_detik_bid = ($total_detik_bid /  $jumlah[0]['total_hari_harus_input'] / count($list_pegawai_bidang2));
-
                 $jml_jam_bid = 0;
                 while ($bagi_detik_bid >= 3600) {
                     $bagi_detik_bid = $bagi_detik_bid - 3600;
@@ -1239,10 +1206,7 @@ class masterRencanaKegiatan extends BaseController
         } else {
             $jumlah['jumlah_kegiatan_bidang'] = 0;
         }
-
-
         $nama_bidang = $this->masterEs3Model->getBidangById(session('es3_kd'));
-
         $data = [
             'title' => 'Data Kinerja',
             'menu' => 'Dashboard',
@@ -1250,7 +1214,8 @@ class masterRencanaKegiatan extends BaseController
             'list_pegawai' => $list_pegawai_bidang2,
             'list_pegawai2' => $pegawai_tanpa_user,
             'data' => $jumlah,
-            'nama_bidang' => $nama_bidang['deskripsi']
+            'nama_bidang' => $nama_bidang['deskripsi'],
+            'data_kegiatan' => $data_kegiatan_verif
         ];
         return view('Dashboard/dataKinerja', $data);
     }

@@ -81,7 +81,7 @@
                                             <td><?= $data[$ke]['jumlah_cuti']; ?></td>
                                             <td>
 
-                                                <button class="btn btn-sm btn-primary" id="open-modal-hapus" data-toggle="modal" data-target="#modal-hapus" data-link="<?= base_url('#'); ?>"> <span>Detail</span></button>
+                                                <button class="btn btn-sm btn-primary" data-link="<?= base_url('#'); ?>"> <span>Detail</span></button>
                                             </td>
                                         </tr>
 

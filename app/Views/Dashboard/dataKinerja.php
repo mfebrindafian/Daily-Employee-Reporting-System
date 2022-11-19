@@ -4,6 +4,28 @@
 <?= $this->section('content'); ?>
 <link rel="stylesheet" href="<?= base_url('/plugins/daterangepicker/daterangepicker.css') ?>">
 <link rel="stylesheet" href="<?= base_url('/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') ?>">
+<link rel="stylesheet" href="<?= base_url('/css/wenk.css') ?>">
+<style>
+    th:hover {
+        background-color: #f0f0f0;
+    }
+
+    .singkat {
+        transition: all .2s ease-in-out;
+    }
+
+    .singkat:hover {
+        transform: scale(1.28);
+        background-color: #f0f0f0;
+        cursor: pointer;
+        font-weight: bold;
+        z-index: 100;
+        border-radius: 6px;
+        text-align: center;
+
+    }
+</style>
+
 <div class="content-wrapper">
     <section class="content-header">
         <div class="container-fluid">
@@ -72,7 +94,7 @@
                                 </span>
                             </div>
                             <div class="col-6 py-2 text-center text-truncate ">
-                                <span class="text-white">
+                                <span class="text-white" data-wenk="SASARAN BELUM DITINDAKLANJUTI">
                                     Rata-rata kegiatan bidang perhari
                                 </span>
                             </div>
@@ -98,19 +120,21 @@
                         <div class="card-body table-responsive p-0 overflow-hidden">
                             <table class="table table-hover " id="tabelData">
                                 <thead>
-                                    <tr>
+                                    <tr style="cursor: pointer;">
                                         <th>NO.</th>
                                         <th>NAMA PEGAWAI</th>
-                                        <th>SASARAN BELUM DITINDAKLANJUTI</th>
-                                        <th>SASARAN SEDANG DITINDAKLANJUTI</th>
-                                        <th>SASARAN SELESAI DITINDAKLANJUTI</th>
-                                        <th>RATA-RATA JAM KERJA HARIAN</th>
-                                        <th>JUMLAH JAM TIDAK TERLAKSANA</th>
-                                        <th>LAPORAN DIINPUT</th>
-                                        <th>RATA-RATA KEGIATAN PERHARI</th>
-                                        <th>JUMLAH LEMBUR</th>
-                                        <th>TOTAL DURASI LEMBUR</th>
-                                        <th>JUMLAH CUTI</th>
+                                        <th data-wenk="SASARAN BELUM DITINDAKLANJUTI" data-wenk-pos="bottom">
+                                            <span>SBD</span>
+                                        </th>
+                                        <th data-wenk="SASARAN SEDANG DITINDAKLANJUTI" data-wenk-pos="bottom">SSD</th>
+                                        <th data-wenk="SASARAN SELESAI DITINDAKLANJUTI" data-wenk-pos="bottom">SD</th>
+                                        <th data-wenk="RATA-RATA JAM KERJA HARIAN" data-wenk-pos="bottom">RJKH</th>
+                                        <th data-wenk="JUMLAH JAM TIDAK TERLAKSANA" data-wenk-pos="bottom">JJTT</th>
+                                        <th data-wenk="LAPORAN DIINPUT" data-wenk-pos="bottom">LD</th>
+                                        <th data-wenk="RATA-RATA KEGIATAN PERHARI" data-wenk-pos="bottom">RKP</th>
+                                        <th data-wenk="JUMLAH LEMBUR" data-wenk-pos="bottom">JL</th>
+                                        <th data-wenk="TOTAL DURASI LEMBUR" data-wenk-pos="bottom">TDL</th>
+                                        <th data-wenk="JUMLAH CUTI" data-wenk-pos="bottom">JC</th>
                                         <th>AKSI</th>
                                     </tr>
 
@@ -120,19 +144,19 @@
                                         <?php $ke = 0; ?>
                                         <?php $no = 1; ?>
                                         <?php foreach ($list_pegawai as $list) : ?>
-                                            <tr>
+                                            <tr class="atas">
                                                 <td><?= $no++; ?> </td>
                                                 <td><?= $list['nama_pegawai']; ?></td>
-                                                <td><?= $data[$ke]['rincian']['B']; ?></td>
-                                                <td><?= $data[$ke]['rincian']['T']; ?></td>
-                                                <td><?= $data[$ke]['rincian']['S']; ?></td>
-                                                <td><?= $data[$ke]['rata_rata_jam']; ?> Jam <?= $data[$ke]['rata_rata_menit']; ?> Menit</td>
-                                                <td><?= $data[$ke]['jumlah_jam_kerja_terbuang']; ?> Jam <?= $data[$ke]['jumlah_menit_kerja_terbuang']; ?> Menit</td>
-                                                <td><?= $data[$ke]['total_hari_kerja_telah_input']; ?></td>
-                                                <td><?= $data[$ke]['rata_rata_kegiatan_pribadi']; ?></td>
-                                                <td><?= $data[$ke]['jumlah_kegiatan_lembur']; ?></td>
-                                                <td><?= $data[$ke]['jumlah_jam_lembur']; ?> Jam <?= $data[$ke]['jumlah_menit_lembur']; ?> Menit</td>
-                                                <td><?= $data[$ke]['jumlah_cuti']; ?></td>
+                                                <td data-wenk="SASARAN BELUM DITINDAKLANJUTI" data-wenk-pos="left" class="singkat"><?= $data[$ke]['rincian']['B']; ?></td>
+                                                <td data-wenk="SASARAN SEDANG DITINDAKLANJUTI" data-wenk-pos="left" class="singkat"><?= $data[$ke]['rincian']['T']; ?></td>
+                                                <td data-wenk="SASARAN SELESAI DITINDAKLANJUTI" data-wenk-pos="left" class="singkat"><?= $data[$ke]['rincian']['S']; ?></td>
+                                                <td data-wenk="RATA-RATA JAM KERJA HARIAN" data-wenk-pos="left" class="singkat"><?= $data[$ke]['rata_rata_jam']; ?> Jam <?= $data[$ke]['rata_rata_menit']; ?> Menit</td>
+                                                <td data-wenk="JUMLAH JAM TIDAK TERLAKSANA" data-wenk-pos="left" class="singkat"><?= $data[$ke]['jumlah_jam_kerja_terbuang']; ?> Jam <?= $data[$ke]['jumlah_menit_kerja_terbuang']; ?> Menit</td>
+                                                <td data-wenk="LAPORAN DIINPUT" data-wenk-pos="left" class="singkat"><?= $data[$ke]['total_hari_kerja_telah_input']; ?></td>
+                                                <td data-wenk="RATA-RATA KEGIATAN PERHARI" data-wenk-pos="left" class="singkat"><?= $data[$ke]['rata_rata_kegiatan_pribadi']; ?></td>
+                                                <td data-wenk="JUMLAH LEMBUR" data-wenk-pos="left" class="singkat"><?= $data[$ke]['jumlah_kegiatan_lembur']; ?></td>
+                                                <td data-wenk="TOTAL DURASI LEMBUR" data-wenk-pos="left" class="singkat"><?= $data[$ke]['jumlah_jam_lembur']; ?> Jam <?= $data[$ke]['jumlah_menit_lembur']; ?> Menit</td>
+                                                <td data-wenk="JUMLAH CUTI" data-wenk-pos="left" class="singkat"><?= $data[$ke]['jumlah_cuti']; ?></td>
                                                 <td>
 
                                                     <button class="btn btn-sm btn-primary" data-link="<?= base_url('#'); ?>"> <span>Detail</span></button>
@@ -234,7 +258,6 @@
 <script src="<?= base_url('/plugins/moment/moment.min.js') ?>"></script>
 <script src="<?= base_url('/plugins/daterangepicker/daterangepicker.js') ?>"></script>
 <script src="<?= base_url('/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') ?>"></script>
-
 <script>
     $("#rentang").daterangepicker({
         startDate: moment().startOf('year'),

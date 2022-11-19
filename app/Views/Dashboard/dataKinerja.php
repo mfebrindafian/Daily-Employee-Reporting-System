@@ -128,8 +128,9 @@
                                         <th data-wenk="SASARAN BELUM DITINDAKLANJUTI" data-wenk-pos="bottom">
                                             <span>SBD</span>
                                         </th>
-                                        <th data-wenk="SASARAN SEDANG DITINDAKLANJUTI" data-wenk-pos="bottom">SSD</th>
+                                        <th data-wenk="SASARAN SEDANG DITINDAKLANJUTI" data3-wenk-pos="bottom">SSD</th>
                                         <th data-wenk="SASARAN SELESAI DITINDAKLANJUTI" data-wenk-pos="bottom">SD</th>
+                                        <th data-wenk="SASARAN TELAH DIVERIFIKASI" data-wenk-pos="bottom">STD</th>
                                         <th data-wenk="RATA-RATA JAM KERJA HARIAN" data-wenk-pos="bottom">RJKH</th>
                                         <th data-wenk="JUMLAH JAM TIDAK TERLAKSANA" data-wenk-pos="bottom">JJTT</th>
                                         <th data-wenk="LAPORAN DIINPUT" data-wenk-pos="bottom">LD</th>
@@ -152,6 +153,7 @@
                                                 <td data-wenk="SASARAN BELUM DITINDAKLANJUTI" data-wenk-pos="left" class="singkat"><?= $data[$ke]['rincian']['B']; ?></td>
                                                 <td data-wenk="SASARAN SEDANG DITINDAKLANJUTI" data-wenk-pos="left" class="singkat"><?= $data[$ke]['rincian']['T']; ?></td>
                                                 <td data-wenk="SASARAN SELESAI DITINDAKLANJUTI" data-wenk-pos="left" class="singkat"><?= $data[$ke]['rincian']['S']; ?></td>
+                                                <td data-wenk="SASARAN TELAH DIVERIFIKASI" data-wenk-pos="left" class="singkat"><?= $data[$ke]['verif']['S']; ?></td>
                                                 <td data-wenk="RATA-RATA JAM KERJA HARIAN" data-wenk-pos="left" class="singkat"><?= $data[$ke]['rata_rata_jam']; ?> Jam <?= $data[$ke]['rata_rata_menit']; ?> Menit</td>
                                                 <td data-wenk="JUMLAH JAM TIDAK TERLAKSANA" data-wenk-pos="left" class="singkat"><?= $data[$ke]['jumlah_jam_kerja_terbuang']; ?> Jam <?= $data[$ke]['jumlah_menit_kerja_terbuang']; ?> Menit</td>
                                                 <td data-wenk="LAPORAN DIINPUT" data-wenk-pos="left" class="singkat"><?= $data[$ke]['total_hari_kerja_telah_input']; ?></td>
@@ -161,7 +163,7 @@
                                                 <td data-wenk="JUMLAH CUTI" data-wenk-pos="left" class="singkat"><?= $data[$ke]['jumlah_cuti']; ?></td>
                                                 <td>
 
-                                                    <button class="btn btn-sm btn-primary" data-link="<?= base_url('#'); ?>"> <span>Detail</span></button>
+                                                    <a class="btn btn-sm btn-primary" href="<?= base_url('/detailSasaranKinerja/' . $list['nip_lama']); ?>"> <span>Detail</span></a>
                                                 </td>
                                             </tr>
 

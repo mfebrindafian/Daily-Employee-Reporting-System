@@ -6,7 +6,7 @@ use App\Models\MasterAksesMenuModel;
 
 
 
-function allowHalaman($level_id, $id_menu) //untuk list menu tanpa child
+function allowHalaman($level_id, $id_menu) 
 {
     $masterAksesUserLevelModel = new masterAksesUserLevelModel();
     $listHalaman = $masterAksesUserLevelModel->getAksesMenu($level_id, session('user_id'));
@@ -19,9 +19,6 @@ function allowHalaman($level_id, $id_menu) //untuk list menu tanpa child
     }
 }
 
-
-
-
 function allowChart($level_id, $id_chart)
 {
     if ($id_chart == 1) { //untuk chart kegiatan tahunan
@@ -32,8 +29,6 @@ function allowChart($level_id, $id_chart)
         }
     }
 }
-
-
 
 
 function allowSubMenu($level_id, $id_parent, $id_submenu)
@@ -48,7 +43,6 @@ function allowSubMenu($level_id, $id_parent, $id_submenu)
             return false;
         }
     }
-    dd($listSubmenu);
     foreach ($listSubmenu as $list) {
         if ($list['nama_menu'] == $id_submenu && $list['view_level'] == 'Y' && $list['is_active'] == 'Y') {
             return true;
@@ -58,27 +52,3 @@ function allowSubMenu($level_id, $id_parent, $id_submenu)
     }
 }
 
-// function fotoprofil($niplama, $images = null)
-// {
-//     $src1 = "https://community.bps.go.id/images/avatar/" . $niplama . ".jpg";
-//     $src2 = "https://community.bps.go.id/images/avatar/" . str_replace("3400", "", $niplama) . ".jpg";
-//     $src3 = "https://community.bps.go.id/images/avatar/" . $niplama . ".JPG";
-//     $src4 = "https://community.bps.go.id/images/avatar/" . str_replace("3400", "", $niplama) . ".JPG";
-//     $src5 = "https://community.bps.go.id/images/avatar/" . $images;
-//     $src = "https://community.bps.go.id/images/avatar/" . $images;
-//     if ($images != null) {
-//         return $src;
-//     } elseif (@getimagesize($src2)) {
-//         return $src2;
-//     } elseif (@getimagesize($src1)) {
-//         return $src1;
-//     } elseif (@getimagesize($src3)) {
-//         return $src3;
-//     } elseif (@getimagesize($src4)) {
-//         return $src4;
-//     } elseif (@getimagesize($src5)) {
-//         return $src5;
-//     } else {
-//         return base_url('/images/profil/default.jpg');
-//     }
-// }

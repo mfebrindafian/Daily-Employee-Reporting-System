@@ -278,7 +278,6 @@ class masterRencanaKegiatan extends BaseController
                             'jam_mulai' => $list_jam_mulai[$ke_harian],
                             'jam_selesai' => $list_jam_selesai[$ke_harian]
                         ]; //LIST LAPORAN TANPA CUTI dan TANPA LEMBUR
-
                     }
                     $ke_harian++;
                 }
@@ -1218,5 +1217,37 @@ class masterRencanaKegiatan extends BaseController
             'data_kegiatan' => $data_kegiatan_verif
         ];
         return view('Dashboard/dataKinerja', $data);
+    }
+
+
+    public function detailSasaranKinerja($nip_lama)
+    {
+
+        $user_id = $this->masterUserModel->getUserId($nip_lama);
+
+        $list_kegiatan = $this->masterKegiatanModel->getAllByUserId($user_id['id']);
+        if ($list_kegiatan != null) {
+            foreach ($list_kegiatan as $list) {
+                $kegiatan = explode('-', $list['tgl_input']);
+                if ($kegiatan[0] == date('Y')) {
+                    $daftar_kegiatan[] = $list;
+                } else {
+                    $daftar_kegiatan = null;
+                }
+            }
+        } else {
+            $daftar_kegiatan = null;
+        }
+
+
+        $data = [
+            'title' => 'Data Kinerja',
+            'menu' => 'Dashboard',
+            'subMenu' => 'Data Kinerja',
+            'list_kegiatan' => $daftar_kegiatan,
+            'nip_lama' => $nip_lama
+        ];
+
+        return view('Dashboard/detailSasaranKinerja', $data);
     }
 }

@@ -651,7 +651,7 @@ class masterRencanaKegiatan extends BaseController
         $data = [
             'title' => 'Data Kegiatan',
             'menu' => 'Dashboard',
-            'subMenu' => '',
+            'subMenu' => 'Data Kegiatan',
             'list_kegiatan' => $list_kegiatan,
             'nip_lama' => $nip_lama
         ];
@@ -707,7 +707,7 @@ class masterRencanaKegiatan extends BaseController
         $data = [
             'title' => 'Data Kegiatan',
             'menu' => 'Dashboard',
-            'subMenu' => '',
+            'subMenu' => 'Data Kegiatan',
             'data_kegiatan' => $data_kegiatan,
             'list_kegiatan' => $list_kegiatan
         ];
@@ -724,7 +724,7 @@ class masterRencanaKegiatan extends BaseController
         ]);
         session()->setFlashdata('pesan', 'Verifikasi sasaran kegiatan berhasil');
         session()->setFlashdata('icon', 'success');
-        
+
         return redirect()->to('/kinerjaPegawai');
     }
 

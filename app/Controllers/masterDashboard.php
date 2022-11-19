@@ -198,7 +198,7 @@ class masterDashboard extends BaseController
         $data = [
             'title' => 'Dashboard',
             'menu' => 'Dashboard',
-            'subMenu' => 'Kegiatan Harian Pegawai',
+            'subMenu' => 'Dashboard Pegawai',
             'events' => $events_json,
             'catatan' => $catatan_json,
             'list_satuan' => $this->masterSatuanModel->getAll(),
@@ -376,7 +376,7 @@ class masterDashboard extends BaseController
         $data = [
             'title' => 'Dashboard',
             'menu' => 'Dashboard',
-            'subMenu' => 'Kegiatan Harian Pegawai',
+            'subMenu' => 'Dashboard Pegawai',
             'total' => count($total),
             'list_laporan_harian' => $list_laporan_harian_detail,
             'pager' => $pager_detail,
@@ -541,7 +541,7 @@ class masterDashboard extends BaseController
         $data = [
             'title' => 'Dashboard',
             'menu' => 'Dashboard',
-            'subMenu' => 'Kegiatan Harian Pegawai',
+            'subMenu' => 'Dashboard Pegawai',
             'events' => $events_json,
             'catatan' => $catatan_json,
             'list_satuan' => $this->masterSatuanModel->getAll(),
@@ -647,7 +647,7 @@ class masterDashboard extends BaseController
         $data = [
             'title' => 'Detail Catatan',
             'menu' => 'Dashboard',
-            'subMenu' => 'Kegiatan Harian Pegawai',
+            'subMenu' => 'Dashboard Pegawai',
             'list_catatan' => $catatan_all,
         ];
         return view('Dashboard/detailCatatan', $data);

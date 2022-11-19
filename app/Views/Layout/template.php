@@ -114,7 +114,7 @@
                           </li>
                         <?php endif; ?>
                       <?php endforeach; ?>
-                      <?php if (($list['id']) == '1' && session('jabatan') == 'koordinator') :  ?>
+                      <?php if (($list['id']) == '1' && session('jabatan') == 'koordinator' && session('level_id') == '2') :  ?>
                         <li class="nav-item">
                           <a href="<?= base_url('/kinerjaPegawai'); ?>" class="nav-link <?= ($subMenu == 'Data Kinerja') ? 'active' : '' ?>">
                             <i class="far fa-circle nav-icon"></i>

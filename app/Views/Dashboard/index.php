@@ -1,6 +1,6 @@
 <?= $this->extend('layout/template'); ?>
 
-<?php if (allowHalaman(session('level_id'), 1)) : ?>
+<?php if (allowHalaman(session('level_id'), $menu, $subMenu)) : ?>
 
 
 

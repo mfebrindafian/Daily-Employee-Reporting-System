@@ -84,7 +84,7 @@
                         <div class="row px-1 mb-1">
                             <div class="col-12 py-2 text-center text-truncate">
                                 <span class="text-white">
-                                    <strong class="nama-bidang">Bagian Umum</strong>
+                                    <strong class="nama-bidang"><?= $nama_bidang; ?></strong>
                                 </span>
                             </div>
                         </div>
@@ -173,19 +173,22 @@
 
                                     <?php if ($list_pegawai2 != null) : ?>
                                         <?php foreach ($list_pegawai2 as $list2) : ?>
-                                            <td><?= $no++; ?></td>
-                                            <td><?= $list2['nama_pegawai']; ?></td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
+                                            <tr>
+
+                                                <td><?= $no++; ?></td>
+                                                <td><?= $list2['nama_pegawai']; ?></td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                            </tr>
                                         <?php endforeach; ?>
                                     <?php endif; ?>
                                 </tbody>

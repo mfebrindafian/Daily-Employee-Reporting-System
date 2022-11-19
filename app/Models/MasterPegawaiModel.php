@@ -144,11 +144,19 @@ class MasterPegawaiModel extends Model
 
     public function getAllPegawaiBidang($satker_kd, $es3_kd)
     {
-        return $this
-            ->table('mst_pegawai')
-            ->where('satker_kd', $satker_kd)
-            ->where('es3_kd', $es3_kd)
-            ->get()
-            ->getResultArray();
+        if ($es3_kd == 0) {
+            return $this
+                ->table('mst_pegawai')
+                ->where('satker_kd', $satker_kd)
+                ->get()
+                ->getResultArray();
+        } else {
+            return $this
+                ->table('mst_pegawai')
+                ->where('satker_kd', $satker_kd)
+                ->where('es3_kd', $es3_kd)
+                ->get()
+                ->getResultArray();
+        }
     }
 }

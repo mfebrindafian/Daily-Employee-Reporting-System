@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="<?= base_url('/plugins/daterangepicker/daterangepicker.css') ?>">
 <link rel="stylesheet" href="<?= base_url('/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') ?>">
 <link rel="stylesheet" href="<?= base_url('/css/wenk.css') ?>">
+
 <style>
     th:hover {
         background-color: #f0f0f0;
@@ -69,9 +70,10 @@
                             <h4>Daftar Data Kinerja Pegawai</h4>
                         </div>
                         <div class="col-6 justify-content-end d-flex align-items-center">
-                            <span class="text-right">
-                                Periode : <span class="text-bold p-2 bg-info rounded ml-2 mr-1"><?= $data['periode_awal']; ?> - <?= $data['periode_akhir']; ?></span>
-                            </span>
+                            <div class="text-right">
+                                Periode :
+                            </div>
+                            <div class="text-bold p-2 bg-info rounded ml-2 mr-1"><span class="p-awal"></span> - <span class="p-akhir"><?= $data['periode_akhir']; ?></span></div>
                         </div>
                     </div>
                 </div>
@@ -258,6 +260,7 @@
 <script src="<?= base_url('/plugins/moment/moment.min.js') ?>"></script>
 <script src="<?= base_url('/plugins/daterangepicker/daterangepicker.js') ?>"></script>
 <script src="<?= base_url('/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') ?>"></script>
+<script src="<?= base_url('/js/tanggal.js') ?>"></script>
 <script>
     $("#rentang").daterangepicker({
         startDate: moment().startOf('year'),
@@ -267,5 +270,9 @@
     $('#rentang').on('change', function() {
         $('.sumbrit').click()
     })
+
+
+    $('.p-awal').html(ubahFormatTanggal2('<?= $data['periode_awal']; ?>'))
+    $('.p-akhir').html(ubahFormatTanggal2('<?= $data['periode_akhir']; ?>'))
 </script>
 <?= $this->endSection(); ?>

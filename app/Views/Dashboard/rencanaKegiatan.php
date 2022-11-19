@@ -617,6 +617,18 @@
 <script src="<?= base_url('/plugins/datatables/jquery.dataTables.min.js') ?>"></script>
 <script src="<?= base_url('/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') ?>"></script>
 <script src="<?= base_url('/js/tanggal.js') ?>"></script>
+
+<script>
+    <?php if (session()->getFlashdata('pesan')) { ?>
+        Swal.fire({
+            title: "<?= session()->getFlashdata('pesan') ?>",
+            icon: "<?= session()->getFlashdata('icon') ?>",
+            showConfirmButton: true,
+        });
+    <?php } ?>
+</script>
+
+
 <!-- API -->
 <script>
     $('#tabelData4').DataTable({

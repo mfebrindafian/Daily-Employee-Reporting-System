@@ -1,6 +1,7 @@
 <?= $this->extend('layout/template'); ?>
 
 
+
 <?= $this->section('content'); ?>
 
 
@@ -960,6 +961,8 @@
         </form>
     </div>
 </div>
+
+
 
 <script src="<?= base_url('/plugins/dropzone/min/dropzone.min.js') ?>"></script>
 <script src="<?= base_url('/plugins/bs-custom-file-input/bs-custom-file-input.min.js') ?>"></script>

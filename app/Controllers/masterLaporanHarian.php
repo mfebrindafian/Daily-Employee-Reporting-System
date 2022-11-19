@@ -40,6 +40,16 @@ class masterLaporanHarian extends BaseController
     }
     public function listLaporan()
     {
+
+        $cek_kegiatan = $this->masterKegiatanModel->getAllByUserId(session('user_id'));
+        if (session('level_id') == 2) {
+            if (count($cek_kegiatan) == 0) {
+                session()->setFlashdata('pesan', 'Tambahkan sasaran Kegiatan Tahunan Terlebih Dahulu!');
+                session()->setFlashdata('icon', 'error');
+                return redirect()->to('/rincianKegiatanPegawai');
+            }
+        }
+
         $all_year = $this->masterLaporanHarianModel->getAllYear(session('user_id'));
         if ($all_year != NULL) {
             for ($i = 0; $i < count($all_year); $i++) {

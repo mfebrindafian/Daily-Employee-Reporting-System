@@ -5,17 +5,20 @@ namespace App\Controllers;
 use App\Models\MasterUserModel;
 use App\Models\MasterPegawaiModel;
 use App\Models\MasterAksesUserLevelModel;
+use App\Models\MasterKegiatanModel;
 
 class masterAkses extends BaseController
 {
     protected $masterUserModel;
     protected $masterPegawaiModel;
     protected $masterAksesUserLevelModel;
+    protected $masterKegiatanModel;
     public function __construct()
     {
         $this->masterUserModel = new masterUserModel();
         $this->masterPegawaiModel = new masterPegawaiModel();
         $this->masterAksesUserLevelModel = new masterAksesUserLevelModel();
+        $this->masterKegiatanModel = new masterKegiatanModel();
     }
     public function index()
     {
@@ -73,8 +76,8 @@ class masterAkses extends BaseController
                 session()->setFlashdata('icon', 'error');
                 return redirect()->to('/');
             }
-            session()->set($data);
-            session()->setFlashdata('pesan', 'berhasil login');
+            session()->set($data); 
+            session()->setFlashdata('pesan', 'Berhasil Login');
             return redirect()->to('/dashboard');
         }
         session()->setFlashdata('pesan', 'Password salah');

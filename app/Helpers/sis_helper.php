@@ -3,10 +3,12 @@
 use App\Models\MasterUserModel;
 use App\Models\MasterAksesUserLevelModel;
 use App\Models\MasterAksesMenuModel;
+use App\Models\MasterKegiatanModel;
+use App\Models\MasterPegawaiModel;
 
 
 
-function allowHalaman($level_id, $id_menu) 
+function allowHalaman($level_id, $id_menu)
 {
     $masterAksesUserLevelModel = new masterAksesUserLevelModel();
     $listHalaman = $masterAksesUserLevelModel->getAksesMenu($level_id, session('user_id'));
@@ -19,10 +21,12 @@ function allowHalaman($level_id, $id_menu)
     }
 }
 
+
+
 function allowChart($level_id, $id_chart)
 {
     if ($id_chart == 1) { //untuk chart kegiatan tahunan
-        if ($level_id == 2 ) {
+        if ($level_id == 2) {
             return true;
         } else {
             return false;
@@ -51,4 +55,3 @@ function allowSubMenu($level_id, $id_parent, $id_submenu)
         }
     }
 }
-

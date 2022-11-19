@@ -263,6 +263,23 @@
 <script src="<?= base_url('/plugins/daterangepicker/daterangepicker.js') ?>"></script>
 <script src="<?= base_url('/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') ?>"></script>
 <script src="<?= base_url('/js/tanggal.js') ?>"></script>
+
+
+
+<script src="<?= base_url('/plugins/sweetalert2/sweetalert2.min.js') ?>"></script>
+
+<script>
+    <?php if (session()->getFlashdata('pesan')) { ?>
+        Swal.fire({
+            title: "<?= session()->getFlashdata('pesan') ?>",
+            icon: "<?= session()->getFlashdata('icon') ?>",
+            showConfirmButton: true,
+        });
+    <?php } ?>
+</script>
+
+
+
 <script>
     $("#rentang").daterangepicker({
         startDate: moment().startOf('year'),

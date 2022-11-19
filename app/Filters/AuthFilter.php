@@ -18,7 +18,6 @@ class AuthFilter implements FilterInterface
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
-        
         $session = session('log');
         if ($session == true) {
             return redirect()->to(site_url('/dashboard'));

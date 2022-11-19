@@ -27,9 +27,7 @@ class masterRencanaKegiatan extends BaseController
     public function rencanaKegiatan()
     {
         $list_kegiatan = $this->masterKegiatanModel->getAllByUserId(session('user_id'));
-
         $list_pegawai = $this->masterPegawaiModel->getAllPegawaiOnDashboard();
-
         if ($list_kegiatan != null) {
             foreach ($list_kegiatan as $list) {
                 $kegiatan = explode('-', $list['tgl_input']);
@@ -611,6 +609,8 @@ class masterRencanaKegiatan extends BaseController
                 ]);
             }
         }
+        session()->setFlashdata('pesan', 'Tambah sasaran kegiatan tahunan berhasil');
+        session()->setFlashdata('icon', 'success');
 
         return redirect()->to('/rincianKegiatanPegawai');
     }
@@ -621,7 +621,6 @@ class masterRencanaKegiatan extends BaseController
             'id' => $id_kegiatan,
             'status_rincian' => 'S',
         ]);
-
         return redirect()->to('/rincianKegiatanPegawai');
     }
 
@@ -638,6 +637,9 @@ class masterRencanaKegiatan extends BaseController
     public function hapusStatusRincian($id_kegiatan)
     {
         $this->masterKegiatanModel->delete($id_kegiatan);
+
+        session()->setFlashdata('pesan', 'Sasaran kegiatan berhasil dihapus');
+        session()->setFlashdata('icon', 'success');
         return redirect()->to('/rincianKegiatanPegawai');
     }
 
@@ -720,38 +722,10 @@ class masterRencanaKegiatan extends BaseController
             'id' => $id_kegiatan,
             'status_verifikasi' => 'S',
         ]);
-
-        $user_id = $this->masterKegiatanModel->getDataById($id_kegiatan);
-        $data_user = $this->masterUserModel->getProfilUser($user_id['user_id']);
-
-
-        $list_kegiatan = $this->masterKegiatanModel->getAllByUserId($user_id['user_id']);
-
-        $list_pegawai = $this->masterPegawaiModel->getAllPegawaiOnDashboard();
-
-
-        if ($list_kegiatan != null) {
-            foreach ($list_kegiatan as $list) {
-                $kegiatan = explode('-', $list['tgl_input']);
-                if ($kegiatan[0] == date('Y')) {
-                    $daftar_kegiatan[] = $list;
-                } else {
-                    $daftar_kegiatan = null;
-                }
-            }
-        } else {
-            $daftar_kegiatan = null;
-        }
-        $data = [
-            'title' => 'Data Kegiatan',
-            'menu' => 'Dashboard',
-            'subMenu' => 'Kegiatan Pegawai',
-            'list_kegiatan' => $daftar_kegiatan,
-            'list_pegawai' => $list_pegawai,
-            'dari_verif' => 'on',
-            'nip_lama_terpilih' => $data_user['nip_lama_user']
-        ];
-        return view('Dashboard/rencanaKegiatan', $data);
+        session()->setFlashdata('pesan', 'Verifikasi sasaran kegiatan berhasil');
+        session()->setFlashdata('icon', 'success');
+        
+        return redirect()->to('/kinerjaPegawai');
     }
 
     public function dataKinerja()

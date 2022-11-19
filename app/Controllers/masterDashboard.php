@@ -45,6 +45,18 @@ class masterDashboard extends BaseController
 
     public function index()
     {
+        $cek_kegiatan = $this->masterKegiatanModel->getAllByUserId(session('user_id'));
+
+        if (session('level_id') == 2) {
+            if (count($cek_kegiatan) == 0) {
+                session()->setFlashdata('pesan', 'Tambahkan sasaran Kegiatan Tahunan Terlebih Dahulu!');
+                session()->setFlashdata('icon', 'error');
+                return redirect()->to('/rincianKegiatanPegawai');
+            }
+        }
+
+
+
         $event_data = $this->masterLaporanHarianModel->getAll(session('user_id'));
         if (session('level_id') == "2") {
             if ($event_data != NULL) {

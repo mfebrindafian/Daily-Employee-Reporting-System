@@ -423,8 +423,8 @@
             <form id="form-tambah" action="<?= base_url('/tambahRencanaKegiatan'); ?>" method="post" class="modal-content form-tambah" enctype="multipart/form-data">
                 <input type="text" id="id_kegiatan" name="id_kegiatan" class="d-none">
                 <div class="modal-header">
-                    <h4 class="modal-title">Rencana Kegiatan Tahun</h4>
-                    <button id="btn-close-modal-tambah" type="button" class="close" aria-label="Close">
+                    <h4 class="modal-title">Sasaran Kegiatan Tahunan</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>

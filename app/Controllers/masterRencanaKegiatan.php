@@ -118,6 +118,7 @@ class masterRencanaKegiatan extends BaseController
         //MENGHITUNG SELURUH LAPORAN HARI KERJA YANG TELAH DIINPUTKAN DENGAN BATASAN IRISAN (SELURUH HARI MULAI 1 JANUARI SAMPAI HARI INI TANPA SABTU DAN MINGGU DAN LIBUR NASIONAL)
         $list_laporan = $this->masterLaporanHarianModel->getTotalByUserDate($start_date, $end_date, $user_id['id']);
 
+        $list_laporan2 = [];
         if ($list_laporan != null) {
             foreach ($list_laporan as $listlap) {
                 if (in_array($listlap['tgl_kegiatan'], $rangArray3) == true) {

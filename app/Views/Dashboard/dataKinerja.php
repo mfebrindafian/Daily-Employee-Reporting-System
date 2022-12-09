@@ -128,7 +128,7 @@
                                         <th data-wenk="SASARAN BELUM DITINDAKLANJUTI" data-wenk-pos="bottom">
                                             <span>SBD</span>
                                         </th>
-                                        <th data-wenk="SASARAN SEDANG DITINDAKLANJUTI" data3-wenk-pos="bottom">SSD</th>
+                                        <th data-wenk="SASARAN SEDANG DITINDAKLANJUTI" data-wenk-pos="bottom">SSD</th>
                                         <th data-wenk="SASARAN SELESAI DITINDAKLANJUTI" data-wenk-pos="bottom">SD</th>
                                         <th data-wenk="SASARAN TELAH DIVERIFIKASI" data-wenk-pos="bottom">STD</th>
                                         <th data-wenk="RATA-RATA JAM KERJA HARIAN" data-wenk-pos="bottom">RJKH</th>

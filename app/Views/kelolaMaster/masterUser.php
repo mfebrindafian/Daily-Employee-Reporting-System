@@ -1,7 +1,7 @@
 <?= $this->extend('layout/template'); ?>
 <?php if (allowHalaman(session('level_id'), $menu, $subMenu)) : ?>
 
-    
+
     <?= $this->section('content'); ?>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -156,19 +156,19 @@
                                                                             } else {
                                                                                 echo 'N';
                                                                             } ?>"><?php if ($show_data_user['is_active'] == 'Y') {
-                                                                                    echo 'Active';
-                                                                                } else {
-                                                                                    echo 'Non-active';
-                                                                                } ?></option>
+                                                                                        echo 'Active';
+                                                                                    } else {
+                                                                                        echo 'Non-active';
+                                                                                    } ?></option>
                                                             <option value="<?php if ($show_data_user['is_active'] != 'Y') {
                                                                                 echo 'Y';
                                                                             } else {
                                                                                 echo 'N';
                                                                             } ?>"><?php if ($show_data_user['is_active'] != 'Y') {
-                                                                                    echo 'Active';
-                                                                                } else {
-                                                                                    echo 'Non-active';
-                                                                                } ?></option>
+                                                                                        echo 'Active';
+                                                                                    } else {
+                                                                                        echo 'Non-active';
+                                                                                    } ?></option>
                                                         </select>
                                                     <?php endif; ?>
                                                 </div>
@@ -276,7 +276,7 @@
                                                                 } ?>
                                                             </td>
                                                             <td>
-                                                                <a href="<?= base_url('/showDataUser/' . $list['id']); ?>" type="submit" class="btn btn-info btn-xs tombol" style="background-color: #2D95C9; border:none;"><i class="fas fa-pen"></i></a>
+                                                                <a href="<?= base_url('/showDataUser/' . $list['id']); ?>" type="submit" class="btn btn-info btn-xs tombol" style="background-color: #2D95C9; border:none;">detail</a>
                                                             </td>
                                                         </tr>
                                                     <?php endforeach; ?>

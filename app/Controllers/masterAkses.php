@@ -31,18 +31,19 @@ class masterAkses extends BaseController
         $username = $this->request->getVar('username');
         $password = $this->request->getVar('password');
         $user = $this->masterUserModel->getUser($username);
-        $data_pegawai_user = $this->masterPegawaiModel->getProfilCetak($user['nip_lama_user']);
-        if ($data_pegawai_user['jabatan_kd'] == '1' || $data_pegawai_user['jabatan_kd'] == '3' || $data_pegawai_user['jabatan_kd'] == '5') {
-            $jabatan = 'koordinator';
-        } else {
-            $jabatan = 'pegawai';
-        }
 
         $pass_default =  password_hash('123456', PASSWORD_DEFAULT);
         if ($user == NULL) {
             session()->setFlashdata('pesan', 'Username Anda Salah');
             session()->setFlashdata('icon', 'error');
             return redirect()->to('/');
+        }
+
+        $data_pegawai_user = $this->masterPegawaiModel->getProfilCetak($user['nip_lama_user']);
+        if ($data_pegawai_user['jabatan_kd'] == '1' || $data_pegawai_user['jabatan_kd'] == '3' || $data_pegawai_user['jabatan_kd'] == '5') {
+            $jabatan = 'koordinator';
+        } else {
+            $jabatan = 'pegawai';
         }
         $list_user_level = $this->masterAksesUserLevelModel->getUserLevel($user['id']);
         $level_id = $list_user_level[count($list_user_level) - 1]['level_id'];
@@ -76,7 +77,7 @@ class masterAkses extends BaseController
                 session()->setFlashdata('icon', 'error');
                 return redirect()->to('/');
             }
-            session()->set($data); 
+            session()->set($data);
             session()->setFlashdata('pesan', 'Berhasil Login');
             return redirect()->to('/dashboard');
         }

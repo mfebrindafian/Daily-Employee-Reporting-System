@@ -49,7 +49,7 @@ $(document).ready(function () {
                                         <div class="input-group w-100">
                                             <select class="form-control w-100 tipe-kegiatan" name="field_tipe[]" required>
                                                 <option value=""> - Pilih Tipe -</option>
-                                                <option value="1">Berdasarkan Rencana</option>
+                                                <option value="1">Berdasarkan sasaran kegiatan</option>
                                                 <option value="2">Umum</option>
                                                 <option value="3">Lembur</option>
                                             </select>
@@ -61,7 +61,7 @@ $(document).ready(function () {
                                     <div class="row w-100">
                                         <div class="input-group w-100">
                                             <select class="form-control w-100 pilih-rencana" name="field_rencana[]" required>
-                                                <option value="0">- Pilih Kegiatan -</option>
+                                                <option class="nilai-nol" value="0">- Pilih Kegiatan -</option>
 
                                                 ` +
                     rencanaFix +

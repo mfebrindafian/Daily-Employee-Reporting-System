@@ -152,10 +152,6 @@
                           <?php endif; ?>
                         </div>
                       </div>
-
-                      <div class="col-4 d-flex justify-content-end align-items-end">
-                        <a href="#" class="btn btn-sm btn-outline-primary">Rincian Kegiatan</a>
-                      </div>
                     <?php endif; ?>
                   </div>
                   <?php if ($user_dipilih == null) : ?>

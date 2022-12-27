@@ -317,7 +317,7 @@
                                             <div class="row w-100">
                                                 <div class="input-group w-100">
                                                     <select class="form-control w-100 pilih-rencana" name="field_rencana[]" required>
-                                                        <option value="0">- Pilih Kegiatan -</option>
+                                                        <option class="nilai-nol" value="0">- Pilih Kegiatan -</option>
 
                                                         <?php if ($list_rencana != null) : ?>
                                                             <?php foreach ($list_rencana as $rencana) : ?>
@@ -387,7 +387,7 @@
                                                 <input class="form-control jam_mulai" required type="hidden" name="field_jam_mulai[]" max="07:30" value="07:30">
                                             </div>
                                             <div class="input-group">
-                                                <input class="form-control jam_akhir_pertama" required type="time" name="field_jam_selesai[]" value="16:00">
+                                                <input class="form-control jam_akhir jam_akhir_pertama" required type="time" name="field_jam_selesai[]" value="16:00">
                                             </div>
                                         </div>
                                     </div>
@@ -477,6 +477,7 @@
 
                         <div id="lama2">
                             <?php if ($laporan_harian_tertentu != NULL) : ?>
+                                <?php $no_edit = 1; ?>
                                 <?php $laporan = $laporan_harian_tertentu['uraian_kegiatan']; ?>
                                 <?php $data = json_decode($laporan); ?>
                                 <?php for ($i = 0; $i < count($list_uraian = $data->uraian); $i++) : ?>
@@ -485,7 +486,7 @@
                                             <div class="row">
                                                 <div class="col-xl-1 baris-kegiatan">
                                                     <div class="row"><strong>NO</strong></div>
-                                                    <div class="row">1</div>
+                                                    <div class="row"><?= $no_edit++; ?></div>
                                                 </div>
                                                 <?php $list_tipe = $data->kode_tipe; ?>
 
@@ -521,13 +522,20 @@
                                                     <div class="row w-100">
                                                         <div class="input-group w-100">
                                                             <select class="form-control w-100 pilih-rencana" name="field_rencana[]" required>
-                                                                <option value="<?= $list_rencana2[$i]; ?>"><?php if ($list_rencana != null) {
+                                                                <option class="nilai-nol" value="0">- Pilih Kegiatan -</option>
+                                                                <option value="<?= $list_rencana2[$i]; ?>" <?php if ($list_rencana != null) {
                                                                                                                 foreach ($list_rencana as $rencana) {
                                                                                                                     if ($rencana['id'] == $list_rencana2[$i]) {
-                                                                                                                        echo $rencana['rincian_kegiatan'];
+                                                                                                                        echo 'selected';
                                                                                                                     }
                                                                                                                 }
-                                                                                                            } ?></option>
+                                                                                                            } ?>><?php if ($list_rencana != null) {
+                                                                                                                        foreach ($list_rencana as $rencana) {
+                                                                                                                            if ($rencana['id'] == $list_rencana2[$i]) {
+                                                                                                                                echo $rencana['rincian_kegiatan'];
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    } ?></option>
                                                                 <?php if ($list_rencana != null) : ?>
                                                                     <?php foreach ($list_rencana as $rencana) : ?>
                                                                         <?php if ($list_rencana2[$i] != $rencana['id']) : ?>
@@ -1025,9 +1033,12 @@
     $(document).ready(function() {
         var pilih = document.getElementsByClassName("pilih-kegiatan");
         var pilihRencana = document.getElementsByClassName("pilih-rencana");
+        var nilaiNol = document.getElementsByClassName("nilai-nol");
         $(document).on('change', '.tipe-kegiatan', function() {
             if ($(this).val() == '1' && pilihRencana[$('.tipe-kegiatan').index(this)].childElementCount > 1) {
+                nilaiNol[$('.tipe-kegiatan').index(this)].removeAttribute('value')
                 pilih[$('.tipe-kegiatan').index(this)].classList.remove('d-none')
+                pilihRencana[$('.tipe-kegiatan').index(this)].required = true;
                 $(this).parent().parent().parent().removeClass('col-xl-11').addClass('col-xl-5')
             } else if ($(this).val() == '1' && pilihRencana[$('.tipe-kegiatan').index(this)].childElementCount <= 1) {
                 Toast.fire({
@@ -1036,8 +1047,10 @@
                 });
                 $(this).prop('selectedIndex', 0)
             } else {
+                pilihRencana[$('.tipe-kegiatan').index(this)].setAttribute('value', '0')
                 pilihRencana[$('.tipe-kegiatan').index(this)].value = '0'
                 pilih[$('.tipe-kegiatan').index(this)].classList.add('d-none')
+                pilihRencana[$('.tipe-kegiatan').index(this)].required = false;
                 $(this).parent().parent().parent().addClass('col-xl-11').removeClass('col-xl-5')
             }
         })
@@ -1062,7 +1075,17 @@
     }
 </script>
 
+<script>
+    // Mengambil Data edit dengan menggunakan Jquery
+    $(document).on('click', '#btn-edit-hapus', function() {
+        $('#id_laporan_tertentu').val($(this).data('id_laporan_tertentu'));
+        $('#posisi_array').val($(this).data('posisi_array'));
+        $('#posisi_dalam_array').val($(this).data('posisi_dalam_array'));
+        $('#tanggal_hapus').val($(this).data('tanggal_hapus'));
+        $('#nama_bukti_dukung').text($(this).data('nama_bukti_dukung'));
 
+    })
+</script>
 
 
 <?= $this->endSection(); ?>

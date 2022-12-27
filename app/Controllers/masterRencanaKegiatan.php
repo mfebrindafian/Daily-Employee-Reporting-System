@@ -1099,6 +1099,7 @@ class masterRencanaKegiatan extends BaseController
             }
             $ke_peg++;
         }
+        // dd($data_kegiatan_verif);
         $ke = 0;
         if ($list_pegawai_bidang2 != null) {
             foreach ($list_pegawai_bidang2 as $pegawai) {

@@ -230,23 +230,23 @@
                                     <tbody>
                                         <?php $no_keg = 1 ?>
 
-                                        <?php foreach ($data_kegiatan[0] as $keg) : ?>
+                                        <?php foreach ($data_kegiatan as $data_keg) : ?>
+                                            <?php foreach ($data_keg as $keg) :  ?>
+                                                <tr>
+                                                    <td><?= $no_keg++; ?></td>
+                                                    <td><?= $keg['nama_pegawai']; ?></td>
+                                                    <td><?= $keg['rincian_kegiatan']; ?></td>
+                                                    <td>
+                                                        <a href="<?= base_url('/detailRencanaKegiatan/' . $keg['id'] . '/' . $keg['nip_lama']) ?>" type="button" id="btn-detail" class="btn btn-sm btn-primary">
+                                                            <span>Detail</span>
+                                                        </a>
+                                                        <a href="<?= base_url('/verifikasiKegiatan/' . $keg['id']) ?>" type="button" id="btn-detail" class="btn btn-sm btn-info">
+                                                            <span>verif</span>
+                                                        </a>
+                                                    </td>
 
-                                            <tr>
-                                                <td><?= $no_keg++; ?></td>
-                                                <td><?= $keg['nama_pegawai']; ?></td>
-                                                <td><?= $keg['rincian_kegiatan']; ?></td>
-                                                <td>
-                                                    <a href="<?= base_url('/detailRencanaKegiatan/' . $keg['id'] . '/' . $keg['nip_lama']) ?>" type="button" id="btn-detail" class="btn btn-sm btn-primary">
-                                                        <span>Detail</span>
-                                                    </a>
-                                                    <a href="<?= base_url('/verifikasiKegiatan/' . $keg['id']) ?>" type="button" id="btn-detail" class="btn btn-sm btn-info">
-                                                        <span>verif</span>
-                                                    </a>
-                                                </td>
-
-                                            </tr>
-
+                                                </tr>
+                                            <?php endforeach ?>
                                         <?php endforeach ?>
                                     </tbody>
                                 </table>

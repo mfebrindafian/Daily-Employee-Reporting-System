@@ -1193,6 +1193,7 @@ class masterRencanaKegiatan extends BaseController
             'nama_bidang' => $nama_bidang['deskripsi'],
             'data_kegiatan' => $data_kegiatan_verif
         ];
+        // dd($data);
         return view('Dashboard/dataKinerja', $data);
     }
 

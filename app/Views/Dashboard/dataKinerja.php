@@ -229,23 +229,24 @@
                                     </thead>
                                     <tbody>
                                         <?php $no_keg = 1 ?>
-                                        <?php $no2 = 0 ?>
-                                        <?php foreach ($data_kegiatan as $keg) : ?>
+
+                                        <?php foreach ($data_kegiatan[0] as $keg) : ?>
+
                                             <tr>
                                                 <td><?= $no_keg++; ?></td>
-                                                <td><?= $keg[$no2]['nama_pegawai']; ?></td>
-                                                <td><?= $keg[$no2]['rincian_kegiatan']; ?></td>
+                                                <td><?= $keg['nama_pegawai']; ?></td>
+                                                <td><?= $keg['rincian_kegiatan']; ?></td>
                                                 <td>
-                                                    <a href="<?= base_url('/detailRencanaKegiatan/' . $keg[$no2]['id'] . '/' . $keg[$no2]['nip_lama']) ?>" type="button" id="btn-detail" class="btn btn-sm btn-primary">
+                                                    <a href="<?= base_url('/detailRencanaKegiatan/' . $keg['id'] . '/' . $keg['nip_lama']) ?>" type="button" id="btn-detail" class="btn btn-sm btn-primary">
                                                         <span>Detail</span>
                                                     </a>
-                                                    <a href="<?= base_url('/verifikasiKegiatan/' . $keg[$no2]['id']) ?>" type="button" id="btn-detail" class="btn btn-sm btn-info">
+                                                    <a href="<?= base_url('/verifikasiKegiatan/' . $keg['id']) ?>" type="button" id="btn-detail" class="btn btn-sm btn-info">
                                                         <span>verif</span>
                                                     </a>
                                                 </td>
 
                                             </tr>
-                                            <?php $no2++ ?>
+
                                         <?php endforeach ?>
                                     </tbody>
                                 </table>

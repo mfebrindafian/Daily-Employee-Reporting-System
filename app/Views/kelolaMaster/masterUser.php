@@ -349,15 +349,15 @@
                             </div>
                             <div class="form-group mt-3">
                                 <label>Username</label>
-                                <input type="text" name="username_tambah" class="form-control" placeholder="Username ...">
+                                <input type="text" name="username_tambah" class="form-control" placeholder="Username ..." required>
                             </div>
                             <div class="form-group mt-3">
                                 <label>Fullname</label>
-                                <input type="text" name="fullname_tambah" class="form-control" placeholder="Fullname ...">
+                                <input type="text" name="fullname_tambah" class="form-control" placeholder="Fullname ..." required>
                             </div>
                             <div class="form-group mt-3">
                                 <label>Email</label>
-                                <input type="text" name="email_tambah" class="form-control" placeholder="Email ...">
+                                <input type="text" name="email_tambah" class="form-control" placeholder="Email ..." required>
                             </div>
                             <div class="form-group">
                                 <label>Password</label>
@@ -365,7 +365,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Is Active</label>
-                                <select id="is_active" name="is_active_tambah" class="form-control mr-2" style="border-radius: 5px;">
+                                <select id="is_active" name="is_active_tambah" class="form-control mr-2" style="border-radius: 5px;" required>
                                     <option value="Y">Active</option>
                                     <option value="N">Non-active</option>
                                 </select>
@@ -376,7 +376,7 @@
 
                             <div class="form-group position-relative">
                                 <label>Cari Pegawai</label>
-                                <input type="text" id="cari_pegawai" class="form-control" placeholder="Search ...">
+                                <input type="text" id="cari_pegawai" class="form-control" placeholder="Search ..." required>
                                 <div class="option-kegiatan-wrapper w-100 mt-2 bg-white py-2 rounded shadow-lg position-absolute d-none">
                                     <?php if ($list_pegawai != NULL) : ?>
                                         <?php foreach ($list_pegawai as $pegawai) : ?>

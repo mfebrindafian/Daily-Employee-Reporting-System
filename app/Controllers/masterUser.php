@@ -64,11 +64,13 @@ class masterUser extends BaseController
             session()->setFlashdata('pesan', 'Ganti Password Berhasil');
             session()->setFlashdata('icon', 'success');
         } else {
-            return redirect()->to('/dashboard');
+            session()->setFlashdata('pesan', 'Password lama tidak sesuai!');
+            session()->setFlashdata('icon', 'error');
+            return redirect()->to('/profile');
         }
         return redirect()->to('/profile');
     }
-    
+
     public function updateProfileByUser()
     {
         $id_user = $this->request->getVar('id_profile_user');

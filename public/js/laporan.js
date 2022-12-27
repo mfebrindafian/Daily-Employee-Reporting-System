@@ -51,7 +51,7 @@ $(document).on('input', '#formFileMultiple', function () {
           // ini untuk ukuran 500 Kb
           Toast.fire({
                icon: 'warning',
-               title: 'Ukuran File Melebihi 500Kb!',
+               title: 'Ukuran File Melebihi 500KB!',
           });
           this.value = '';
           return false;

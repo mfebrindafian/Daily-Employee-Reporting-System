@@ -19,6 +19,18 @@ class MasterAksesUserLevelModel extends Model
             ->get()
             ->getResultArray();
     }
+
+    public function getAksesUser($level_id, $user_id)
+    {
+        return $this
+            ->table($this->table)
+            ->select('tbl_akses_user_level.*')
+            ->where('user_id', $user_id)
+            ->where('level_id', $level_id)
+            ->get()
+            ->getRowArray();
+    }
+    
     public function getAksesMenu($level_id, $user_id)
     {
         return $this

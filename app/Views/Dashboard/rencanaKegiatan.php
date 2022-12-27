@@ -481,7 +481,7 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between position-relative">
-                    <button id="btn-close-modal-tambah2" type="button" class="btn btn-default">Tutup</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Tutup</button>
                     <button id="tombol-simpan" type="submit" class="btn btn-info tombol" style="background-color: #3c4b64; border:none;">Simpan</button>
                 </div>
             </form>

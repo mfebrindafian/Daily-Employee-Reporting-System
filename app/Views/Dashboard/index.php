@@ -368,7 +368,7 @@
       <div class="modal-dialog" role="document">
         <form action="<?= base_url('/cetakLaporanByBidang'); ?>" method="POST" class="modal-content">
           <div class="modal-header border-0">
-            <h5 class="modal-title" id="exampleModalLabel">Cetak Kegiatan Bidang atau Satker</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Cetak Kegiatan</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>

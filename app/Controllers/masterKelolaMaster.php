@@ -47,7 +47,15 @@ class masterKelolaMaster extends BaseController
     public function masterUser()
     {
         $list_user = $this->masterUserModel->getAllUser();
-        $list_pegawai = $this->masterPegawaiModel->getAllPegawai();
+        $all_pegawai = $this->masterPegawaiModel->getAllPegawai();
+
+        foreach ($all_pegawai as $pegawai) {
+            $cek = $this->masterUserModel->getUserId($pegawai['nip_lama']);
+            if ($cek == null) {
+                $list_pegawai[] = $pegawai;
+            }
+        }
+
         $level_tersedia = $this->masterUserLevelModel->getAlllevel();
         $data = [
             'title' => 'Master User',
@@ -139,10 +147,22 @@ class masterKelolaMaster extends BaseController
     {
         $id_user = $this->request->getVar('id_user_role');
         $level_id = $this->request->getVar('role');
+
+        $cek_level = $this->masterAksesUserLevelModel->getAksesUser($level_id, $id_user);
+
+        if ($cek_level != null) {
+            session()->setFlashdata('pesan', 'Role telah dimiliki user!');
+            session()->setFlashdata('icon', 'error');
+            return redirect()->to('/showDataUser/' . $id_user);
+        }
+
+
         $this->masterAksesUserLevelModel->save([
             'user_id' => $id_user,
             'level_id' => $level_id
         ]);
+
+
         if (session('user_id') == $id_user) {
             $list_user_level = $this->masterAksesUserLevelModel->getUserLevel($id_user);
             $data1 = [
@@ -217,9 +237,18 @@ class masterKelolaMaster extends BaseController
 
     public function tambahUser()
     {
+        $username_tambah = $this->request->getVar('username_tambah');
+
+        $cek_username = $this->masterUserModel->getUser($username_tambah);
+        if ($cek_username != null) {
+            session()->setFlashdata('pesan', 'Username telah digunakan!');
+            session()->setFlashdata('icon', 'error');
+            return redirect()->to('/masterUser');
+        }
+
+
         $id_pegawai = $this->request->getVar('id_pegawai');
         $nip_lama_tambah = $this->masterPegawaiModel->getNipLama($id_pegawai);
-        $username_tambah = $this->request->getVar('username_tambah');
         $fullname_tambah = $this->request->getVar('fullname_tambah');
         $email_tambah = $this->request->getVar('email_tambah');
         $is_active_tambah = $this->request->getVar('is_active_tambah');

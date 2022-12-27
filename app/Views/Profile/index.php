@@ -51,18 +51,18 @@
                             </p>
                             <div class="form-group">
                                 <label>Username</label>
-                                <input type="text" id="username" name="username" class="form-control" value="<?= $data_profil_user['username']; ?>" disabled>
+                                <input type="text" id="username" name="username" class="form-control" value="<?= $data_profil_user['username']; ?>" required disabled>
                             </div>
 
                             <hr>
                             <div class="form-group">
                                 <label>Nama lengkap</label>
-                                <input type="text" name="nama" class="form-control" value="<?= $data_profil_user['fullname']; ?>" disabled>
+                                <input type="text" name="nama" class="form-control" value="<?= $data_profil_user['fullname']; ?>" required disabled>
                             </div>
                             <hr>
                             <div class="form-group">
                                 <label>Email</label>
-                                <input type="email" name="email" class="form-control" value="<?= $data_profil_user['email']; ?>" disabled>
+                                <input type="email" name="email" class="form-control" value="<?= $data_profil_user['email']; ?>" required disabled>
                             </div>
                             <hr>
                             <div class="input-group">
@@ -214,21 +214,21 @@
                 <div class="form-group">
                     <label>Password Lama</label>
                     <div class="password">
-                        <input type="password" name="password_lama" class="form-control" placeholder="Password lama...">
+                        <input type="password" name="password_lama" class="form-control" placeholder="Password lama..." required>
                         <i name="eye" class="fas fa-eye pw-eye" id="togglePassword"></i>
                     </div>
                 </div>
                 <div class="form-group">
                     <label>Password Baru</label>
                     <div class="password">
-                        <input type="password" id="password_baru" name="password_baru" class="form-control" placeholder="Password baru ...">
+                        <input type="password" id="password_baru" name="password_baru" class="form-control" placeholder="Password baru ..." required>
                         <i name="eye" class="fas fa-eye pw-eye" id="togglePassword"></i>
                     </div>
                 </div>
                 <div class="form-group">
                     <label>Konfirmasi Password Baru</label>
                     <div class="password">
-                        <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Konfirmasi password ...">
+                        <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Konfirmasi password ..." required>
                         <i name="eye" class="fas fa-eye pw-eye" id="togglePassword"></i>
                     </div>
                     <span id='message'></span>
@@ -330,7 +330,7 @@
         if (this.files[0].size > 500000) {
             Toast.fire({
                 icon: "warning",
-                title: "Ukuran File Melebihi 500Kb!",
+                title: "Ukuran File Melebihi 500KB!",
             });
             this.value = "";
             return false;

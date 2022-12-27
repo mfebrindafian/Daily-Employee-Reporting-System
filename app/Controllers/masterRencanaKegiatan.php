@@ -753,7 +753,8 @@ class masterRencanaKegiatan extends BaseController
         $query = curl_exec($curl_handle);
         curl_close($curl_handle);
         $libur_nasional = json_decode($query);
-
+        $pegawai_tanpa_user = [];
+        $list_pegawai_bidang2 = [];
         foreach ($list_pegawai_bidang as $pegawai) {
             $cek_pegawai = $this->masterUserModel->getUserId($pegawai['nip_lama']);
             if ($cek_pegawai != null) {
@@ -762,6 +763,7 @@ class masterRencanaKegiatan extends BaseController
                 $pegawai_tanpa_user[] = $pegawai;
             }
         }
+
         $pegbid = 0;
 
         foreach ($list_pegawai_bidang2 as $litpegbid) {

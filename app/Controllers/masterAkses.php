@@ -32,6 +32,7 @@ class masterAkses extends BaseController
         $password = $this->request->getVar('password');
         $user = $this->masterUserModel->getUser($username);
 
+
         $pass_default =  password_hash('123456', PASSWORD_DEFAULT);
         if ($user == NULL) {
             session()->setFlashdata('pesan', 'Username Anda Salah');

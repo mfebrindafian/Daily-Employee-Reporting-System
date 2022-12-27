@@ -589,6 +589,12 @@ class masterDashboard extends BaseController
         }
         $tgl_catatan = $this->request->getVar('tgl');
 
+        if ($catatan == null) {
+            session()->setFlashdata('pesan', 'Catatan Kosong!');
+            session()->setFlashdata('icon', 'error');
+            return redirect()->to('/dashboard');
+        }
+
         $this->masterCatatanModel->save([
             'user_id' => $user_id,
             'user_id_penerima' => $user_id_penerima,
@@ -604,6 +610,13 @@ class masterDashboard extends BaseController
         $id_catatan = $this->request->getVar('id');
         $catatan_lama = $this->masterCatatanModel->getCatatanById($id_catatan);
         $catatan = $this->request->getVar('catatan');
+       
+        if ($catatan == null) {
+            session()->setFlashdata('pesan', 'Catatan Kosong!');
+            session()->setFlashdata('icon', 'error');
+            return redirect()->to('/dashboard');
+        }
+
         $this->masterCatatanModel->save([
             'id' => $id_catatan,
             'user_id' => $catatan_lama['user_id'],

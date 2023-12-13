@@ -130,7 +130,7 @@ class masterAkses extends BaseController
         $pass_baru = $this->request->getVar('password_baru');
         $confirm_pass = $this->request->getVar('confirm_password');
         $user = $this->masterUserModel->getProfilUser($user_id);
-        if ($pass_baru == $confirm_pass && $pass_baru == '123456') {
+        if ($pass_baru == $confirm_pass && $pass_baru == '') {
             $alert = true;
             $data = [
                 'alert' => $alert,
